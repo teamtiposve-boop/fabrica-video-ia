@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Súper Guía del Estudio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{color-scheme:dark;--bg:#0a0a0a;--panel:#131315;--panel2:#18181b;--line:#232327;--line2:#303036;--fg:#f4f2ee;--muted:#a6a39c;--dim:#7d7b76;--ac:#ea580c;--ac2:#ff7a33;--acbg:rgba(234,88,12,.12);--ok:#3ecf6e;
+--f-ui:Figtree,'Segoe UI',system-ui,sans-serif;--f-disp:'Bricolage Grotesque',Figtree,system-ui,sans-serif;--f-mono:'JetBrains Mono',ui-monospace,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:radial-gradient(900px 460px at 15% -10%,rgba(234,88,12,.16),transparent 60%),var(--bg);color:var(--fg);font:400 17px/1.6 var(--f-ui);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.in{max-width:900px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+section{padding-block:56px;border-top:1px solid var(--line)}
+.eyebrow{font:600 13px/1.2 var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--ac2);display:flex;align-items:center;gap:8px}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ac);box-shadow:0 0 10px var(--ac)}
+h1,h2,h3{font-family:var(--f-disp);letter-spacing:-.025em;line-height:1.08;text-wrap:balance}
+h1{font-size:clamp(40px,8vw,74px);font-weight:800;margin-top:16px}
+h2{font-size:clamp(28px,5vw,42px);font-weight:800;margin-top:12px}
+h3{font-size:20px;font-weight:700}
+em{font-style:normal;color:var(--ac2)}
+p{max-width:66ch}
+.lead{color:var(--muted);font-size:19px;margin-top:18px}
+.sub{color:var(--muted);margin-top:12px}
+header{padding-block:56px 40px}
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.toc a{font:600 14px var(--f-ui);border:1px solid var(--line2);border-radius:99px;padding:7px 13px;color:#d8d5cf;text-decoration:none}
+.toc a:hover{border-color:var(--ac);background:var(--acbg)}
+.grid{display:grid;gap:12px;margin-top:26px}
+@media(min-width:700px){.grid.c2{grid-template-columns:1fr 1fr}.grid.c3{grid-template-columns:repeat(3,1fr)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;min-width:0}
+.card p{color:var(--muted);font-size:15px;margin-top:6px}
+.card .k{font:700 12px var(--f-mono);letter-spacing:.04em;color:var(--ac2)}
+.card.hot{border-color:rgba(234,88,12,.55);background:linear-gradient(180deg,rgba(234,88,12,.09),var(--panel))}
+.steps{counter-reset:s;display:grid;gap:12px;margin-top:26px}
+.step{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 18px 18px 66px;min-width:0}
+.step::before{counter-increment:s;content:counter(s);position:absolute;left:18px;top:16px;width:34px;height:34px;border-radius:50%;background:var(--ac);color:#fff;font:800 17px/34px var(--f-disp);text-align:center}
+.step p{color:var(--muted);font-size:15.5px;margin-top:6px}
+code,kbd{font:500 14px var(--f-mono);background:#1c1c20;border:1px solid var(--line2);border-radius:6px;padding:1px 6px;color:#ffd2b5;overflow-wrap:anywhere}
+.code{position:relative;margin-top:12px;background:#0d0d0f;border:1px solid var(--line2);border-radius:12px;overflow:hidden}
+.code .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line);font:600 12px var(--f-mono);color:var(--dim)}
+.code pre{margin:0;padding:14px;overflow:auto;max-height:420px;font:400 13.5px/1.55 var(--f-mono);color:#e8e5df;white-space:pre-wrap;overflow-wrap:anywhere}
+.cp{font:700 13px var(--f-ui);background:var(--ac);color:#fff;border:0;border-radius:8px;padding:6px 12px;cursor:pointer}
+.cp:hover{background:var(--ac2)}
+.tw{overflow-x:auto;margin-top:22px;border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:15px;min-width:560px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:700 12px var(--f-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--dim);background:var(--panel)}
+td b{color:var(--fg)}td{color:#cfccc5}
+tr:last-child td{border-bottom:0}
+.flow{display:grid;gap:8px;margin-top:26px}
+@media(min-width:760px){.flow{grid-template-columns:repeat(4,1fr)}}
+.fs{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;min-width:0;position:relative}
+.fs .n{font:800 30px/1 var(--f-disp);color:transparent;-webkit-text-stroke:1px var(--ac2)}
+.fs h3{font-size:17px;margin-top:8px}
+.fs small{display:block;color:var(--dim);font:500 12.5px var(--f-mono);margin-top:6px;overflow-wrap:anywhere}
+.fs p{color:var(--muted);font-size:14px;margin-top:6px}
+.rules{list-style:none;display:grid;gap:10px;margin-top:22px}
+.rules li{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--ac);border-radius:10px;padding:13px 15px;font-size:15.5px;color:#d6d3cc}
+.rules b{color:var(--fg)}
+.note{margin-top:18px;font-size:14px;color:var(--dim)}
+.pill{display:inline-block;font:700 11px var(--f-ui);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line2);border-radius:99px;padding:3px 9px;color:var(--muted)}
+.pill.ok{color:var(--ok);border-color:rgba(62,207,110,.4)}
+footer{padding-block:40px 60px;border-top:1px solid var(--line);color:var(--dim);font-size:14px}
+a{color:var(--ac2)}
+@media print{body{background:var(--bg)}.cp,.toc{display:none}.code pre{max-height:none}section{break-inside:avoid-page}}
+</style>
+</head>
+<body>
+<header><div class="in">
+<div class="eyebrow">Fábrica de Video con IA · Guía del cliente</div>
+<h1>Tu estudio de video, <em>montado en tu PC.</em></h1>
+<p class="lead">Todo nuestro flujo de trabajo, listo para adaptarlo a tu nicho. Pegas un prompt maestro, Claude instala las skills, te hace unas pocas preguntas y te lleva hasta tu primer video. Lo que no sepas responder, me lo mandas y te lo resuelvo.</p>
+<nav class="toc" aria-label="Contenido">
+<a href="#recibes">Qué recibes</a><a href="#antes">Antes de empezar</a><a href="#arranque">Arranque</a><a href="#prompt">Prompt maestro</a><a href="#preguntas">Las 8 preguntas</a><a href="#flujo">El flujo</a><a href="#skills">Las skills</a><a href="#dia">Tu día a día</a><a href="#reglas">Reglas</a><a href="#ayuda">Si te trabas</a><a href="#plan">Plan de 7 días</a>
+</nav>
+</div></header>
+
+<section id="recibes"><div class="in">
+<div class="eyebrow">El paquete</div>
+<h2>Qué <em>recibes</em></h2>
+<p class="sub">Te llega una carpeta comprimida, <code>fabrica-cliente.zip</code>. Adentro:</p>
+<div class="grid c2">
+<div class="card hot"><div class="k">PROMPT-MAESTRO.md</div><h3>Un solo prompt para montarlo todo</h3><p>Lo pegas en Claude Code una vez. Instala, verifica, te entrevista y produce tu primer video contigo.</p></div>
+<div class="card hot"><div class="k">skills/ · 7 skills</div><h3>Nuestro método, convertido en habilidades de Claude</h3><p>Un director y una skill por etapa: nicho, guion, voz, escenas, render y QA, publicar y medir.</p></div>
+<div class="card"><div class="k">kit/</div><h3>Kit de arranque</h3><p>Instalador, reglas de Claude (CLAUDE.md), voz gratis o de pago, plantilla de video 9:16 lista, control de calidad, 6 prompts y plan de 7 días.</p></div>
+<div class="card"><div class="k">Asesoría</div><h3>Llamada cada lunes + comunidad</h3><p>Revisamos tu trabajo en vivo (1 a 2 h), comunidad privada de WhatsApp y actualizaciones de nichos y virales.</p></div>
+</div>
+</div></section>
+
+<section id="antes"><div class="in">
+<div class="eyebrow">Requisitos</div>
+<h2>Antes de <em>empezar</em></h2>
+<div class="tw"><table>
+<tr><th>Qué</th><th>Mínimo</th><th>Ideal</th></tr>
+<tr><td><b>Sistema</b></td><td>Windows 10 (1809 o superior)</td><td>Windows 11</td></tr>
+<tr><td><b>Claude</b></td><td>Plan Pro (incluye Claude Code)</td><td>Plan Max, si vas a producir a diario</td></tr>
+<tr><td><b>Memoria</b></td><td>8 GB de RAM</td><td>16 GB o más</td></tr>
+<tr><td><b>Disco</b></td><td>20 GB libres</td><td>50 GB libres</td></tr>
+<tr><td><b>Tarjeta gráfica</b></td><td>La integrada sirve (más lento)</td><td>Dedicada, para 3D y renders rápidos</td></tr>
+<tr><td><b>Voz</b></td><td>La gratis (edge, viene en el kit)</td><td>Gemini TTS por Vertex, de pago y con tu aprobación</td></tr>
+</table></div>
+<p class="note">Solo pagas Claude y, si quieres, la voz. HyperFrames, ffmpeg, Python y lo demás son gratis y los opera Claude.</p>
+</div></section>
+
+<section id="arranque"><div class="in">
+<div class="eyebrow">Arranque · unos 30 a 60 minutos</div>
+<h2>Cuatro pasos y <em>Claude hace el resto</em></h2>
+<div class="steps">
+<div class="step"><h3>Descomprime el paquete</h3><p>Clic derecho en <code>fabrica-cliente.zip</code> → «Extraer todo» → por ejemplo en <code>C:\Fabrica</code>.</p></div>
+<div class="step"><h3>Instala Claude Code</h3><p>Menú Inicio → escribe <b>PowerShell</b> → ábrelo y pega:</p>
+<div class="code"><div class="bar"><span>PowerShell</span><button class="cp" type="button">Copiar</button></div><pre>irm https://claude.ai/install.ps1 | iex</pre></div>
+<p>Cierra la ventana y abre una nueva cuando termine.</p></div>
+<div class="step"><h3>Abre Claude en la carpeta</h3>
+<div class="code"><div class="bar"><span>PowerShell</span><button class="cp" type="button">Copiar</button></div><pre>cd C:\Fabrica\fabrica-cliente
+claude</pre></div>
+<p>La primera vez te pide iniciar sesión con tu cuenta de Claude.</p></div>
+<div class="step"><h3>Pega el prompt maestro</h3><p>Copia el bloque de la siguiente sección y pégalo completo. Desde ahí, Claude te guía.</p></div>
+</div>
+</div></section>
+
+<section id="prompt"><div class="in">
+<div class="eyebrow">Lo más importante</div>
+<h2>El prompt <em>maestro</em></h2>
+<p class="sub">Se pega una sola vez. Configura el estudio, instala las 7 skills, verifica el equipo, te entrevista y te lleva a tu primer video.</p>
+<div class="code"><div class="bar"><span>Pégalo en Claude Code</span><button class="cp" type="button">Copiar prompt</button></div><pre>Eres mi estudio de video con IA. Vas a configurar todo en esta PC siguiendo el método «Fábrica de Video con IA». Trabaja tú; pregúntame solo lo que es decisión mía.
+
+PASO 1 · Reconocer el material
+- Estás en la carpeta fabrica-cliente. Lee kit/00-LEEME.md, kit/02-claude/CLAUDE.md y cada skills/*/SKILL.md.
+- Dime en 5 líneas qué entendiste y qué vas a hacer.
+
+PASO 2 · Instalar las skills
+- Copia cada carpeta de skills/ a %USERPROFILE%\.claude\skills\ (créala si no existe). No borres skills que ya tenga.
+- Comprueba que quedaron: lista %USERPROFILE%\.claude\skills\ y confirma las 7 (fabrica-director, fabrica-nicho, fabrica-guion, fabrica-voz, fabrica-escenas, fabrica-render-qa, fabrica-publicar-medir).
+
+PASO 3 · Verificar el equipo
+- Sigue kit/01-instalacion/INSTALAR.md. Primero corre el modo que solo reporta: powershell -ExecutionPolicy Bypass -File kit\01-instalacion\instalar.ps1
+- Si falta algo, dime qué y, con mi OK, corre el mismo script con -Instalar. Si pide permisos de administrador o abrir una ventana nueva, avísame.
+- Informa una tabla: herramienta · versión · OK/falta.
+
+PASO 4 · Mi carpeta de trabajo
+- El instalador crea %USERPROFILE%\Videos-IA con la plantilla, CLAUDE.md, voz.py y qa_video.py. Compruébalo; si no existe, créala tú igual.
+- Dentro deja: plantilla-maestra\ (la plantilla original, que NO se toca nunca), videos\ y renders\. Cada video nuevo es una copia limpia de plantilla-maestra.
+- Desde ahora trabajamos en esa carpeta.
+
+PASO 5 · Entrevista (usa la skill fabrica-director)
+- Hazme la entrevista inicial de la skill fabrica-director: máximo 8 preguntas, de una en una, con opciones y una respuesta por defecto.
+- Escribe perfil-del-canal.md y actualiza «Datos del dueño» en CLAUDE.md.
+
+PASO 6 · Prueba técnica
+- Renderiza la plantilla de ejemplo tal cual (check, snapshot, un render con pocos núcleos) y pasa qa_video.py. Muéstrame la ruta del MP4 y el resultado del QA.
+- Prueba la voz que elegí con una frase corta y dime cómo suena (duración, volumen).
+
+PASO 7 · Primer video real
+- Con la skill fabrica-nicho propón 3 temas para mi nicho. Yo elijo uno.
+- Sigue las etapas con sus skills: guion → me lo muestras y lo apruebo → voz → escenas (snapshots que yo veo) → un render → QA → texto para publicar.
+
+REGLAS
+- No gastes dinero sin preguntarme. No guardes claves en archivos.
+- Un solo render pesado a la vez, con prioridad baja.
+- No digas «listo» sin haberlo comprobado.
+- Si algo no lo sé responder o es de estrategia/estilo, anótalo en PREGUNTAS-PARA-FERNANDO.md con el formato de la skill fabrica-director y sigue con lo demás.
+- Al terminar la sesión, escribe estado.md (qué se hizo, qué falta, rutas) para retomar mañana con «Director: sigamos».</pre></div>
+</div></section>
+
+<section id="preguntas"><div class="in">
+<div class="eyebrow">La entrevista</div>
+<h2>Las 8 preguntas que <em>te va a hacer</em></h2>
+<p class="sub">De una en una y con una respuesta por defecto. Si no sabes, di «no sé»: Claude usa la opción por defecto y lo anota para revisarlo conmigo.</p>
+<div class="tw"><table>
+<tr><th>#</th><th>Pregunta</th><th>Si no sabes</th></tr>
+<tr><td>1</td><td><b>¿De qué tema quieres hablar?</b></td><td>Datos curiosos de ciencia cotidiana</td></tr>
+<tr><td>2</td><td><b>¿Idioma y país de tu público?</b></td><td>Español neutro, Latinoamérica</td></tr>
+<tr><td>3</td><td><b>¿Dónde vas a publicar?</b></td><td>Instagram Reels + YouTube Shorts</td></tr>
+<tr><td>4</td><td><b>¿Voz gratis o de pago?</b></td><td>Gratis</td></tr>
+<tr><td>5</td><td><b>¿Qué tarjeta gráfica y cuánta RAM tienes?</b></td><td>Claude lo revisa solo</td></tr>
+<tr><td>6</td><td><b>¿Cuántos videos por semana?</b></td><td>3</td></tr>
+<tr><td>7</td><td><b>¿3 cuentas que quieras igualar?</b></td><td>Claude las busca en la etapa de nicho</td></tr>
+<tr><td>8</td><td><b>¿Presupuesto mensual para herramientas?</b></td><td>0 USD</td></tr>
+</table></div>
+<p class="note">Con tus respuestas Claude escribe <code>perfil-del-canal.md</code>. Es la memoria de tu estudio: puedes editarlo cuando cambies de idea.</p>
+</div></section>
+
+<section id="flujo"><div class="in">
+<div class="eyebrow">El método</div>
+<h2>Ocho etapas, <em>cada una con su prueba</em></h2>
+<p class="sub">Es el mismo flujo con el que producimos nuestros canales. Ninguna etapa se da por terminada sin un archivo o una medida que lo demuestre.</p>
+<div class="flow">
+<div class="fs"><div class="n">01</div><h3>Nicho</h3><p>Tema, público y 5 cuentas de referencia.</p><small>nicho.md · banco-temas.md</small></div>
+<div class="fs"><div class="n">02</div><h3>Guion</h3><p>Gancho en la primera frase. Cada cifra con fuente.</p><small>guion.txt · fuentes.md</small></div>
+<div class="fs"><div class="n">03</div><h3>Voz</h3><p>Una petición por video, tiempos por palabra.</p><small>voz.wav · tiempos.js</small></div>
+<div class="fs"><div class="n">04</div><h3>Escenas</h3><p>Desde la plantilla maestra limpia, con lógica visual.</p><small>check OK · snapshots</small></div>
+<div class="fs"><div class="n">05</div><h3>Render</h3><p>Uno solo, 1080x1920, 30 fps, prioridad baja.</p><small>renders/NN-tema.mp4</small></div>
+<div class="fs"><div class="n">06</div><h3>QA</h3><p>Revisión automática y checklist.</p><small>qa_video.py: APROBADO</small></div>
+<div class="fs"><div class="n">07</div><h3>Publicar</h3><p>Texto, hashtags y horario. Publicas tú.</p><small>publicacion.md</small></div>
+<div class="fs"><div class="n">08</div><h3>Medir</h3><p>A las 48 h, contra tu propia mediana.</p><small>metricas.md</small></div>
+</div>
+</div></section>
+
+<section id="skills"><div class="in">
+<div class="eyebrow">Las skills</div>
+<h2>Siete habilidades que <em>Claude carga solo</em></h2>
+<p class="sub">Quedan instaladas en tu PC. Claude las usa cuando toca, sin que las nombres.</p>
+<div class="grid c2">
+<div class="card hot"><div class="k">fabrica-director</div><h3>El jefe de producción</h3><p>Lee tu perfil y tu estado, decide la etapa, llama a la skill correcta y anota lo que hay que preguntarme.</p></div>
+<div class="card"><div class="k">fabrica-nicho</div><h3>Nicho y temas</h3><p>Estudia tus referencias (gancho, duración, ritmo, estilo) y arma un banco de 20 temas.</p></div>
+<div class="card"><div class="k">fabrica-guion</div><h3>Guion con gancho</h3><p>Fórmulas de gancho, una frase por línea, 30 a 60 s, fuentes verificables y cierre que invite a comentar.</p></div>
+<div class="card"><div class="k">fabrica-voz</div><h3>Voz</h3><p>Gratis o Gemini TTS, revisión de pronunciación y cifras, volumen a −14 LUFS y tiempos para el karaoke.</p></div>
+<div class="card"><div class="k">fabrica-escenas</div><h3>Escenas</h3><p>HyperFrames desde la plantilla maestra, con lógica visual y subtítulos legibles en el teléfono.</p></div>
+<div class="card"><div class="k">fabrica-render-qa</div><h3>Render y calidad</h3><p>Un render en cola, QA automático y checklist. Si sale RECHAZADO, no se publica.</p></div>
+<div class="card"><div class="k">fabrica-publicar-medir</div><h3>Publicar y medir</h3><p>Texto, hashtags y horario; a las 48 h, una decisión escrita para el siguiente video.</p></div>
+</div>
+</div></section>
+
+<section id="dia"><div class="in">
+<div class="eyebrow">Después del primer día</div>
+<h2>Tu día a día en <em>una frase</em></h2>
+<p class="sub">Abre PowerShell en tu carpeta de trabajo (<code>%USERPROFILE%\Videos-IA</code>), escribe <code>claude</code> y usa estas órdenes:</p>
+<div class="tw"><table>
+<tr><th>Escribes</th><th>Qué hace</th></tr>
+<tr><td><code>Director: sigamos</code></td><td>Lee <code>estado.md</code> y continúa donde quedaste</td></tr>
+<tr><td><code>Director: video nuevo sobre &lt;tema&gt;</code></td><td>Crea la carpeta del video desde la plantilla y empieza por el guion</td></tr>
+<tr><td><code>Director: lote de 3 videos</code></td><td>Prepara 3 guiones, los apruebas y produce uno detrás de otro</td></tr>
+<tr><td><code>Director: métricas</code></td><td>Registra los números a las 48 h y te dice qué repetir</td></tr>
+<tr><td><code>Director: preguntas para Fernando</code></td><td>Ordena tus dudas en un archivo para mandármelo</td></tr>
+</table></div>
+</div></section>
+
+<section id="reglas"><div class="in">
+<div class="eyebrow">Lo que ya pagamos caro</div>
+<h2>Reglas que <em>no se negocian</em></h2>
+<ul class="rules">
+<li><b>Plantilla maestra, nunca el último video.</b> Cada video nuevo parte de la plantilla limpia. Si copias el anterior, arrastras sus errores y todo termina viéndose igual.</li>
+<li><b>Gancho en la primera frase.</b> Un dato, una pregunta o una contradicción. Nunca «hola, hoy te voy a contar».</li>
+<li><b>Un dato, una fuente.</b> Si no hay fuente verificable, el dato no va. Un dato inventado te cuesta la cuenta.</li>
+<li><b>1080x1920 a 30 fps.</b> Nunca a 60. Primer cuadro con contenido, porque es la miniatura.</li>
+<li><b>Lógica visual.</b> Los líquidos toman la forma del recipiente, nada flota sin apoyo y lo que se agarra termina en la mano.</li>
+<li><b>Estilo aprobado con imagen.</b> Antes de producir un estilo nuevo, se ve una lámina de muestra; nunca se decide solo con texto.</li>
+<li><b>Un render a la vez.</b> Antes van <code>check</code> y los snapshots revisados; después, QA. Siempre con prioridad baja para que la PC siga usable.</li>
+<li><b>Cero gasto sin tu OK.</b> Claude te dice el costo, qué ganas y la alternativa gratis antes de usar algo de pago.</li>
+<li><b>Mide contra ti mismo.</b> A las 48 h compara con tu propia mediana, no con cuentas gigantes. Cambia una sola cosa por video.</li>
+</ul>
+</div></section>
+
+<section id="ayuda"><div class="in">
+<div class="eyebrow">Soporte</div>
+<h2>Si te trabas, <em>me preguntas</em></h2>
+<p class="sub">Los errores técnicos los resuelve Claude: pega el error y dile «resuélvelo tú». Lo que es de criterio (nicho, estilo, estrategia) lo anota para mí.</p>
+<div class="steps">
+<div class="step"><h3>Claude anota la duda</h3><p>En <code>PREGUNTAS-PARA-FERNANDO.md</code>, con contexto, lo que ya intentó y las opciones que ve. Mientras tanto, sigue con lo que no depende de esa respuesta.</p></div>
+<div class="step"><h3>Me lo mandas</h3><p>Por WhatsApp, o lo traes a la llamada del lunes.</p></div>
+<div class="step"><h3>Te respondo con un bloque listo</h3><p>Cada respuesta trae el texto exacto para pegarle a tu Claude. Lo pegas debajo de la pregunta como «Respuesta de Fernando» y Claude lo aplica.</p></div>
+</div>
+<div class="code"><div class="bar"><span>Así se ve una pregunta bien hecha</span></div><pre>## P1 · Guion · 2026-10-27
+**Contexto:** Canal de datos de ciencia en español. Video 03 sobre el hielo.
+**Pregunta:** ¿Uso un gancho de pregunta o de cifra para este tema?
+**Lo que ya intenté:** escribí 3 ganchos (guion-borrador.txt).
+**Opciones que veo:** A) «¿Por qué el hielo flota?» B) «El hielo pesa 9 % menos…» (recomiendo B)
+**Adjuntar:** guion-borrador.txt</pre></div>
+</div></section>
+
+<section id="plan"><div class="in">
+<div class="eyebrow">Primera semana</div>
+<h2>De cero a tu primer video <em>en 7 días</em></h2>
+<p class="sub">De 1 a 2 horas por día. Si un día no tiene su entregable, no pases al siguiente.</p>
+<div class="tw"><table>
+<tr><th>Día</th><th>Qué haces</th><th>Entregable</th></tr>
+<tr><td>1</td><td><b>Instalar y probar</b> con el prompt maestro</td><td>Skills instaladas, plantilla con <code>check</code> OK, voz de prueba escuchada</td></tr>
+<tr><td>2</td><td><b>Nicho y referencias</b></td><td><code>nicho.md</code> + banco de temas</td></tr>
+<tr><td>3</td><td><b>Guion</b>, con cada fuente verificada a mano</td><td><code>guion.txt</code> + <code>fuentes.md</code></td></tr>
+<tr><td>4</td><td><b>Voz y marca</b> (colores y logo en la plantilla)</td><td><code>voz.wav</code> + plantilla con tu marca</td></tr>
+<tr><td>5</td><td><b>Escenas, render y QA</b></td><td>MP4 con QA <span class="pill ok">Aprobado</span></td></tr>
+<tr><td>6</td><td><b>Publicar</b> (temprano, para medir el día 7)</td><td>Enlace del video con fecha y hora</td></tr>
+<tr><td>7</td><td><b>Medir y decidir</b></td><td><code>metricas.md</code> + UNA cosa a cambiar en el video 2</td></tr>
+</table></div>
+<p class="note">Los resultados dependen de tu tema, tu constancia y tu contenido. No prometemos vistas ni ingresos: te damos el método que usamos nosotros.</p>
+</div></section>
+
+<footer><div class="in">
+Fábrica de Video con IA · Guía del cliente · Octubre 2026 · Dudas: DM en Instagram <a href="https://www.instagram.com/fernandojvd/" target="_blank" rel="noopener">@fernandojvd</a> o en la comunidad.
+</div></footer>
+
+<script>
+document.querySelectorAll('.cp').forEach(b=>b.addEventListener('click',()=>{
+ const t=b.closest('.code').querySelector('pre').innerText;
+ const ok=()=>{const o=b.textContent;b.textContent='Copiado';setTimeout(()=>b.textContent=o,1500)};
+ if(navigator.clipboard)navigator.clipboard.writeText(t).then(ok).catch(()=>{const r=document.createRange();r.selectNodeContents(b.closest('.code').querySelector('pre'));const s=getSelection();s.removeAllRanges();s.addRange(r)});
+}));
+</script>
+</body>
+</html>
