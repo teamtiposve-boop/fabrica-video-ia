@@ -2,531 +2,864 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Fábrica de Video con IA</title>
-<meta name="description" content="El sistema completo para producir videos con IA usando solo Claude y una voz. 8 etapas, 4 flujos y resultados reales.">
+<meta name="description" content="Deja que Claude edite tus videos. Packs de formato visual (Lupa, Lámina técnica y Satélite) a 40 USD, los tres por 60 USD, o la asesoría a 90 USD al mes con llamada semanal los lunes y comunidad privada.">
+<meta property="og:title" content="Fábrica de Video con IA">
+<meta property="og:description" content="Deja que Claude edite tus videos. Packs Lupa, Lámina técnica y Satélite desde 40 USD o asesoría a 90 USD al mes con llamada semanal los lunes, comunidad privada, guías y kit de arranque.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://teamtiposve-boop.github.io/fabrica-video-ia/">
-<meta property="og:title" content="Fábrica de Video con IA">
-<meta property="og:description" content="Más de 7,7 millones de vistas en 28 días con un sistema que puedes replicar.">
-<meta property="og:image" content="https://teamtiposve-boop.github.io/fabrica-video-ia/galeria/lupa-2.jpg">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<meta property="og:image" content="https://teamtiposve-boop.github.io/fabrica-video-ia/media/box-lupa.webp">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0a0a'/%3E%3Cpath d='M12 9l11 7-11 7z' fill='%23ea580c'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* Layout: sala de control de un estudio. Bandas a sangre, gutter en cada .in; cinta de cuadros reales en el hero;
-   pipeline como tira de timecodes; galería con visor. Tema único oscuro, elegido a propósito. */
 :root{
-  color-scheme:dark;
-  --bg:#0a0b0e; --bg2:#101218; --panel:#151821; --panel2:#1b1f2a; --line:#262b38; --line2:#343a4a;
-  --fg:#f1efe8; --muted:#9aa1b2; --dim:#6b7283;
-  --gold:#ffb02e; --gold2:#ff7a1a; --gold-ink:#2a1c08; --gold-glow:rgba(255,176,46,.28);
-  --ok:#5fd39a; --bad:#ff7a6b; --cyan:#67d4ff; --violet:#b48cff;
-  --f-display:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
-  --f-serif:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;
-  --f-body:'Figtree','Segoe UI',system-ui,sans-serif;
-  --f-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  --bg:#0a0a0a;--bg2:#101011;--panel:#131315;--line:#222226;--line2:#2e2e33;
+  --fg:#f4f2ee;--muted:#a3a19b;--dim:#7d7b76;
+  --ac:#ea580c;--ac2:#ff7a33;--acbg:rgba(234,88,12,.12);
+  --f-ui:Figtree,system-ui,sans-serif;--f-disp:"Bricolage Grotesque",Figtree,system-ui,sans-serif;
 }
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:17px;line-height:1.55;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-.in{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-h1,h2,h3{font-family:var(--f-display);text-transform:none;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.012em}
-h2{font-size:clamp(2.4rem,7vw,4.2rem);font-weight:900}
-h3{font-size:1.45rem;font-weight:700}
-.eyebrow{font-family:var(--f-mono);font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px}
-.eyebrow::before{content:"";width:28px;height:1px;background:var(--gold)}
-.sub{color:var(--muted);max-width:62ch;margin:14px 0 0;font-size:1.05rem}
-.sub em,.lead em,h1 em,h2 em{font-family:var(--f-serif);font-style:normal;text-transform:none;letter-spacing:0;color:var(--gold);font-weight:700}
-h1 em,h2 em{font-size:1.02em}
-section{padding-block:72px}
-section+section{border-top:1px solid var(--line)}
-a{color:var(--gold)}
-:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font:400 17px/1.55 var(--f-ui);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+@media(min-width:820px){.wrap{padding:0 32px}}
+.eyebrow{font:600 13px/1.2 var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
+.eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--ac);box-shadow:0 0 10px var(--ac);flex:none}
+.h2{font:700 clamp(34px,5.4vw,60px)/1.04 var(--f-disp);letter-spacing:-.03em}
+.h2 em,.h1 em{font-style:normal;color:var(--ac2)}
+.sub{color:var(--muted);font-size:18px;max-width:580px}
+.center{text-align:center}.center .sub{margin-left:auto;margin-right:auto}
+section{padding:96px 0}
+@media(max-width:700px){section{padding:68px 0}}
 
-/* ===== NAV ===== */
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:rgba(10,11,14,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.nav .in{display:flex;align-items:center;gap:18px;height:52px}
-.nav .brand{font-family:var(--f-display);font-weight:800;text-transform:none;font-size:1.023rem;letter-spacing:-.012em;white-space:nowrap}
-.nav .brand b{color:var(--gold)}
-.nav ul{list-style:none;margin:0 0 0 auto;padding:0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
-.nav ul::-webkit-scrollbar{display:none}
-.nav a{font-family:var(--f-mono);font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:6px 10px;white-space:nowrap;border-radius:3px}
-.nav a:hover{color:var(--fg);background:var(--panel)}
-.nav a.cta{color:var(--gold-ink);background:var(--gold);font-weight:700}
+/* botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--ac);color:#fff;font:700 16px var(--f-ui);padding:14px 24px;border-radius:10px;text-align:center;transition:background-color .2s,transform .15s}
+.btn:hover{background:var(--ac2)}
+.btn:active{transform:scale(.97)}
+.btn.line{background:transparent;border:1px solid var(--line2);color:var(--fg)}
+.btn.line:hover{border-color:var(--ac);background:var(--acbg)}
+.btn.block{display:flex;width:100%}
 
-/* ===== HERO ===== */
-.hero{position:relative;padding-block:64px 0;overflow:hidden;
-  background:radial-gradient(1200px 500px at 20% -10%,rgba(255,176,46,.14),transparent 60%),var(--bg)}
-.hero .in{position:relative;z-index:2}
-.hero h1{font-size:clamp(3.6rem,14vw,9.5rem);font-weight:900}
-.hero h1 .l2{display:block;padding-left:.08em}
-.lead{font-size:clamp(1.1rem,2.2vw,1.35rem);color:var(--muted);max-width:52ch;margin:22px 0 0;line-height:1.5}
-.hero-row{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-end;justify-content:space-between;margin-top:34px}
-.stats{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line);background:rgba(21,24,33,.7)}
-.stat{padding:12px 18px;border-right:1px solid var(--line);min-width:110px}
-.stat:last-child{border-right:0}
-.stat b{display:block;font-family:var(--f-display);font-size:1.6rem;font-weight:800;color:var(--gold);line-height:1}
-.stat span{font-family:var(--f-mono);font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--dim)}
-.specs{font-family:var(--f-mono);font-size:0.8rem;color:var(--dim);letter-spacing:0.06em}
-.specs b{color:var(--muted);font-weight:400}
-/* cinta de cuadros */
-.strip{margin-top:48px;position:relative;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg2);padding-block:14px}
-.strip::before,.strip::after{content:"";position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
-.strip::before{left:0;background:linear-gradient(90deg,var(--bg2),transparent)}
-.strip::after{right:0;background:linear-gradient(270deg,var(--bg2),transparent)}
-.track{display:flex;gap:12px;width:max-content;animation:roll 70s linear infinite}
-.track img{height:230px;width:auto;display:block;border:1px solid var(--line2);background:#000;flex:0 0 auto}
-.track img.land{height:230px}
-@keyframes roll{to{transform:translateX(-50%)}}
-.strip:hover .track{animation-play-state:paused}
-.strip-label{position:absolute;left:max(16px,env(safe-area-inset-left,0px));top:-11px;z-index:3;background:var(--bg);padding:2px 8px;font-family:var(--f-mono);font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--gold)}
+/* barra superior + nav */
+.bar{background:var(--ac);color:#fff;text-align:center;font:600 14px/1.3 var(--f-ui);padding:9px 12px}
+nav{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.8);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;height:62px}
+.logo{font:800 18px var(--f-disp);letter-spacing:-.02em;white-space:nowrap}
+.logo b{color:var(--ac)}
+.links{display:none;gap:26px;font-size:15px;color:var(--muted)}
+.links a:hover{color:var(--fg)}
+@media(min-width:900px){.links{display:flex}}
+nav .btn{padding:9px 16px;font-size:14px;white-space:nowrap}
+@media(max-width:420px){.hm{display:none}.logo{font-size:17px}}
 
-/* ===== RESULTADOS ===== */
-.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:30px}
-.rs{background:var(--panel);border:1px solid var(--line);padding:20px 18px;border-top:3px solid var(--gold)}
-.rs b{display:block;font-family:var(--f-display);font-weight:800;font-size:clamp(2.34rem,7.02vw,3.432rem);line-height:1.08;color:var(--gold)}
-.rs span{display:block;margin-top:10px;font-family:var(--f-mono);font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);line-height:1.5}
-.proof{margin:18px 0 0;border:1px solid var(--gold);background:var(--panel)}
-.proof img{display:block;width:100%;height:auto}
-.proof figcaption{padding:10px 14px;font-family:var(--f-mono);font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--dim)}
-/* ===== VIDEOS ===== */
-.vids{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px}
-@media (max-width:900px){.vids{grid-template-columns:repeat(2,1fr)}}
-.vid{position:relative;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;min-width:0;transition:border-color .25s ease,box-shadow .25s ease}
-.vid:hover{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold-glow),0 18px 40px rgba(0,0,0,.5)}
-.vid video{display:block;width:100%;max-width:100%;aspect-ratio:9/16;object-fit:cover;background:#000;cursor:pointer}
-.vid.land{grid-column:span 2}
-.vid.land video{aspect-ratio:16/9}
-@media (max-width:900px){.vid.land{grid-column:span 2}}
-.vid .snd{all:unset;cursor:pointer;position:absolute;top:10px;right:10px;width:38px;height:38px;display:grid;place-items:center;font-size:1.05rem;background:rgba(10,11,14,.78);border:1px solid var(--line2);border-radius:50%;backdrop-filter:blur(4px);color:var(--fg)}
-.vid .snd:hover,.vid .snd.on{border-color:var(--gold);color:var(--gold)}
-.vid .vc{padding:12px 14px 14px}
-.vid .k{font-family:var(--f-mono);font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--gold)}
-.vid h3{font-size:1.2rem;margin-top:6px}
-.vid p{margin:6px 0 0;color:var(--muted);font-size:.86rem;line-height:1.45}
-/* ===== PIPELINE ===== */
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:36px;counter-reset:s}
-.step{background:var(--panel);padding:22px 20px 24px;position:relative;min-width:0}
-.step .tc{font-family:var(--f-mono);font-size:0.8rem;color:var(--dim);letter-spacing:0.06em;display:flex;justify-content:space-between}
-.step .num{font-family:var(--f-display);font-size:2.88rem;font-weight:800;line-height:1;color:var(--gold);margin:8px 0 6px}
-.step p{margin:8px 0 0;color:var(--muted);font-size:.92rem;line-height:1.5}
-.step .tools{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px}
-.step .tools span{font-family:var(--f-mono);font-size:0.8rem;padding:3px 8px;background:var(--panel2);border:1px solid var(--line2);color:var(--fg)}
-.step::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));transform:scaleX(0);transform-origin:left;transition:transform .6s ease}
-.step.lit::after{transform:scaleX(1)}
-@media (max-width:900px){.steps{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:520px){.steps{grid-template-columns:1fr}}
+/* hero */
+.hero{padding:64px 0 40px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 55% 40% at 50% 0%,rgba(234,88,12,.2),transparent 70%),radial-gradient(circle at 50% 0,rgba(255,255,255,.04) 1px,transparent 1.5px) 0 0/26px 26px;-webkit-mask:linear-gradient(#000 30%,transparent 75%);mask:linear-gradient(#000 30%,transparent 75%);pointer-events:none}
+.pill{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line2);background:rgba(20,20,22,.7);border-radius:99px;padding:7px 14px;font:600 14px var(--f-ui);color:#cfcdc7;position:relative;margin-bottom:26px;flex-wrap:wrap;justify-content:center;max-width:100%}
+.pill b{color:var(--fg)}
+@media(max-width:600px){.pill{font-size:13px;gap:6px;padding:6px 12px}.pill .pl{display:none}}
+.pill .dot{width:7px;height:7px;border-radius:50%;background:#3ecf6e;box-shadow:0 0 8px #3ecf6e}
+.h1{font:800 clamp(46px,8.6vw,108px)/.98 var(--f-disp);letter-spacing:-.045em;position:relative}
+.hero .sub{margin:24px auto 0;position:relative;font-size:19px}
+.hero .sub b{color:var(--fg)}
+.offer{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:22px}
+.offer span{border:1px solid var(--line2);background:rgba(16,16,18,.8);border-radius:99px;padding:7px 14px;font:600 14px var(--f-ui);color:#d6d4ce}
+.offer span b{color:var(--ac2);white-space:nowrap}
+.offer span.hot{border-color:rgba(234,88,12,.6);background:rgba(234,88,12,.1)}
+.ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px;position:relative}
+.ctas .btn{padding:15px 26px}
+@media(max-width:600px){.hero{padding-top:36px}.hero .sub{font-size:17.5px;margin-top:18px}.ctas{margin-top:22px}.ctas .btn{padding:14px 20px}}
+.proof{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:34px;position:relative}
+.pr3{display:flex;align-items:flex-end;justify-content:center;gap:10px}
+.prv{position:relative;width:88px;aspect-ratio:9/16;border-radius:12px;overflow:hidden;border:1px solid var(--line2);background:#111;box-shadow:0 16px 40px rgba(0,0,0,.6);transform:translateY(6px) rotate(-4deg);transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.prv:last-child{transform:translateY(6px) rotate(4deg)}
+.prv.main{width:106px;transform:none;border-color:rgba(234,88,12,.6);box-shadow:0 18px 50px rgba(0,0,0,.65),0 0 40px rgba(234,88,12,.25);z-index:1}
+.proof:hover .prv{transform:none}
+.prv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.prv b{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);font:700 13px var(--f-ui);color:#fff;padding:3px 7px;border-radius:6px}
+.prv.main b{background:var(--ac)}
+@media(min-width:820px){.prv{width:106px}.prv.main{width:132px}}
+.proof small{font-size:14px;color:var(--dim);max-width:340px}.proof small b{color:var(--muted);font-weight:600}
+.vbadge{position:absolute;left:10px;top:34px;z-index:3;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:5px 9px;font:700 13px var(--f-ui)}
+.vbadge i{font-style:normal;color:var(--ac2);font-weight:600;margin-left:4px}
+@keyframes blink{50%{opacity:0}}
+.tabs{display:flex;justify-content:center;gap:4px;margin:56px auto 14px;max-width:520px;position:relative;padding:5px;border:1px solid var(--line);background:rgba(16,16,18,.8);border-radius:14px}
+.tab{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 8px 13px;border-radius:10px;font:600 15px var(--f-ui);color:var(--dim);position:relative;overflow:hidden;transition:color .2s,background-color .2s}
+.tab svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8}
+.tab:hover{color:var(--fg)}
+.tab.on{color:var(--fg);background:#1b1b1e;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.tab.on svg{color:var(--ac2)}
+.tab::after{content:"";position:absolute;left:12px;right:12px;bottom:4px;height:2px;border-radius:2px;background:rgba(255,255,255,.06)}
+.tab.on::before{content:"";position:absolute;left:12px;bottom:4px;height:2px;border-radius:2px;background:var(--ac);z-index:1;animation:prog 7s linear forwards;box-shadow:0 0 8px var(--ac)}
+@keyframes prog{from{width:0}to{width:calc(100% - 24px)}}
+.stage{margin:0 auto;max-width:1040px;background:radial-gradient(ellipse 50% 60% at 50% 60%,rgba(234,88,12,.09),transparent 70%),radial-gradient(circle,rgba(255,255,255,.05) 1px,transparent 1.4px) 0 0/22px 22px,#050505;border:1px solid var(--line);border-radius:22px;padding:26px 16px 34px;position:relative;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.04)}
+.stage .ask{display:flex;align-items:center;justify-content:center;gap:10px;font:500 19px var(--f-ui);color:var(--muted);flex-wrap:wrap;min-height:34px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);border-radius:99px;padding:5px 14px;color:var(--fg);font-weight:600;background:#0f0f11}
+.chip b{color:var(--ac)}
+.stage .next{position:absolute;top:18px;right:18px;display:inline-flex;align-items:center;gap:4px;font:600 13px var(--f-ui);border:1px solid var(--line2);border-radius:99px;padding:7px 13px;color:var(--fg);background:var(--bg2);transition:border-color .2s,background-color .2s}
+.stage .next:hover{border-color:var(--ac);background:var(--acbg)}
+.sgrid{display:grid;gap:18px;align-items:center;margin-top:22px}
+@media(min-width:900px){.sgrid{grid-template-columns:1fr auto 1fr;gap:34px;padding:0 18px}}
+.sp{text-align:left;border:1px solid var(--line);background:rgba(17,17,19,.85);backdrop-filter:blur(8px);border-radius:14px;padding:16px 18px;max-width:330px;width:100%;margin:0 auto;box-shadow:0 20px 50px rgba(0,0,0,.45)}
+.sp small{display:flex;justify-content:space-between;font:600 13px var(--f-ui);letter-spacing:.06em;color:var(--dim);margin-bottom:10px}
+.cmd{font:500 15px/1.5 ui-monospace,Consolas,monospace;color:var(--fg);min-height:44px}
+.cmd b{color:var(--ac2)}
+.cur{display:inline-block;width:7px;height:15px;background:var(--ac2);vertical-align:-2px;margin-left:2px;animation:blink 1s steps(1) infinite}
+.sp .meta{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line2);font-size:13px;color:var(--dim);display:flex;align-items:center;gap:7px}
+.sp .meta i{width:6px;height:6px;border-radius:50%;background:#3ecf6e;box-shadow:0 0 8px #3ecf6e}
+.pipe{list-style:none;display:grid;gap:9px;font:500 15px var(--f-ui);color:var(--dim)}
+.pipe li{display:flex;align-items:center;gap:10px}
+.pipe li::before{content:"";width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line2);flex:none;background:center/10px no-repeat}
+.pipe.run li{animation:tick .35s ease forwards}
+.pipe.run li::before{animation:tickb .35s ease forwards}
+.pipe.run li:nth-child(1),.pipe.run li:nth-child(1)::before{animation-delay:.5s}
+.pipe.run li:nth-child(2),.pipe.run li:nth-child(2)::before{animation-delay:1.6s}
+.pipe.run li:nth-child(3),.pipe.run li:nth-child(3)::before{animation-delay:2.7s}
+.pipe.run li:nth-child(4),.pipe.run li:nth-child(4)::before{animation-delay:3.8s}
+.pipe.run li:nth-child(5),.pipe.run li:nth-child(5)::before{animation-delay:4.9s}
+@keyframes tick{to{color:var(--fg)}}
+@keyframes tickb{to{border-color:var(--ac);background-color:var(--ac);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 5.2l2 2 4-4.4' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");box-shadow:0 0 10px rgba(234,88,12,.6)}}
+@media(max-width:899px){.sp-r{display:none}.sp-l{order:-1}}
+@media(max-width:600px){.stage .ask{justify-content:flex-start;padding-right:110px;font-size:17px}}
+.phone{width:min(270px,66vw);aspect-ratio:9/16;margin:0 auto;border-radius:34px;border:7px solid #141416;outline:1px solid #2c2c31;background:linear-gradient(160deg,#18181b,#0a0a0b);overflow:hidden;position:relative;box-shadow:0 40px 90px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.03),0 0 90px rgba(234,88,12,.16)}
+.phone::before{content:"";position:absolute;top:8px;left:50%;width:30%;height:17px;margin-left:-15%;border-radius:99px;background:#050505;z-index:3}
+.phone::after{content:"";position:absolute;inset:0;border-radius:27px;background:linear-gradient(125deg,rgba(255,255,255,.09),transparent 30%);pointer-events:none;z-index:2}
+.phone video,.phone .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.phone .ph{display:grid;place-items:center;font:800 36px var(--f-disp);color:var(--line2);text-align:center;padding:20px;line-height:1.05}
+.phone .snd{position:absolute;right:12px;bottom:12px;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.55);display:grid;place-items:center;backdrop-filter:blur(6px);z-index:3}
+.phone .snd svg{width:15px;height:15px;fill:none;stroke:#fff;stroke-width:1.8}
 
-/* ===== FLOWS ===== */
-.flows{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:36px}
-.flow{background:var(--panel);border:1px solid var(--line);padding:22px 20px 20px;position:relative;min-width:0;border-top:3px solid var(--c)}
-.flow .k{font-family:var(--f-mono);font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--c)}
-.flow h3{margin-top:8px;font-size:1.7rem}
-.flow ol{margin:14px 0 0;padding-left:0;list-style:none;display:grid;gap:9px;counter-reset:f}
-.flow li{counter-increment:f;display:grid;grid-template-columns:22px 1fr;gap:8px;color:var(--muted);font-size:.9rem;line-height:1.45}
-.flow li::before{content:counter(f);font-family:var(--f-mono);font-size:0.8rem;color:var(--c);padding-top:3px}
-.flow .cost{margin:18px 0 0;padding-top:12px;border-top:1px dashed var(--line2);font-family:var(--f-mono);font-size:0.8rem;color:var(--c);letter-spacing:0.04em}
-.flow.a{--c:var(--gold)} .flow.b{--c:var(--ok)} .flow.c{--c:var(--cyan)} .flow.d{--c:var(--violet)}
+/* herramientas */
+.agents{padding:64px 0 24px;text-align:center}
+.agents p{font:600 18px var(--f-ui);margin-bottom:26px;color:#d6d4ce}
+.marq{overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marq .track{display:flex;gap:56px;width:max-content;animation:scroll 28s linear infinite}
+.marq span{display:inline-flex;align-items:center;gap:10px;font:700 19px var(--f-ui);color:#cfcdc7;white-space:nowrap}
+.marq svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7}
+@keyframes scroll{to{transform:translateX(-50%)}}
 
-/* ===== GALERÍA ===== */
-.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;margin-top:30px}
-.gal.four{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
-.gal figure{margin:0;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;min-width:0;position:relative;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
-.gal figure:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 18px 40px rgba(0,0,0,.5),0 0 0 1px var(--gold-glow)}
-.gal button{all:unset;cursor:zoom-in;display:block;width:100%}
-.gal img{display:block;width:100%;max-width:100%;aspect-ratio:9/16;object-fit:cover;background:#000}
-.gal img.sheet,.gal img.wide{object-fit:contain}
+/* cifras */
+.who{display:grid;gap:44px}
+@media(min-width:980px){.who{grid-template-columns:1fr 1.1fr;align-items:center}}
+.kbig{font:800 clamp(64px,10vw,124px)/.95 var(--f-disp);letter-spacing:-.05em;margin-top:18px}
+.kbig small{display:block;font:600 19px/1.4 var(--f-ui);letter-spacing:0;color:var(--muted);margin-top:12px}
+.ppl{margin-top:28px;border-top:1px solid var(--line)}
+.p{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.av{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;font:800 17px var(--f-disp);background:radial-gradient(circle at 30% 25%,#ff9a5c,var(--ac) 45%,#6a2504);flex:none;box-shadow:0 0 0 3px var(--bg),0 0 0 4px rgba(234,88,12,.5)}
+.av.yt{background:radial-gradient(circle at 30% 25%,#ff7a73,#e3221b 50%,#5c0806)}
+.p>div{flex:1;min-width:0}.p b{display:block;font-size:17px}.p small{display:block;color:var(--muted);font-size:15px}
+.p .n{flex:none;text-align:right}
+.p .n strong{display:block;font:800 26px/1 var(--f-disp);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.p .n span{font-size:13px;color:var(--dim)}
+.fine{margin-top:14px;font-size:14px;color:var(--dim);line-height:1.5}
+.studio{border:1px solid var(--line2);border-radius:16px;overflow:hidden;background:#0d0d0e;box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 60px rgba(234,88,12,.08)}
+.studio img{width:100%;height:auto}
+.studio figcaption{padding:12px 16px;font-size:14px;color:var(--muted);border-top:1px solid var(--line)}
+.ytrow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.ytrow div{border:1px solid var(--line);background:var(--bg2);border-radius:12px;padding:12px}
+.ytrow b{display:block;font:800 clamp(20px,2.6vw,28px)/1 var(--f-disp);letter-spacing:-.03em}
+.ytrow span{font-size:13px;color:var(--dim)}
+
+/* tarjetas de producto */
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:32px}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:960px){.cards{grid-template-columns:repeat(4,1fr);gap:16px}}
+@media(max-width:959px){.cards>.card:first-child,.cards>.card:last-child{grid-column:1/-1}.cards>.card:first-child .scene,.cards>.card:last-child .scene{aspect-ratio:1.3/1}}
+@media(max-width:559px){.cards{grid-template-columns:1fr;gap:30px}.cards>.card .scene{aspect-ratio:1.35/1}.cards>.card .scene img{object-position:50% 42%}}
+.card{position:relative;display:flex;flex-direction:column}
+.card.rec .scene{border-color:rgba(234,88,12,.55);box-shadow:0 0 50px rgba(234,88,12,.15)}
+.tagb{position:absolute;top:12px;left:12px;z-index:6;background:var(--ac);color:#fff;font:700 13px var(--f-ui);padding:5px 9px;border-radius:6px;box-shadow:0 4px 14px rgba(234,88,12,.35)}
+.tagb.star{left:50%;transform:translateX(-50%);background:#f2b33d;color:#1a1204;top:-13px;padding:6px 12px;border-radius:99px;box-shadow:0 6px 18px rgba(242,179,61,.3);white-space:nowrap}
+.info{padding:16px 2px 0;flex:1}
+.info small{display:block;font-size:14px;color:var(--dim)}
+.info h3{font:700 21px/1.15 var(--f-disp);letter-spacing:-.02em;margin:4px 0 4px}
+.info p{font-size:15px;color:var(--muted);line-height:1.45;margin:4px 0 6px}
+.info p.call{color:var(--fg);font-weight:600}
+.info p.call b{color:var(--ac2)}
+.price{font:700 18px var(--f-ui);color:var(--ac2)}
+.price span{color:var(--dim);font-weight:500;font-size:14px;margin-left:6px}
+.price s{color:var(--dim);font-weight:500;margin-left:8px}
+.card .btn{margin-top:14px;padding:12px;font-size:15px;border-radius:9px}
+.sum{margin-top:22px;font-size:15px;color:var(--muted);text-align:center}
+.sum b{color:var(--fg)}
+
+/* escena de producto: render 3D real (Three.js, _render/box.html) */
+.scene{position:relative;aspect-ratio:1/1.1;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#0a0a0b;isolation:isolate}
+.scene img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;transform:scale(1.001);transition:transform .9s cubic-bezier(.22,1,.36,1),filter .6s ease}
+.scene::before{content:"";position:absolute;top:0;bottom:0;left:-70%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.10),transparent);transform:skewX(-14deg);z-index:2;transition:left 1.1s cubic-bezier(.22,1,.36,1);pointer-events:none}
+.scene::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),inset 0 -40px 60px -30px rgba(0,0,0,.7);pointer-events:none;z-index:3}
+.card:hover .scene img,.bun:hover .scene img{transform:scale(1.045);filter:brightness(1.1) saturate(1.05)}
+.card:hover .scene::before,.bun:hover .scene::before{left:130%}
+
+/* vitrina de reels */
+.kpi{margin-top:22px;font:500 18px var(--f-ui);color:var(--muted)}.kpi b{color:var(--fg);font-weight:700}
+.kpi small{display:block;font-size:15px;color:var(--dim);margin-top:6px}
+.show{display:grid;gap:34px;align-items:center}
+@media(min-width:980px){.show{grid-template-columns:1fr 330px 1fr;gap:40px}}
+.rlist{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+.rlist::-webkit-scrollbar{display:none}
+@media(min-width:980px){.rlist{flex-direction:column;overflow:visible}}
+.ritem{flex:none;display:flex;align-items:center;gap:12px;min-height:46px;padding:11px 16px 11px 14px;border-radius:11px;border:1px solid transparent;color:var(--muted);font:500 16px var(--f-ui);text-align:left;position:relative;transition:background-color .2s,color .2s,border-color .2s}
+.ritem em{font:600 13px var(--f-ui);font-style:normal;color:var(--dim);font-variant-numeric:tabular-nums;width:20px}
+.ritem span{margin-left:auto;font-size:13px;color:var(--dim);white-space:nowrap}
+.ritem.on{background:linear-gradient(90deg,rgba(234,88,12,.1),var(--panel) 60%);border-color:var(--line2);color:var(--fg);box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.ritem.on::before{content:"";position:absolute;left:-1px;top:10px;bottom:10px;width:2px;border-radius:2px;background:var(--ac);box-shadow:0 0 10px var(--ac)}
+.ritem.on em,.ritem.on span{color:var(--ac2)}
+.ritem:hover{color:var(--fg);background:rgba(255,255,255,.02)}
+@media(max-width:979px){.ritem{border-color:var(--line);background:var(--bg2)}.ritem em{display:none}}
+.mtag{display:inline-flex;align-items:center;gap:7px;font:600 13px var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.mtag i{width:8px;height:8px;border-radius:2px;background:var(--ac)}
+.prompt{border:1px solid var(--line);background:linear-gradient(180deg,#151517,#111113);border-radius:14px;padding:16px 18px;font:500 16px/1.5 var(--f-ui);min-height:94px;box-shadow:0 20px 50px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.04)}
+.prompt small{display:block;font:600 13px var(--f-ui);letter-spacing:.08em;color:var(--dim);margin-bottom:8px}
+.prompt b{color:var(--dim);font-weight:500}
+.big{font:800 clamp(60px,7.6vw,104px)/1.05 var(--f-disp);letter-spacing:-.045em;margin:22px 0 6px;white-space:nowrap}
+.big.na{font-size:clamp(40px,5vw,62px);color:transparent;-webkit-text-stroke:1px #4a4a50}
+.bigl{font:600 15px var(--f-ui);color:var(--fg);margin-bottom:6px}
+.bigl b{color:var(--ac2)}
+.src{font-size:15px;color:var(--muted)}
+.src a{color:var(--fg);text-decoration:underline;text-underline-offset:3px}
+.buyrow{display:flex;align-items:center;gap:16px;margin-top:20px;flex-wrap:wrap}
+.buyrow .price{font-size:19px}
+.rcol{min-width:0}
+
+/* antes / después */
+.ba{display:grid;gap:40px;align-items:center}
+@media(min-width:900px){.ba{grid-template-columns:1fr 420px}}
+.cmp{position:relative;aspect-ratio:9/12.5;border-radius:18px;overflow:hidden;border:1px solid var(--line2);touch-action:pan-y;user-select:none;--pos:64%;max-width:420px;width:100%;margin:0 auto;cursor:ew-resize;box-shadow:0 40px 100px rgba(0,0,0,.6)}
+.cmp .pane{position:absolute;inset:0}
+.cmp .after{clip-path:inset(0 0 0 var(--pos))}
+.cmp .lbl{position:absolute;bottom:14px;background:rgba(0,0,0,.72);font:700 13px var(--f-ui);padding:6px 11px;border-radius:7px;z-index:3}
+.cmp .lbl.l{left:14px}.cmp .lbl.r{right:14px}
+.cmp .hnd{position:absolute;top:0;bottom:0;left:var(--pos);width:2px;background:#fff;z-index:4;transform:translateX(-1px)}
+.cmp .hnd i{position:absolute;top:50%;left:50%;width:40px;height:40px;margin:-20px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font:700 16px var(--f-ui);font-style:normal;box-shadow:0 0 0 6px rgba(234,88,12,.25),0 6px 24px rgba(0,0,0,.6)}
+.term{background:#0d0d0e;height:100%;font:500 13px/1.6 ui-monospace,"Cascadia Mono",Consolas,monospace;color:#d6d4cf;display:flex;flex-direction:column}
+.term .tbar{display:flex;align-items:center;gap:6px;padding:12px 14px;border-bottom:1px solid #1f1f22;background:#141416;color:#7d7d82;font-size:13px}
+.term .tbar i{width:10px;height:10px;border-radius:50%;background:#2c2c30}
+.term .tbar i:nth-child(1){background:#ff5f57}.term .tbar i:nth-child(2){background:#febc2e}.term .tbar i:nth-child(3){background:#28c840}
+.term .tbar span{margin-left:auto}
+.term .body{padding:16px calc(100% - var(--pos) + 14px) 14px 14px;flex:1;overflow:hidden}
+.term .wel{border:1px solid #d97757;border-radius:6px;padding:8px 10px;margin-bottom:12px;color:#d6d4cf}
+.term .wel b{color:#d97757}
+.term .mu{color:#7d7d82}.term .ac{color:#d97757}.term .pr{color:var(--ac2)}
+.term .inp{border:1px solid #2c2c30;border-radius:6px;padding:7px 10px;margin:10px 0;color:var(--fg)}
+.term .bar2{display:inline-block;width:80px;height:6px;border-radius:3px;background:#222;vertical-align:middle;margin-left:6px;overflow:hidden}
+.term .bar2 i{display:block;height:100%;width:72%;background:var(--ac)}
+@media(max-width:600px){.cmp{--pos:71%}.term .body{padding-bottom:52px}}
+.after video,.after .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.after .ph{background:linear-gradient(160deg,#1a1006,#0a0a0b);display:grid;place-items:center;font:800 34px var(--f-disp);color:var(--line2);text-align:center}
+.serif{margin-top:16px;font:600 16px var(--f-ui);color:var(--muted)}
+
+/* reels pequeños / carrusel */
+.rc{position:relative;aspect-ratio:9/16;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#0e0e10;display:block;transition:transform .35s ease,border-color .35s}
+.rc:hover{transform:translateY(-4px);border-color:var(--line2)}
+.rc video,.rc img,.rc .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rc .ph{display:grid;place-items:center;font:800 20px var(--f-disp);color:var(--line2);text-align:center;padding:8px}
+.badge{position:absolute;top:8px;left:8px;z-index:2;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);font:700 13px var(--f-ui);padding:4px 8px;border-radius:6px}
+.rcap{margin-top:9px;font:600 15px var(--f-ui)}.rcap small{display:block;color:var(--dim);font-weight:500;font-size:13px;margin-top:2px}
+.car{margin-top:44px;overflow:hidden}
+.car .track{display:flex;gap:14px;width:max-content;animation:scroll 70s linear infinite}
+.car:hover .track{animation-play-state:paused}
+.cwrap{width:220px;flex:none}
+
+/* pasos */
+.steps{display:grid;gap:0;margin-top:48px}
+@media(min-width:820px){.steps{grid-template-columns:repeat(3,1fr);gap:26px}}
+.st{border-top:1px solid var(--line2);padding:22px 0 26px;position:relative}
+.st::before{content:"";position:absolute;left:0;top:-1px;width:44px;height:1px;background:var(--ac);box-shadow:0 0 10px var(--ac)}
+.st i{font:700 13px var(--f-ui);font-style:normal;color:var(--ac2);letter-spacing:.1em}
+.steps:not(.inc) .st i{display:block;font:800 64px/1 var(--f-disp);letter-spacing:-.03em;color:transparent;-webkit-text-stroke:1px #4a4a50}
+.st h3{font:700 23px/1.2 var(--f-disp);letter-spacing:-.02em;margin:14px 0 8px}
+.st p{color:var(--muted);font-size:17px}
+
+/* asesoría */
+.bun{display:grid;gap:30px;align-items:center;border:1px solid rgba(234,88,12,.35);border-radius:22px;padding:14px;background:radial-gradient(ellipse 60% 80% at 100% 0,rgba(234,88,12,.1),transparent 60%),var(--bg2);box-shadow:0 40px 100px rgba(0,0,0,.5),0 0 80px rgba(234,88,12,.08),inset 0 1px 0 rgba(255,255,255,.04)}
+@media(min-width:900px){.bun{grid-template-columns:1fr 1.05fr;padding:18px;gap:46px}}
+.bun .scene{aspect-ratio:1/1.05;border-radius:14px}
+.bun .txt{padding:8px 8px 18px}
+.bun h3{font:800 clamp(34px,4.6vw,54px)/1.02 var(--f-disp);letter-spacing:-.035em;margin:12px 0 14px}
+.bun .pr{font:800 34px var(--f-disp);color:var(--ac2);display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;letter-spacing:-.02em}
+.bun .pr span{font:500 16px var(--f-ui);color:var(--muted);letter-spacing:0}
+.callbox{display:flex;gap:14px;align-items:flex-start;margin:18px 0 4px;padding:16px;border-radius:14px;border:1px solid rgba(234,88,12,.55);background:linear-gradient(135deg,rgba(234,88,12,.18),rgba(234,88,12,.04))}
+.callbox .ic{flex:none;width:44px;height:44px;border-radius:12px;background:var(--ac);display:grid;place-items:center;box-shadow:0 0 24px rgba(234,88,12,.45)}
+.callbox .ic svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.callbox b{display:block;font:800 21px/1.2 var(--f-disp);letter-spacing:-.02em}
+.callbox span{font-size:16px;color:#d6d4ce}
+.bun ul{list-style:none;margin:16px 0 22px;color:#cfcdc7;font-size:17px}
+.bun li{padding:8px 0 8px 28px;position:relative;line-height:1.45}
+.bun li::before{content:"";position:absolute;left:2px;top:16px;width:10px;height:10px;background:var(--ac);border-radius:2px}
+.bun li b{color:var(--fg)}
+.note{margin-top:14px;font-size:15px;color:var(--muted);line-height:1.5}
+
+/* comparativa */
+.cmpx{margin-top:44px;display:grid;gap:14px}
+@media(min-width:820px){.cmpx{grid-template-columns:1fr 1fr;gap:18px}}
+.col{border:1px solid var(--line);border-radius:18px;padding:24px;background:var(--bg2)}
+.col.hot{border-color:rgba(234,88,12,.55);background:radial-gradient(ellipse 70% 60% at 100% 0,rgba(234,88,12,.12),transparent 70%),var(--bg2)}
+.col h3{font:800 26px/1.1 var(--f-disp);letter-spacing:-.025em}
+.col .pp{font:700 18px var(--f-ui);color:var(--ac2);margin:6px 0 14px}
+.col ul{list-style:none;display:grid;gap:10px}
+.col li{display:flex;gap:10px;font-size:16px;color:#cfcdc7;line-height:1.45}
+.col li::before{content:"✓";color:var(--ac2);font-weight:700;flex:none}
+.col li.no{color:var(--dim)}
+.col li.no::before{content:"–";color:var(--dim)}
+.col .btn{margin-top:20px}
+
+/* guías gratis */
+.guias{display:grid;gap:14px;margin-top:44px}
+@media(min-width:820px){.guias{grid-template-columns:repeat(3,1fr);gap:18px}}
+.gcard{position:relative;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:18px;padding:24px;background:linear-gradient(180deg,#141416,#0d0d0e);overflow:hidden;transition:border-color .25s,transform .25s}
+.gcard:hover{border-color:var(--ac);transform:translateY(-3px)}
+.gcard .num{font:800 88px/.9 var(--f-disp);letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1px #4a4a50}
+.gcard:hover .num{-webkit-text-stroke-color:var(--ac2)}
+.gcard .lv{display:flex;gap:4px;margin:18px 0 14px}
+.gcard .lv i{height:4px;flex:1;border-radius:2px;background:var(--line2)}
+.gcard .lv i.on{background:var(--ac)}
+.gcard small{font:600 13px var(--f-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--ac2)}
+.gcard h3{font:700 23px/1.2 var(--f-disp);letter-spacing:-.02em;margin:6px 0 8px}
+.gcard p{font-size:16px;color:var(--muted);flex:1}
+.gcard .go{margin-top:18px;font:700 15px var(--f-ui);color:var(--fg)}
+.gall{text-align:center;margin-top:24px}
+
+/* incluye */
+.incg{display:grid;gap:30px;margin-top:44px;align-items:start}
+@media(min-width:900px){.incg{grid-template-columns:1fr 1.05fr;gap:56px}}
+.incl .st{padding:18px 0 20px}
+.tree{border:1px solid var(--line2);border-radius:16px;background:linear-gradient(180deg,#121214,#0b0b0c);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.02)}
+.tbar{display:flex;align-items:center;gap:7px;padding:13px 16px;border-bottom:1px solid var(--line)}
+.tbar i{width:10px;height:10px;border-radius:50%;background:#2c2c31}.tbar i:first-child{background:#ff5f57}.tbar i:nth-child(2){background:#febc2e}.tbar i:nth-child(3){background:#28c840}
+.tbar span{margin-left:auto;font:500 13px ui-monospace,Consolas,monospace;color:var(--dim)}
+.tree pre{margin:0;padding:22px 20px 26px;font:500 14px/1.85 ui-monospace,Consolas,monospace;color:#bdbab3;overflow-x:auto}
+.tree pre b{color:var(--fg);font-weight:600}.tree pre em{font-style:normal;color:var(--ac2)}.tree pre u{text-decoration:none;color:#6f6d68}
+@media(max-width:520px){.tree pre{font-size:13px;padding:18px 14px}.tree pre u{display:none}}
+
+/* faq */
+.faq{max-width:780px;margin:44px auto 0;display:grid;gap:8px}
+details{border:1px solid var(--line);border-radius:14px;padding:0 20px;background:var(--bg2);transition:border-color .2s,background-color .2s}
+details:hover{border-color:var(--line2)}
+details[open]{border-color:var(--line2);background:#121214}
+summary{cursor:pointer;font:600 18px var(--f-ui);list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px;min-height:62px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--ac);font-size:24px;line-height:1;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--muted);margin-top:4px;padding-bottom:20px;font-size:17px}
+
+/* cierre */
+.fin{padding:40px 0 110px}
+.fing{display:grid;gap:34px;align-items:center;border:1px solid var(--line);border-radius:24px;padding:40px 22px 0;background:radial-gradient(ellipse 60% 70% at 85% 60%,rgba(234,88,12,.13),transparent 70%),var(--bg2);overflow:hidden}
+@media(min-width:900px){.fing{grid-template-columns:1fr 1.05fr;padding:56px 0 0 56px}}
+.finb{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.finimg{align-self:end;margin:0 -22px}
+.finimg img{width:100%;-webkit-mask:radial-gradient(ellipse 70% 75% at 55% 50%,#000 50%,transparent 100%);mask:radial-gradient(ellipse 70% 75% at 55% 50%,#000 50%,transparent 100%)}
+@media(min-width:900px){.finimg{margin:0}}
+/* pie */
+footer{border-top:1px solid var(--line);padding:56px 0 40px;color:var(--dim);font-size:15px}
+.fg{display:grid;gap:30px}
+@media(min-width:820px){.fg{grid-template-columns:1.6fr 1fr 1fr 1fr}}
+.fg p{margin-top:12px;max-width:300px;line-height:1.6}
+.fcol{display:flex;flex-direction:column;gap:9px}
+.fcol b{color:var(--fg);font-size:15px;margin-bottom:4px}
+.fcol a{color:var(--muted);transition:color .2s}.fcol a:hover{color:var(--fg)}
+.fl{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:44px;padding-top:22px;border-top:1px solid var(--line);font-size:14px}
+
+/* aparición: el contenido es visible siempre; al entrar en pantalla se anima desde 0 (si el observer falla o no hay scroll, nada queda oculto) */
+.js-rv .rv.in{animation:rvIn .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--dl,0s)}
+@keyframes rvIn{from{opacity:0;transform:translateY(22px)}}
+@media(prefers-reduced-motion:reduce){.marq .track,.car .track,.tab.on::before,.cur{animation:none}.tab.on::before{width:calc(100% - 24px)}.pipe.run li,.pipe.run li::before{animation-duration:0s;animation-delay:0s!important}.scene img,.scene::before,.rc,.gcard,.prv{transition:none}html{scroll-behavior:auto}}
+
+/* ===== videos terminados, galería, herramientas ===== */
+.vids{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:44px}
+@media(min-width:760px){.vids{grid-template-columns:repeat(4,1fr);gap:18px}}
+.vid{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#0b0b0c}
+.vid .vv{position:relative;aspect-ratio:9/16;background:#000}
+.vid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vid.land{grid-column:1/-1}.vid.land .vv{aspect-ratio:16/9}
+@media(min-width:760px){.vid.land{display:grid;grid-template-columns:2fr 1fr;align-items:center}.vid.land .vc{padding:24px}.vid.land h3{font-size:26px}}
+.vid .snd{position:absolute;right:10px;top:10px;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);display:grid;place-items:center;font-size:16px;z-index:2}
+.vid .vc{padding:14px 14px 16px}
+.vid .k{font:600 12px var(--f-ui);letter-spacing:.07em;text-transform:uppercase;color:var(--ac2)}
+.vid h3{font:700 18px/1.15 var(--f-disp);margin-top:6px;letter-spacing:-.01em}
+.vid p{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.4}
+.gal-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:48px 0 14px}
+.gal-h h3{font:700 24px var(--f-disp);letter-spacing:-.02em}
+.gal-h span{font:600 12px var(--f-ui);letter-spacing:.07em;text-transform:uppercase;color:var(--dim)}
+.gal{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:900px){.gal{grid-template-columns:repeat(3,1fr);gap:16px}.gal.four{grid-template-columns:repeat(4,1fr)}}
+.gal figure{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#0b0b0c;position:relative;display:flex;flex-direction:column}
+.gal figure button{display:block;width:100%;aspect-ratio:4/3;overflow:hidden;background:#000}
+.gal figure img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.gal figure:hover img{transform:scale(1.05)}
 .gal figcaption{padding:12px 14px 14px}
-.gal figcaption h3{font-size:1.2rem}
-.gal figcaption p{margin:6px 0 0;color:var(--muted);font-size:.86rem;line-height:1.45}
-.st{position:absolute;top:10px;left:10px;z-index:1;font-family:var(--f-mono);font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;padding:3px 8px;background:rgba(10,11,14,.8);border:1px solid var(--line2);color:var(--muted);backdrop-filter:blur(4px)}
-.st.on{border-color:var(--ok);color:var(--ok)}
-.st.pl{border-color:var(--gold);color:var(--gold)}
-.gal-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:56px}
-.gal-head:first-of-type{margin-top:36px}
-.gal-head h3{font-size:2rem;font-weight:900}
-.gal-head span{font-family:var(--f-mono);font-size:0.8rem;color:var(--dim);letter-spacing:0.06em}
-/* visor */
-.lb{position:fixed;inset:0;z-index:50;background:rgba(5,6,8,.94);display:grid;place-items:center;padding:max(16px,env(safe-area-inset-left,0px));padding-top:max(16px,env(safe-area-inset-top,0px));padding-bottom:max(16px,env(safe-area-inset-bottom,0px))}
-.lb img{max-width:100%;max-height:82vh;border:1px solid var(--line2);box-shadow:0 30px 80px rgba(0,0,0,.7)}
-.lb figcaption{margin-top:12px;font-family:var(--f-mono);font-size:0.8rem;color:var(--muted);text-align:center;max-width:60ch}
-.lb figure{margin:0;display:flex;flex-direction:column;align-items:center}
-.lb .x{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));all:unset;cursor:pointer;font-family:var(--f-mono);font-size:0.8rem;color:var(--fg);border:1px solid var(--line2);padding:8px 12px;background:var(--panel)}
-.lb .x:hover{border-color:var(--gold);color:var(--gold)}
-
-/* ===== TABLA ===== */
-.scroll{overflow-x:auto;border:1px solid var(--line);background:var(--panel);margin-top:30px}
-table{border-collapse:collapse;width:100%;min-width:600px;font-size:.92rem}
-th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-family:var(--f-mono);font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--dim);background:var(--bg2)}
-tr:last-child td{border-bottom:0}
-td:first-child{font-family:var(--f-mono);font-size:0.8rem;color:var(--muted);letter-spacing:0.04em}
-.free{color:var(--ok);font-family:var(--f-mono);font-size:0.8rem}.paid{color:var(--gold);font-family:var(--f-mono);font-size:0.8rem}
-.lic{margin-top:14px;font-family:var(--f-mono);font-size:0.8rem;color:var(--dim)}
-
-/* ===== TIERS ===== */
-.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin-top:32px}
-.tier{background:var(--panel);border:1px solid var(--line);padding:20px 18px;min-width:0}
-.tier.must{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold-glow),0 20px 50px rgba(0,0,0,.45);background:linear-gradient(180deg,rgba(255,176,46,.08),var(--panel) 40%)}
-.tier.opt{opacity:.85}
-.tier .k{font-family:var(--f-mono);font-size:0.8rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
-.tier.opt .k{color:var(--dim)}
-.trow{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:12px 0;border-top:1px solid var(--line)}
-.trow b{font-family:var(--f-display);font-size:1.163rem;text-transform:none;letter-spacing:-.012em}
-.trow span{grid-column:1;color:var(--muted);font-size:.86rem;line-height:1.45}
-.trow em{grid-row:1;grid-column:2;font-style:normal;font-family:var(--f-mono);font-size:0.8rem;letter-spacing:0.06em;align-self:start;padding-top:5px}
-/* ===== QA GATE ===== */
-.gate{margin-top:36px;display:grid;grid-template-columns:1.1fr 1fr;gap:16px}
-@media (max-width:820px){.gate{grid-template-columns:1fr}}
-.term{background:#07080b;border:1px solid var(--line2);font-family:var(--f-mono);font-size:0.8rem;line-height:1.7;padding:18px 20px;color:var(--muted);min-width:0;overflow-x:auto}
-.term .h{color:var(--dim);border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:10px;display:flex;gap:8px;align-items:center}
-.term .h i{width:10px;height:10px;border-radius:50%;background:var(--bad);display:inline-block}
-.term .h i+i{background:var(--gold)} .term .h i+i+i{background:var(--ok)}
-.term .ok{color:var(--ok)} .term .v{color:var(--fg)} .term .gold{color:var(--gold)}
-.rules{display:grid;gap:14px}
-.box{background:var(--panel);border:1px solid var(--line);padding:20px}
-.box h3{margin-bottom:12px}
-.list{list-style:none;margin:0;padding:0;display:grid;gap:9px}
-.list li{padding-left:22px;position:relative;color:var(--muted);font-size:.93rem}
-.list li b{color:var(--fg)}
-.list li::before{content:"";position:absolute;left:0;top:.65em;width:10px;height:2px;background:var(--ok)}
-.list.bad li::before{background:var(--bad)}
-.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;margin-top:36px}
-
-/* ===== ADAPTAR + OFERTA ===== */
-.adapt{margin-top:36px;border:1px solid var(--gold);background:linear-gradient(135deg,rgba(255,176,46,.12),rgba(255,122,26,.04));padding:28px 24px}
-.adapt ol{margin:18px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;counter-reset:a}
-.adapt li{counter-increment:a;background:rgba(10,11,14,.6);border:1px solid var(--line2);padding:16px;color:var(--muted);font-size:.92rem;min-width:0}
-.adapt li::before{content:"0" counter(a);display:block;font-family:var(--f-display);font-size:1.6rem;font-weight:800;color:var(--gold);line-height:1;margin-bottom:8px}
-.offer{margin-top:36px;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;border:1px solid var(--line2);background:var(--panel);padding:32px 28px;position:relative;overflow:hidden}
-.offer::before{content:"";position:absolute;inset:auto -80px -120px auto;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,var(--gold-glow),transparent 65%);pointer-events:none}
-@media (max-width:700px){.offer{grid-template-columns:1fr}}
-.price{font-family:var(--f-display);font-weight:800;font-size:clamp(3.9rem,12.48vw,6.63rem);line-height:1.08;color:var(--gold);text-shadow:0 0 40px var(--gold-glow)}
-.price small{display:block;font-family:var(--f-mono);font-size:0.8rem;color:var(--dim);letter-spacing:0.06em;text-transform:uppercase;margin-top:10px}
-.offer ul{position:relative}
-.note{font-size:.8rem;color:var(--dim);margin-top:28px;border-top:1px solid var(--line);padding-top:14px}
-footer{padding-block:28px 48px;font-family:var(--f-mono);font-size:0.8rem;color:var(--dim);letter-spacing:0.06em;text-transform:uppercase;border-top:1px solid var(--line)}
-
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  .track{animation:none}
-  .gal figure,.step::after{transition:none}
-  .step::after{transform:scaleX(1)}
-}
+.gal figcaption h4{font:700 16px/1.2 var(--f-disp)}
+.gal figcaption p{font-size:13.5px;color:var(--muted);margin-top:5px;line-height:1.4}
+.gal .tg{position:absolute;left:10px;top:10px;z-index:1;font:700 11px var(--f-ui);letter-spacing:.06em;text-transform:uppercase;background:rgba(0,0,0,.75);border:1px solid var(--line2);border-radius:99px;padding:4px 9px;color:var(--muted)}
+.gal .tg.on{color:#fff;background:var(--ac);border-color:var(--ac)}
+.lb{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;padding:20px}
+.lb.on{display:flex}.lb img{max-width:100%;max-height:100%;border-radius:10px}
+.tiers{display:grid;gap:14px;margin-top:40px}
+@media(min-width:900px){.tiers{grid-template-columns:repeat(3,1fr)}}
+.tier{border:1px solid var(--line);border-radius:16px;padding:20px;background:var(--panel)}
+.tier.must{border-color:rgba(234,88,12,.55);background:linear-gradient(180deg,rgba(234,88,12,.08),var(--panel))}
+.tier .k{font:700 13px var(--f-ui);letter-spacing:.07em;text-transform:uppercase;color:var(--ac2);margin-bottom:8px}
+.trow{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:12px 0;border-top:1px solid var(--line)}
+.trow b{font:700 16px var(--f-ui)}.trow span{grid-column:1;font-size:14px;color:var(--muted);line-height:1.4}
+.trow em{grid-row:1;grid-column:2;font:700 11px var(--f-ui);font-style:normal;letter-spacing:.06em;border-radius:99px;padding:3px 8px;border:1px solid var(--line2);color:var(--muted);align-self:start;white-space:nowrap}
+.trow em.free{color:#3ecf6e;border-color:rgba(62,207,110,.4)}
+.lic{margin-top:16px;font-size:13px;color:var(--dim)}
 </style>
-<style>img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
-<nav class="nav"><div class="in">
-  <div class="brand">Fábrica <b>de video</b></div>
-  <ul>
-    <li><a href="#resultados">Resultados</a></li>
-    <li><a href="#videos">Videos</a></li>
-    <li><a href="#proceso">Proceso</a></li>
-    <li><a href="#flujos">Flujos</a></li>
-    <li><a href="#galeria">Galería</a></li>
-    <li><a href="#herramientas">Herramientas</a></li>
-    <li><a href="#calidad">Calidad</a></li>
-    <li><a href="#asesoria" class="cta">Asesoría $70</a></li>
-  </ul>
-</div></nav>
 
-<header class="hero">
-  <div class="in">
-    <div class="eyebrow">Informe de asesoría · Octubre 2026</div>
-    <h1 style="margin-top:16px">Fábrica de <span class="l2"><em>video</em> con IA</span></h1>
-    <p class="lead">El sistema completo que usamos para producir videos cortos y largos con Claude Code y herramientas de IA. Ocho etapas, cuatro flujos y una galería de formatos reales. Tú lo adaptas al nicho que quieras.</p>
-    <div class="hero-row">
-      <div class="stats">
-        <div class="stat"><b>8</b><span>etapas</span></div>
-        <div class="stat"><b>4</b><span>flujos</span></div>
-        <div class="stat"><b>12</b><span>formatos</span></div>
-        <div class="stat"><b>8</b><span>modelos nuevos</span></div>
-      </div>
-      <div class="specs">ENTREGA <b>1080×1920</b> · <b>30 fps</b> · <b>H.264 CRF 18</b> · <b>−14 LUFS</b> · <b>≥24 eventos/min</b></div>
-    </div>
-  </div>
-  <div class="strip" aria-label="Cuadros reales de nuestros videos">
-    <span class="strip-label">Cuadros reales</span>
-    <div class="track">
-      <img src="galeria/lupa-2.jpg" alt=""><img src="galeria/satelite-geografica-1.jpg" alt=""><img src="galeria/orden-viva-1.jpg" alt=""><img src="galeria/microdrama-1.jpg" alt=""><img src="galeria/pizarra-1.jpg" alt=""><img src="galeria/orden-energica-1.jpg" alt=""><img src="galeria/lamina-tecnica-2.jpg" alt=""><img src="galeria/orden-curiosamente-1.jpg" alt=""><img src="galeria/radiografia-1.jpg" alt=""><img src="galeria/orden-loconstruimos-2.jpg" alt=""><img src="galeria/lupa-3.jpg" alt=""><img src="galeria/orden-viva-2.jpg" alt=""><img src="galeria/microdrama-2.jpg" alt=""><img src="galeria/pizarra-2.jpg" alt=""><img src="galeria/orden-energica-2.jpg" alt=""><img src="galeria/orden-curiosamente-2.jpg" alt=""><img src="galeria/orden-loconstruimos-1.jpg" alt="">
-      <img src="galeria/lupa-2.jpg" alt=""><img src="galeria/satelite-geografica-1.jpg" alt=""><img src="galeria/orden-viva-1.jpg" alt=""><img src="galeria/microdrama-1.jpg" alt=""><img src="galeria/pizarra-1.jpg" alt=""><img src="galeria/orden-energica-1.jpg" alt=""><img src="galeria/lamina-tecnica-2.jpg" alt=""><img src="galeria/orden-curiosamente-1.jpg" alt=""><img src="galeria/radiografia-1.jpg" alt=""><img src="galeria/orden-loconstruimos-2.jpg" alt=""><img src="galeria/lupa-3.jpg" alt=""><img src="galeria/orden-viva-2.jpg" alt=""><img src="galeria/microdrama-2.jpg" alt=""><img src="galeria/pizarra-2.jpg" alt=""><img src="galeria/orden-energica-2.jpg" alt=""><img src="galeria/orden-curiosamente-2.jpg" alt=""><img src="galeria/orden-loconstruimos-1.jpg" alt="">
-    </div>
-  </div>
+<div class="bar">Packs a 40 USD · los tres por 60 USD · <span style="white-space:nowrap">Asesoría 90 USD / mes</span> con llamada cada lunes</div>
+
+<nav>
+<div class="wrap">
+<a class="logo" href="#top"><b>▸</b> Fábrica de Video con IA</a>
+<div class="links"><a href="#asesoria">Asesoría</a><a href="#packs">Packs</a><a href="#guias">Guías gratis</a><a href="#resultados">Resultados</a><a href="#videos">Videos</a><a href="#galeria">Galería</a><a href="#faq">Preguntas</a></div>
+<a class="btn" data-dm href="https://www.instagram.com/fernandojvd/" target="_blank" rel="noopener">Escríbeme<span class="hm">por DM</span></a>
+</div>
+</nav>
+
+<header class="hero" id="top">
+<div class="wrap">
+<span class="pill"><i class="dot"></i><span class="pl">Hecho con este sistema:</span> <b>@mecanicaterrestre</b> · 5,0 M vistas en 28 días</span>
+<h1 class="h1">Deja que <em>Claude</em><br>edite tus videos.</h1>
+<p class="sub">Crea videos como estos, <b>sin saber editar.</b> Tú das el tema; Claude escribe el guion, pone la voz y arma el video.</p>
+<div class="offer"><span>Packs de formato · <b>40 USD</b> c/u · los 3 por <b>60 USD</b></span><span class="hot">Asesoría: llamada cada lunes + comunidad · <b>90 USD / mes</b></span></div>
+<div class="ctas"><a class="btn" href="#asesoria">Quiero la asesoría →</a><a class="btn line" href="#packs">Ver packs</a></div>
+<a class="proof" href="#resultados" aria-label="Ver resultados">
+<span class="pr3">
+<span class="prv"><video src="media/f-satelite.mp4" poster="media/f-satelite.jpg" muted loop playsinline autoplay preload="metadata"></video><b>Satélite</b></span>
+<span class="prv main"><video src="media/mt-chimborazo.mp4" poster="media/mt-chimborazo.jpg" muted loop playsinline autoplay preload="metadata"></video><b>3,68 M</b></span>
+<span class="prv"><video src="media/f-lupa.mp4" poster="media/f-lupa.jpg" muted loop playsinline autoplay preload="metadata"></video><b>Lupa</b></span>
+</span>
+<small>Al centro, reel real de nuestra cuenta: <b>3,68 M vistas</b> en Instagram al 24-oct-2026. A los lados, demos de Satélite y Lupa.</small>
+</a>
+
+<div class="tabs" id="tabs" role="tablist"></div>
+<div class="stage">
+<div class="ask"><span>Empieza con un</span><span class="chip"><b>✦</b> tema</span></div>
+<button class="next" id="next">Siguiente <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
+<div class="sgrid">
+<div class="sp sp-l"><small><span>Tu instrucción</span><span id="hmod"></span></small><div class="cmd"><b>›</b> <span id="hcmd"></span><i class="cur"></i></div><div class="meta"><i></i>Claude Code · carpeta del pack</div></div>
+<div class="phone" id="hphone"></div>
+<div class="sp sp-r"><small><span>Claude hace</span></small><ol class="pipe" id="pipe"><li>Investiga el tema</li><li>Escribe el guion</li><li>Genera la voz</li><li>Arma cada escena</li><li>Renderiza el video</li></ol></div>
+</div>
+</div>
+</div>
 </header>
 
-<section id="resultados"><div class="in">
-  <div class="eyebrow">Resultados reales</div>
-  <h2 style="margin-top:14px">Los números <em>de esta semana</em></h2>
-  <p class="sub">Últimos 28 días, con corte al 24 de octubre de 2026. Datos de YouTube Studio y de la API oficial de Instagram.</p>
-  <div class="res">
-    <div class="rs"><b>7,7 M</b><span>vistas en 28 días<br>Instagram + YouTube</span></div>
-    <div class="rs"><b>5,0 M</b><span>vistas en una sola cuenta de Instagram</span></div>
-    <div class="rs"><b>3,7 M</b><span>vistas en un solo reel</span></div>
-    <div class="rs"><b>+10,6 K</b><span>suscriptores nuevos en YouTube</span></div>
-  </div>
-  <figure class="proof"><img src="galeria/youtube-studio-28d.jpg" alt="Captura real de YouTube Studio: 2.340.814 visualizaciones en los últimos 28 días, 35,5 K horas de visualización y +10,6 K suscriptores" loading="lazy"><figcaption>Captura real de YouTube Studio · 26 sep – 23 oct 2026</figcaption></figure>
-  <p class="lic">El mejor reel concentra buena parte de las vistas de Instagram; no todos los videos llegan a esa cifra. Resultados de nuestras propias cuentas, sin promesa de ingresos.</p>
-</div></section>
-
-<section id="videos"><div class="in">
-  <div class="eyebrow">En movimiento</div>
-  <h2 style="margin-top:14px">Así se ven <em>terminados</em></h2>
-  <p class="sub">Los primeros 12 segundos de ocho videos reales, uno por formato. Arrancan solos y sin sonido; toca el altavoz para oír la voz. Toca el video para pausar.</p>
-  <div class="vids">
-    <div class="vid"><video src="video/lupa.mp4" muted autoplay loop playsinline preload="metadata" poster="galeria/lupa-2.jpg"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button><div class="vc"><span class="k">Lupa · Flujo B</span><h3>Dedos arrugados</h3><p>Por qué la piel se arruga en el agua. Macro, corte transversal y karaoke.</p></div></div>
-    <div class="vid"><video src="video/satelite.mp4" muted autoplay loop playsinline preload="metadata" poster="galeria/satelite-geografica-1.jpg"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button><div class="vc"><span class="k">Satélite · Flujo B</span><h3>Dos países, dos destinos</h3><p>Globo real, cámara que viaja y datos vivos con fuente.</p></div></div>
-    <div class="vid"><video src="video/lamina.mp4" muted autoplay loop playsinline preload="metadata" poster="galeria/lamina-tecnica-2.jpg"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button><div class="vc"><span class="k">Lámina técnica · Flujo B</span><h3>Tres cuartas partes</h3><p>De tu gasolina no mueve el carro. Diagramas en línea con contadores.</p></div></div>
-    <div class="vid"><video src="video/microdrama.mp4" muted autoplay loop playsinline preload="metadata" poster="galeria/microdrama-2.jpg"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button><div class="vc"><span class="k">Microdrama · Flujo A</span><h3>La máscara, E01</h3><p>Personajes con ficha fija y voz propia. Montaje previo, sin música final.</p></div></div>
-    <div class="vid"><video src="video/pizarra.mp4" muted autoplay loop playsinline preload="metadata" poster="galeria/pizarra-1.jpg"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button><div class="vc"><span class="k">Pizarra · Flujo B</span><h3>1.600 km/h sin moverte</h3><p>La tiza dibuja todo a la vista: globo, reloj y cifras.</p></div></div>
-    <div class="vid"><video src="video/radiografia.mp4" muted autoplay loop playsinline preload="metadata" poster="galeria/radiografia-1.jpg"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button><div class="vc"><span class="k">Radiografía · Flujo C</span><h3>El anillo del café</h3><p>Un plato que se abre en 3D para explicar la mancha.</p></div></div>
-    <div class="vid"><video src="video/piso14.mp4" muted autoplay loop playsinline preload="metadata" poster="galeria/atlas-survival-1.jpg"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button><div class="vc"><span class="k">Piso 14 · código + Flow</span><h3>Algo sube</h3><p>Serie de supervivencia con personaje y escenas ilustradas.</p></div></div>
-    <div class="vid land"><video src="video/ysi.mp4" muted autoplay loop playsinline preload="metadata" poster="galeria/stickman-ysi-1.jpg"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button><div class="vc"><span class="k">¿Y si tú? · Flujo D</span><h3>What if your brain was 10× faster</h3><p>Stickman cinematográfico, 100 % por código. Versión en inglés; episodio de 5 minutos para YouTube.</p></div></div>
-  </div>
-</div></section>
-
-<section id="proceso"><div class="in">
-  <div class="eyebrow">El proceso</div>
-  <h2 style="margin-top:14px">De la idea al <em>video publicado</em></h2>
-  <p class="sub">Cada video pasa por las mismas ocho etapas, en este orden. Saltarse una es lo que más retrabajo cuesta.</p>
-  <div class="steps">
-    <div class="step"><div class="tc"><span>ETAPA</span><span>01 / 08</span></div><div class="num">01</div><h3>Nicho e idea</h3>
-      <p>Antes de crear, medimos. Se analizan de 3 a 10 cuentas del nicho: tema, duración, ritmo, paleta y eventos visuales por minuto. Se repite la fórmula de lo que ya funcionó y se lleva una lista de temas quemados.</p>
-      <div class="tools"><span>Claude con búsqueda</span><span>Hoja de referencias</span></div></div>
-    <div class="step"><div class="tc"><span>ETAPA</span><span>02 / 08</span></div><div class="num">02</div><h3>Guion</h3>
-      <p>Gancho en la primera frase, de 10 palabras o menos: niega algo famoso o da una cifra verificable. Dos fuentes por dato. Un escritor y dos revisores. El guion corrido se aprueba antes de generar nada.</p>
-      <div class="tools"><span>Claude Code</span></div></div>
-    <div class="step"><div class="tc"><span>ETAPA</span><span>03 / 08</span></div><div class="num">03</div><h3>Voz</h3>
-      <p>Una voz fija por canal, estilo documental, de 2,7 a 3,3 palabras por segundo al inicio. Se genera en bloques de unos 20 s para que no se apague, y cada bloque se compara contra la mediana.</p>
-      <div class="tools"><span>Gemini TTS · Vertex AI</span></div></div>
-    <div class="step"><div class="tc"><span>ETAPA</span><span>04 / 08</span></div><div class="num">04</div><h3>Visuales</h3>
-      <p>Imágenes con modelo de imagen, animación con modelo de video solo donde hace falta, y código para diagramas, mapas, contadores y 3D. Cada formato parte de una plantilla maestra, nunca del último video.</p>
-      <div class="tools"><span>Flow · Nano Banana</span><span>Omni / Veo</span><span>HyperFrames</span><span>Three.js</span><span>Blender</span></div></div>
-    <div class="step"><div class="tc"><span>ETAPA</span><span>05 / 08</span></div><div class="num">05</div><h3>Montaje y render</h3>
-      <p>Un solo render final en 1080×1920 a 30 fps. Nada de 4K ni pruebas completas: la plataforma comprime a 1080 de todos modos. Subtítulos por palabra, alineados al texto exacto del guion.</p>
-      <div class="tools"><span>ffmpeg</span><span>whisper</span><span>HyperFrames</span></div></div>
-    <div class="step"><div class="tc"><span>ETAPA</span><span>06 / 08</span></div><div class="num">06</div><h3>Control de calidad</h3>
-      <p>Hoja de contacto de cuadros, cero cuadros rotos, primer cuadro lleno y voz antes de 0,3 s, audio a −14 LUFS, sin negro al inicio ni al final, al menos 24 eventos visuales por minuto. Todo lo revisa un script.</p>
-      <div class="tools"><span>Scripts de QA</span></div></div>
-    <div class="step"><div class="tc"><span>ETAPA</span><span>07 / 08</span></div><div class="num">07</div><h3>Publicación</h3>
-      <p>Calendario en una sola tabla con horas explícitas. Se entrega el archivo original, nunca la versión comprimida. La portada es el primer cuadro y el pie cierra con una pregunta que divida opiniones.</p>
-      <div class="tools"><span>APIs oficiales</span><span>Google Drive</span></div></div>
-    <div class="step"><div class="tc"><span>ETAPA</span><span>08 / 08</span></div><div class="num">08</div><h3>Métricas</h3>
-      <p>A las 48 h se leen vistas, compartidos y guardados y se comparan contra la mediana de los últimos 10 videos del mismo formato. Qué estilo se repite lo decide una regla escrita, no el ánimo.</p>
-      <div class="tools"><span>Panel local</span><span>ccusage</span></div></div>
-  </div>
-</div></section>
-
-<section id="flujos"><div class="in">
-  <div class="eyebrow">Cuatro flujos</div>
-  <h2 style="margin-top:14px">Cuatro maneras <em>de producir</em></h2>
-  <p class="sub">Las ocho etapas son las mismas. Lo que cambia es cómo se fabrican los visuales. Elige el flujo según tu presupuesto y tu máquina.</p>
-  <div class="flows">
-    <div class="flow a"><div class="k">A · IA generativa</div><h3>Serie con personajes</h3>
-      <ol><li>Guion por capítulo con ficha fija de cada personaje y su voz.</li><li>Fotogramas base con Nano Banana, cuidando la continuidad.</li><li>Clips 9:16 con Omni o Veo, solo donde hace falta movimiento.</li><li>QA de cara, voz y continuidad. Se reintenta solo el clip que falla.</li><li>Montaje, subtítulos y entrega en 1080p30.</li></ol>
-      <p class="cost">▲ Gasta créditos de Flow</p></div>
-    <div class="flow b"><div class="k">B · 100 % código</div><h3>Explicativos con plantilla</h3>
-      <ol><li>Eliges una plantilla maestra: Lupa, Lámina, Satélite, Pizarra.</li><li>Guion con cifras y fuentes verificadas.</li><li>Escenas en HTML, SVG y GSAP con HyperFrames; voz por Vertex.</li><li>Snapshots por escena y hoja de contacto para QA.</li><li>Un solo render 1080p30.</li></ol>
-      <p class="cost">● Casi gratis: solo la voz</p></div>
-    <div class="flow c"><div class="k">C · Código + 3D</div><h3>Objetos que se abren</h3>
-      <ol><li>Objeto o escena en Three.js o Blender.</li><li>Cámara, capas de profundidad y capa de vida: partículas, destellos, datos vivos.</li><li>Captura de cuadros y comparación lado a lado con la referencia.</li><li>Render en cola, con prioridad baja.</li></ol>
-      <p class="cost">● Gratis, pide GPU</p></div>
-    <div class="flow d"><div class="k">D · Stickman por código</div><h3>Canal de personaje</h3>
-      <ol><li>Biblioteca de referencias y una dirección visual elegida.</li><li>Rig de personaje reutilizable y sets por escena.</li><li>Voces por idioma, SFX sintetizados, música generada en local.</li><li>Mezcla a −14 LUFS, miniatura y QA antes de programar.</li></ol>
-      <p class="cost">● Gratis: cero Flow</p></div>
-  </div>
-</div></section>
-
-<section id="galeria"><div class="in">
-  <div class="eyebrow">Galería</div>
-  <h2 style="margin-top:14px">Formatos <em>en producción</em></h2>
-  <p class="sub">Cuadros reales de nuestros videos. Toca cualquiera para verlo grande. Cada formato es una plantilla maestra con reglas propias.</p>
-  <div class="gal">
-    <figure><span class="st on">En producción</span><button type="button"><img src="galeria/lupa-2.jpg" alt="Lupa: corte de piel con nervio en el agua" loading="lazy"></button><figcaption><h3>Lupa</h3><p>Explicativo 2,5D con objetos en macro, microdetalle y un solo color de énfasis. Ciencia y «sabías que». Flujo B.</p></figcaption></figure>
-    <figure><span class="st on">En producción</span><button type="button"><img src="galeria/lupa-3.jpg" alt="Lupa: imán atrayendo un clip" loading="lazy"></button><figcaption><h3>Lupa · otro tema</h3><p>Misma plantilla, otro tema. Así se mantiene la identidad del canal.</p></figcaption></figure>
-    <figure><span class="st on">En producción</span><button type="button"><img src="galeria/lamina-tecnica-2.jpg" alt="Lámina técnica: tres cuartas partes de la gasolina" loading="lazy"></button><figcaption><h3>Lámina técnica</h3><p>Diagramas en línea sobre fondo oscuro, con contadores y datos con fuente. Mecánica y física. Flujo B.</p></figcaption></figure>
-    <figure><span class="st on">En producción</span><button type="button"><img src="galeria/satelite-geografica-1.jpg" alt="Satélite: dos países, dos destinos" loading="lazy"></button><figcaption><h3>Satélite</h3><p>Cámara sobre el globo que viaja al lugar, con datos vivos y karaoke abajo. Geografía. Flujo B.</p></figcaption></figure>
-    <figure><span class="st on">En producción</span><button type="button"><img src="galeria/microdrama-1.jpg" alt="Microdrama: personaje con máscara frente a una mansión" loading="lazy"></button><figcaption><h3>Microdrama</h3><p>Serie vertical por capítulos con personajes animados y voz fija por personaje. Flujo A.</p></figcaption></figure>
-    <figure><span class="st on">En producción</span><button type="button"><img src="galeria/microdrama-2.jpg" alt="Microdrama: escena de sala con dos personajes" loading="lazy"></button><figcaption><h3>Microdrama · escena</h3><p>La ficha del personaje se copia textual en cada prompt para que no cambie entre escenas.</p></figcaption></figure>
-  </div>
-
-  <div class="gal-head"><h3>Pilotos y prototipos</h3><span>CONSTRUIDOS Y PROBADOS · LISTOS PARA ADAPTAR</span></div>
-  <div class="gal">
-    <figure><span class="st pl">Piloto</span><button type="button"><img src="galeria/radiografia-1.jpg" alt="Radiografía: plato con signos de pregunta" loading="lazy"></button><figcaption><h3>Radiografía</h3><p>Un objeto cotidiano que se abre por piezas en 3D, con cápsulas de datos. 70 a 80 s. Flujo C.</p></figcaption></figure>
-    <figure><span class="st pl">Piloto</span><button type="button"><img src="galeria/pizarra-1.jpg" alt="Pizarra: vas a 1.600 km/h sin moverte" loading="lazy"></button><figcaption><h3>Pizarra</h3><p>Un profesor de tiza dibuja todo a la vista: texto que se escribe y borrado real. Flujo B.</p></figcaption></figure>
-    <figure><span class="st pl">Piloto</span><button type="button"><img src="galeria/pizarra-2.jpg" alt="Pizarra: por qué Islandia se parte" loading="lazy"></button><figcaption><h3>Pizarra · otro tema</h3><p>Pizarra verde, trazo crema y dos acentos. Fuentes manuscritas.</p></figcaption></figure>
-    <figure><span class="st pl">Piloto</span><button type="button"><img src="galeria/stickman-ysi-1.jpg" alt="What if your brain was 10x faster" loading="lazy" class="wide"></button><figcaption><h3>¿Y si tú? · Stickman</h3><p>Stickman cinematográfico de «qué pasaría si…», en inglés y español, episodios de 5 minutos. Flujo D.</p></figcaption></figure>
-    <figure><span class="st pl">Piloto</span><button type="button"><img src="galeria/stickman-ysi-3.jpg" alt="Hoja de cuadros del episodio stickman" loading="lazy" class="sheet"></button><figcaption><h3>¿Y si tú? · hoja de cuadros</h3><p>Así se revisa un episodio completo antes de programarlo.</p></figcaption></figure>
-    <figure><span class="st">Prototipo</span><button type="button"><img src="galeria/stickman-mundo-1.jpg" alt="Ocho direcciones de stickman" loading="lazy" class="sheet"></button><figcaption><h3>Stickman · 8 direcciones</h3><p>Cine dorado, sombra china, neón, tinta, papel, riso, escala y cómic. Se elige una y se adapta.</p></figcaption></figure>
-    <figure><span class="st">Prototipo</span><button type="button"><img src="galeria/diorama-2.jpg" alt="Comparación lámina contra diorama" loading="lazy" class="sheet"></button><figcaption><h3>Diorama</h3><p>Lámina 2,5D sobre negro, con capas de profundidad y capa de vida. Comparación contra la lámina técnica.</p></figcaption></figure>
-    <figure><span class="st pl">Piloto</span><button type="button"><img src="galeria/atlas-survival-1.jpg" alt="Hoja de cuadros de la serie Piso 14" loading="lazy" class="sheet"></button><figcaption><h3>Piso 14 · supervivencia</h3><p>Personaje sobre escenas ilustradas y mapa de crisis. Mezcla de código y Flow.</p></figcaption></figure>
-    <figure><span class="st">Prototipo</span><button type="button"><img src="galeria/grabado-1.jpg" alt="Grabado: interior de catedral en estilo de época" loading="lazy"></button><figcaption><h3>Grabado</h3><p>Ilustración de época con narrador cronista. Historia.</p></figcaption></figure>
-    <figure><span class="st">Prototipo</span><button type="button"><img src="galeria/grabado-2.jpg" alt="Grabado: personaje caricatura sepia" loading="lazy"></button><figcaption><h3>Grabado · personaje</h3><p>El cronista en sepia, sobre un paisaje en ruinas.</p></figcaption></figure>
-    <figure><span class="st">Prototipo</span><button type="button"><img src="galeria/tinta-papel-1.jpg" alt="Tinta y papel: hoja de cuadros" loading="lazy" class="sheet"></button><figcaption><h3>Tinta y papel</h3><p>Pergamino y tinta para filosofía y estoicismo.</p></figcaption></figure>
-  </div>
-
-  <div class="gal-head"><h3>Modelos visuales nuevos</h3><span>LÁMINAS DE PROPUESTA · SE APRUEBAN ANTES DE PRODUCIR</span></div>
-  <p class="sub" style="margin-top:6px">Antes de producir, cada estilo se aprueba con una imagen así, nunca solo en texto. Esto es lo que vas a aprender a hacer para tu propio nicho.</p>
-  <div class="gal four">
-    <figure><button type="button"><img src="galeria/orden-viva-1.jpg" alt="Bioluminiscencia: por qué el corazón nunca se cansa" loading="lazy"></button><figcaption><h3>Bioluz</h3><p>Partículas que brillan sobre negro.</p></figcaption></figure>
-    <figure><button type="button"><img src="galeria/orden-viva-2.jpg" alt="Lámina de cristal: medusa" loading="lazy"></button><figcaption><h3>Cristal de museo</h3><p>Vidrio científico, tipografía editorial.</p></figcaption></figure>
-    <figure><button type="button"><img src="galeria/orden-energica-1.jpg" alt="Campos magnéticos de un imán" loading="lazy"></button><figcaption><h3>Campos</h3><p>Líneas de energía en movimiento.</p></figcaption></figure>
-    <figure><button type="button"><img src="galeria/orden-energica-2.jpg" alt="Osciloscopio de fósforo: energía de un rayo" loading="lazy"></button><figcaption><h3>Fósforo</h3><p>Pantalla de osciloscopio retro.</p></figcaption></figure>
-    <figure><button type="button"><img src="galeria/orden-loconstruimos-1.jpg" alt="Arcilla: lo que hay debajo de tu casa" loading="lazy"></button><figcaption><h3>Arcilla</h3><p>Maqueta en corte para construcción.</p></figcaption></figure>
-    <figure><button type="button"><img src="galeria/orden-loconstruimos-2.jpg" alt="Ladrillo: así se levanta una casa" loading="lazy"></button><figcaption><h3>Ladrillo</h3><p>Obra isométrica paso a paso.</p></figcaption></figure>
-    <figure><button type="button"><img src="galeria/orden-curiosamente-1.jpg" alt="Plastilina: por qué el altavoz tiembla" loading="lazy"></button><figcaption><h3>Plastilina</h3><p>Objetos 3D blandos y alegres.</p></figcaption></figure>
-    <figure><button type="button"><img src="galeria/orden-curiosamente-2.jpg" alt="Sticker: por qué el hielo flota" loading="lazy"></button><figcaption><h3>Sticker pop</h3><p>Fondo plano, gráfico de alto contraste.</p></figcaption></figure>
-  </div>
-</div></section>
-
-<section id="herramientas"><div class="in">
-  <div class="eyebrow">Herramientas</div>
-  <h2 style="margin-top:14px">Solo necesitas <em>Claude y una voz</em></h2>
-  <p class="sub">Todo lo demás lo instala y lo opera Claude por ti, gratis. Tú no tocas ffmpeg, ni código, ni plantillas. Los extras son para quien quiera ir más allá.</p>
-  <div class="tiers">
-    <div class="tier must"><div class="k">01 · Lo único que pagas</div>
-      <div class="trow"><b>Claude Code</b><span>Suscripción mensual. Es el equipo completo: guionista, diseñador, animador, editor, QA y publicador.</span><em class="paid">PAGO</em></div>
-      <div class="trow"><b>Una voz</b><span>Gemini TTS por Vertex AI, con el crédito de Google. Sirve cualquier TTS que te guste.</span><em class="paid">POR USO</em></div>
-      <div class="trow"><b>Imágenes con Flow</b><span>Modo Imagen: 0 créditos por imagen con el plan de Google. Prácticamente gratis.</span><em class="free">~GRATIS</em></div>
-    </div>
-    <div class="tier"><div class="k">02 · Lo que Claude opera gratis</div>
-      <div class="trow"><b>HyperFrames, Three.js, Blender</b><span>Animación y 3D por código. Claude escribe las escenas y renderiza.</span><em class="free">GRATIS</em></div>
-      <div class="trow"><b>ffmpeg + whisper</b><span>Montaje, mezcla a −14 LUFS, subtítulos alineados al guion.</span><em class="free">GRATIS</em></div>
-      <div class="trow"><b>Música y efectos</b><span>Generados en tu PC (ACE-Step, síntesis). Sin mensualidades.</span><em class="free">GRATIS</em></div>
-      <div class="trow"><b>Publicación y métricas</b><span>APIs oficiales de IG, FB y YouTube; panel local que lee tus cifras.</span><em class="free">GRATIS</em></div>
-    </div>
-    <div class="tier opt"><div class="k">03 · Extras opcionales</div>
-      <div class="trow"><b>Flow video (Omni / Veo)</b><span>Solo para el flujo A, series con personajes. Gasta créditos del plan.</span><em class="paid">OPCIONAL</em></div>
-      <div class="trow"><b>Google Drive</b><span>Archivo del original en la nube. Cualquier nube sirve.</span><em class="paid">OPCIONAL</em></div>
-      <div class="trow"><b>GPU dedicada</b><span>Acelera el 3D y la música local. Sin GPU también funciona, más lento.</span><em class="paid">OPCIONAL</em></div>
-    </div>
-  </div>
-  <p class="lic">LICENCIAS: solo uso comercial (MIT, Apache, BSD, CC0, CC-BY). Nada NC ni de investigación. Costos aproximados; confirma los precios vigentes antes de contratar.</p>
-</div></section>
-
-<section id="calidad"><div class="in">
-  <div class="eyebrow">Calidad y ahorro</div>
-  <h2 style="margin-top:14px">El candado <em>antes de publicar</em></h2>
-  <p class="sub">Ningún video sale sin pasar esta puerta. Un script la revisa y bloquea el envío si algo falla.</p>
-  <div class="gate">
-    <div class="term" aria-label="Reporte de QA de ejemplo">
-      <div class="h"><i></i><i></i><i></i> qa_visual · reel_final.mp4</div>
-      <div><span class="ok">✓</span> cuadros rotos ............ <span class="v">0 / 2 340</span></div>
-      <div><span class="ok">✓</span> primer cuadro (brillo) .... <span class="v">63</span> ≥ 40</div>
-      <div><span class="ok">✓</span> voz arranca en ............ <span class="v">0,21 s</span> ≤ 0,30</div>
-      <div><span class="ok">✓</span> loudness .................. <span class="v">−14,0 LUFS</span></div>
-      <div><span class="ok">✓</span> negro inicio / final ...... <span class="v">0 / 0</span></div>
-      <div><span class="ok">✓</span> eventos visuales / min .... <span class="v">31</span> ≥ 24</div>
-      <div><span class="ok">✓</span> tramo máx. sin cambio ..... <span class="v">3,8 s</span> ≤ 5</div>
-      <div><span class="ok">✓</span> ritmo 20 s ini vs fin ..... <span class="v">+6 %</span> dentro de ±15</div>
-      <div><span class="ok">✓</span> entrega ................... <span class="v">1080×1920 · 30 fps · CRF 18</span></div>
-      <div style="margin-top:10px"><span class="gold">▶ APROBADO</span> · listo para programar</div>
-    </div>
-    <div class="rules">
-      <div class="box"><h3>Ruteo de modelos</h3>
-        <ul class="list">
-          <li><b>Haiku</b> para lo mecánico: búsqueda, QA por script, renombrar, subir archivos, resúmenes.</li>
-          <li><b>Sonnet</b> solo si Haiku falla o hay que razonar.</li>
-          <li><b>Opus</b> solo para decidir y verificar al final.</li>
-          <li>La sesión principal decide y verifica. El volumen va a agentes baratos, en paralelo.</li>
-        </ul></div>
-      <div class="box"><h3>Orden de producción</h3>
-        <ul class="list">
-          <li>Un solo render pesado a la vez en toda la PC, con prioridad baja.</li>
-          <li>Se corrige sobre snapshots y se hace un único render final.</li>
-          <li>Nada pagado sin costo exacto y aprobación.</li>
-          <li>Registro de videos publicados para no repetir temas.</li>
-          <li>Si una tarea pasa de 15 a 20 % de retrabajo, sube de nivel.</li>
-        </ul></div>
-    </div>
-  </div>
-  <div class="two">
-    <div class="box"><h3>Errores que ya pagamos</h3>
-      <ul class="list bad">
-        <li>Copiar el último video en lugar de la plantilla maestra: el estilo deriva en cada copia.</li>
-        <li>Renderizar en 4K o hacer pruebas completas: horas perdidas sin ganancia.</li>
-        <li>Entregar la versión comprimida en vez del original.</li>
-        <li>Voz que se apaga a los 60 s. Se genera por bloques y se compara.</li>
-        <li>Subtítulos con lo que el reconocimiento «oyó» en vez del guion exacto.</li>
-      </ul></div>
-    <div class="box"><h3>Y los que ya no cometemos</h3>
-      <ul class="list bad">
-        <li>Primer cuadro vacío o fundido desde negro: se pierde el gancho.</li>
-        <li>Generar imágenes en modo video sin verificar: cobra créditos.</li>
-        <li>Personajes que cambian de apariencia entre escenas. La ficha se copia textual en cada prompt.</li>
-        <li>Proponer un estilo solo en texto. Primero una lámina visual para aprobar.</li>
-        <li>Acumular reglas viejas que contradicen las nuevas. Se reemplaza la regla.</li>
-      </ul></div>
-  </div>
-</div></section>
-
-<section id="asesoria"><div class="in">
-  <div class="eyebrow">Tu turno</div>
-  <h2 style="margin-top:14px">Cómo lo adaptas <em>a tu nicho</em></h2>
-  <div class="adapt">
-    <ol>
-      <li>Elige un nicho y analiza 5 cuentas que ya funcionen.</li>
-      <li>Escoge un flujo (A, B, C o D) y un formato de la galería. Construye tu plantilla maestra.</li>
-      <li>Define tu voz fija y tu paleta, y no las cambies.</li>
-      <li>Produce un piloto, pásalo por el candado de QA y publícalo.</li>
-      <li>A las 48 h compara con tu mediana y decide con una regla escrita.</li>
-    </ol>
-  </div>
-  <div class="offer">
-    <div class="price">$70<small>Pago único · Asesoría</small></div>
-    <ul class="list">
-      <li><b>El flujo completo</b> de ocho etapas, listo para replicar.</li>
-      <li><b>Los cuatro flujos</b> de producción y cuándo usar cada uno.</li>
-      <li><b>Qué pagar y qué no:</b> solo Claude y una voz; el resto lo opera Claude gratis.</li>
-      <li><b>El candado de QA</b> y la lista de errores que ya pagamos.</li>
-      <li><b>Método para elegir y adaptar</b> un formato a tu nicho.</li>
-    </ul>
-  </div>
-  <p style="margin:22px 0 0"><a href="https://www.instagram.com/fernandojvd/" target="_blank" rel="noopener" style="display:inline-block;background:var(--gold);color:var(--gold-ink);font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:1.5rem;letter-spacing:.03em;padding:14px 24px;text-decoration:none">Escríbeme FÁBRICA por DM en Instagram</a></p>
-  <p class="note">Es un modelo que puedes replicar, no una copia de nuestros canales. Los costos de plataformas de terceros son aproximados y cambian; verifícalos antes de contratar.</p>
-</div></section>
-
-<footer><div class="in">Fábrica de video con IA · Informe de asesoría · Octubre 2026</div></footer>
-
-<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Imagen ampliada">
-  <button type="button" class="x" id="lbx">CERRAR ✕</button>
-  <figure><img id="lbimg" src="" alt=""><figcaption id="lbcap"></figcaption></figure>
+<div class="agents">
+<div class="wrap">
+<p>Claude edita. Herramientas abiertas renderizan.</p>
+<div class="marq"><div class="track" id="mq"></div></div>
+</div>
 </div>
 
-<script>
-(function(){
-  var lb=document.getElementById('lb'),img=document.getElementById('lbimg'),cap=document.getElementById('lbcap');
-  function close(){lb.hidden=true;img.src='';}
-  document.querySelectorAll('.gal button').forEach(function(b){
-    b.addEventListener('click',function(){
-      var i=b.querySelector('img'),f=b.closest('figure'),h=f.querySelector('figcaption h3');
-      img.src=i.src;img.alt=i.alt;cap.textContent=(h?h.textContent+' · ':'')+i.alt;lb.hidden=false;
-    });
-  });
-  document.getElementById('lbx').addEventListener('click',close);
-  lb.addEventListener('click',function(e){if(e.target===lb)close();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!lb.hidden)close();});
-  /* videos: sonido por tarjeta (solo uno con audio a la vez), tap para pausar, pausa fuera de pantalla */
-  var vids=document.querySelectorAll('.vid');
-  vids.forEach(function(card){
-    var v=card.querySelector('video'),b=card.querySelector('.snd');
-    b.addEventListener('click',function(){
-      var on=v.muted;
-      vids.forEach(function(c){var vv=c.querySelector('video'),bb=c.querySelector('.snd');vv.muted=true;bb.textContent='🔇';bb.classList.remove('on');bb.setAttribute('aria-label','Activar sonido');});
-      if(on){v.muted=false;b.textContent='🔊';b.classList.add('on');b.setAttribute('aria-label','Silenciar');v.play().catch(function(){});}
-    });
-    v.addEventListener('click',function(){if(v.paused){v.play().catch(function(){});}else{v.pause();}});
-  });
-  if('IntersectionObserver' in window){
-    var vio=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting){v.play().catch(function(){});}else{v.pause();}});},{threshold:.15});
-    document.querySelectorAll('.vid video').forEach(function(v){vio.observe(v);});
-  }
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('lit');io.unobserve(e.target);}});},{threshold:.4});
-    document.querySelectorAll('.step').forEach(function(s){io.observe(s);});
-  } else {document.querySelectorAll('.step').forEach(function(s){s.classList.add('lit');});}
-})();
-</script>
+<section id="cifras" style="padding-top:64px">
+<div class="wrap who">
+<div class="rv">
+<div class="eyebrow"><i></i>Cifras reales · 28 días al 24-oct-2026</div>
+<div class="kbig">7,7 M<small>de vistas combinadas en Instagram y YouTube (7.716.850).</small></div>
+<div class="ppl">
+<div class="p"><span class="av">MT</span><div><b>Una sola cuenta de Instagram</b><small>@mecanicaterrestre</small></div><div class="n"><strong>5,0 M</strong><span>vistas</span></div></div>
+<div class="p"><span class="av">#1</span><div><b>Mejor reel: «Chimborazo»</b><small>3.684.528 vistas. Ese reel concentra buena parte de las vistas de Instagram.</small></div><div class="n"><strong>3,68 M</strong><span>vistas</span></div></div>
+<div class="p"><span class="av yt">YT</span><div><b>YouTube</b><small>Visualizaciones del canal en 28 días</small></div><div class="n"><strong>2,34 M</strong><span>visualizaciones</span></div></div>
+</div>
+<p class="fine">Datos de Instagram y YouTube Studio. Son resultados de nuestros canales, no una promesa: lo que logres depende de tu tema, tu constancia y tu contenido.</p>
+</div>
+<div class="rv">
+<figure class="studio"><img src="media/youtube-studio-28d.jpg" alt="Captura de YouTube Studio: 2.340.814 visualizaciones, 35,5 K horas y +10,6 K suscriptores en los últimos 28 días" loading="lazy" decoding="async" width="1083" height="855"><figcaption>Captura real de YouTube Studio · últimos 28 días (26 sept – 23 oct 2026)</figcaption></figure>
+<div class="ytrow"><div><b>2,34 M</b><span>visualizaciones</span></div><div><b>35,5 K</b><span>horas vistas</span></div><div><b>+10,6 K</b><span>suscriptores</span></div></div>
+</div>
+</div>
+</section>
 
+<section id="asesoria" style="padding-top:30px">
+<div class="wrap">
+<div class="bun rv">
+<div class="scene"><img src="media/box-asesoria.webp" alt="Caja de la asesoría: guías, kit de arranque, llamada cada lunes y comunidad privada" loading="lazy" decoding="async"></div>
+<div class="txt">
+<div class="eyebrow"><i></i>Recomendado · suscripción mensual</div>
+<h3>Asesoría + comunidad privada</h3>
+<div class="pr">90 USD / mes <span>mientras estés suscrito</span></div>
+<div class="callbox"><span class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="13" height="12" rx="2.5"/><path d="M16 10.5l5-3v9l-5-3"/></svg></span><div><b>Llamada en vivo cada lunes, de 1 a 2 horas</b><span>Revisamos tu trabajo y resolvemos tus dudas.</span></div></div>
+<ul>
+<li><b>Comunidad privada</b> de WhatsApp</li>
+<li><b>Actualizaciones periódicas de nichos y videos virales:</b> qué está funcionando ahora, para que elijas temas y formatos</li>
+<li><b>Las 3 guías</b> (Básico, Intermedio y Avanzado) con sus videos, desde el primer mes</li>
+<li><b>Kit de arranque</b> desde el primer mes: instalador, plantilla de video lista, voz gratuita local o de pago, control de calidad, 6 prompts y plan de 7 días</li>
+<li><b>Acompañamiento por mensaje</b> para adaptar el sistema a tu nicho</li>
+</ul>
+<a class="btn block" data-dm href="https://www.instagram.com/fernandojvd/" target="_blank" rel="noopener">Escríbeme FÁBRICA por DM</a>
+<p class="note">Escríbeme por DM, te confirmo precio y forma de pago, y te entrego el acceso.</p>
+</div>
+</div>
+
+<div class="cmpx">
+<div class="col rv"><h3>Packs de formato</h3><div class="pp">40 USD c/u · los tres por 60 USD · pago único</div>
+<ul><li>Lupa, Lámina técnica o Satélite, o los tres en el pack completo</li><li>Plantilla de HyperFrames renderizable, guion-modelo e instrucciones para que Claude la use</li><li>Voz Puck (Vertex) o la gratuita local, y control de calidad</li><li>El acceso se entrega por DM tras confirmar el pago</li><li class="no">Sin llamada, comunidad ni actualizaciones: es la entrega del formato</li></ul>
+<a class="btn line block" href="#packs">Ver los packs</a></div>
+<div class="col hot rv"><h3>Asesoría + comunidad</h3><div class="pp">90 USD / mes · recomendado</div>
+<ul><li>Llamada en vivo cada lunes, de 1 a 2 horas</li><li>Comunidad privada de WhatsApp</li><li>Actualizaciones de nichos y videos virales</li><li>Las 3 guías con sus videos y el kit de arranque, desde el primer mes</li><li>Acompañamiento por mensaje para tu nicho</li></ul>
+<a class="btn block" data-dm href="https://www.instagram.com/fernandojvd/" target="_blank" rel="noopener">Escríbeme FÁBRICA por DM</a></div>
+</div>
+</div>
+</section>
+
+<section id="packs" style="padding-top:40px">
+<div class="wrap">
+<div class="head rv">
+<div>
+<div class="eyebrow"><i></i>Pago único</div>
+<h2 class="h2" style="margin-top:14px">Elige tu <em>formato.</em></h2>
+<p class="sub" style="margin-top:12px">Un tema para explicar. Un video terminado. Llévate un formato o los tres juntos.</p>
+</div>
+</div>
+<div class="cards rv" id="cards"></div>
+<p class="sum rv">Cada pack suelto: <b>40 USD</b>. Los tres juntos: <b>60 USD</b> en lugar de 120 USD. El acceso se entrega por DM tras confirmar el pago. La llamada de los lunes, la comunidad y las actualizaciones van en la asesoría.</p>
+</div>
+</section>
+
+<section id="resultados" style="padding-top:40px">
+<div class="wrap">
+<div class="center rv">
+<div class="eyebrow" style="justify-content:center"><i></i>Lo más visto</div>
+<h2 class="h2" style="margin-top:14px">Elige un tema.<br>Mira lo que <em>salió.</em></h2>
+<p class="sub" style="margin-top:14px">Una frase de entrada. Un video terminado de salida. Nada filmado.</p>
+<p class="kpi"><b>3,68 M vistas</b> en un solo reel de Instagram, hecho con el formato Lámina técnica.<small>Ese reel concentra buena parte de las vistas de Instagram de la cuenta.</small></p>
+</div>
+<div class="show" style="margin-top:56px">
+<div class="rlist rv" id="rlist"></div>
+<div class="phone rv" id="sphone" style="margin:0 auto"></div>
+<div class="rcol rv">
+<div class="mtag" id="smod"><i></i></div>
+<div class="prompt"><small>EL TEMA</small><span id="ptxt"></span><i class="cur" style="width:2px"></i></div>
+<div class="big" id="sviews">—</div>
+<div class="bigl" id="sbigl"></div>
+<div class="src" id="ssrc"></div>
+<div class="buyrow"><a class="btn" id="sbuy" data-dm href="https://www.instagram.com/fernandojvd/" target="_blank" rel="noopener">Quiero este pack por DM</a><span class="price" id="sprice"></span></div>
+</div>
+</div>
+</div>
+</section>
+
+
+<section id="videos" style="padding-top:40px">
+<div class="wrap">
+<div class="center rv"><div class="eyebrow" style="justify-content:center"><i></i>En movimiento</div>
+<h2 class="h2" style="margin-top:14px">Así se ven <em>terminados.</em></h2>
+<p class="sub" style="margin-top:12px">Nueve videos reales de nuestros formatos. Arrancan solos y sin sonido; toca el altavoz para oír la voz.</p></div>
+<div class="vids rv"><div class="vid"><div class="vv"><video src="media/f-lupa.mp4" poster="media/galeria/lupa-2.jpg" muted autoplay loop playsinline preload="metadata"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button></div><div class="vc"><span class="k">Lupa</span><h3>Dedos arrugados</h3><p>Por qué la piel se arruga en el agua. Macro, corte transversal y karaoke.</p></div></div><div class="vid"><div class="vv"><video src="media/f-satelite.mp4" poster="media/galeria/satelite-geografica-1.jpg" muted autoplay loop playsinline preload="metadata"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button></div><div class="vc"><span class="k">Satélite</span><h3>Dos países, dos destinos</h3><p>Globo real, cámara que viaja y datos vivos con fuente.</p></div></div><div class="vid"><div class="vv"><video src="media/f-lamina.mp4" poster="media/galeria/lamina-tecnica-2.jpg" muted autoplay loop playsinline preload="metadata"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button></div><div class="vc"><span class="k">Lámina técnica</span><h3>Tres cuartas partes</h3><p>De tu gasolina no mueve el carro. Diagramas en línea con contadores.</p></div></div><div class="vid"><div class="vv"><video src="media/video/microdrama.mp4" poster="media/galeria/microdrama-2.jpg" muted autoplay loop playsinline preload="metadata"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button></div><div class="vc"><span class="k">Microdrama</span><h3>La máscara, E01</h3><p>Personajes con ficha fija y voz propia. Montaje previo, sin música final.</p></div></div><div class="vid"><div class="vv"><video src="media/video/pizarra.mp4" poster="media/galeria/pizarra-1.jpg" muted autoplay loop playsinline preload="metadata"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button></div><div class="vc"><span class="k">Pizarra</span><h3>1.600 km/h sin moverte</h3><p>La tiza dibuja todo a la vista: globo, reloj y cifras.</p></div></div><div class="vid"><div class="vv"><video src="media/video/radiografia.mp4" poster="media/galeria/radiografia-1.jpg" muted autoplay loop playsinline preload="metadata"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button></div><div class="vc"><span class="k">Radiografía</span><h3>El anillo del café</h3><p>Un plato que se abre en 3D para explicar la mancha.</p></div></div><div class="vid"><div class="vv"><video src="media/video/piso14.mp4" poster="media/galeria/atlas-survival-1.jpg" muted autoplay loop playsinline preload="metadata"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button></div><div class="vc"><span class="k">Piso 14</span><h3>Algo sube</h3><p>Serie de supervivencia con personaje y escenas ilustradas.</p></div></div><div class="vid"><div class="vv"><video src="media/lupa-iman.mp4" poster="media/lupa-iman.jpg" muted autoplay loop playsinline preload="metadata"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button></div><div class="vc"><span class="k">Lupa · otro tema</span><h3>El imán</h3><p>Misma plantilla, otro tema: la identidad del canal se mantiene.</p></div></div><div class="vid land"><div class="vv"><video src="media/video/ysi.mp4" poster="media/galeria/stickman-ysi-1.jpg" muted autoplay loop playsinline preload="metadata"></video><button type="button" class="snd" aria-label="Activar sonido">🔇</button></div><div class="vc"><span class="k">¿Y si tú? · Stickman</span><h3>What if your brain was 10× faster</h3><p>Stickman cinematográfico, 100 % por código. Versión en inglés; episodio de 5 minutos para YouTube.</p></div></div></div>
+</div>
+</section>
+
+<section id="galeria" style="padding-top:30px">
+<div class="wrap">
+<div class="center rv"><div class="eyebrow" style="justify-content:center"><i></i>Galería</div>
+<h2 class="h2" style="margin-top:14px">Formatos <em>en producción.</em></h2>
+<p class="sub" style="margin-top:12px">Cuadros reales de nuestros videos. Toca cualquiera para verlo grande. Los packs a la venta son Lupa, Lámina técnica y Satélite; el resto muestra hasta dónde llega el sistema.</p></div>
+<div class="gal-h"><h3>En producción</h3><span>Funcionando en nuestras cuentas</span></div>
+<div class="gal rv"><figure><span class="tg on">En producción</span><button type="button"><img src="media/galeria/lupa-2.jpg" alt="Lupa: corte de piel con nervio" loading="lazy" decoding="async"></button><figcaption><h4>Lupa</h4><p>Explicativo 2,5D con objetos macro y un solo color de énfasis.</p></figcaption></figure><figure><span class="tg on">En producción</span><button type="button"><img src="media/galeria/lamina-tecnica-2.jpg" alt="Lámina técnica: gasolina" loading="lazy" decoding="async"></button><figcaption><h4>Lámina técnica</h4><p>Diagramas en línea con contadores y datos con fuente.</p></figcaption></figure><figure><span class="tg on">En producción</span><button type="button"><img src="media/galeria/satelite-geografica-1.jpg" alt="Satélite: dos países" loading="lazy" decoding="async"></button><figcaption><h4>Satélite</h4><p>Cámara sobre el globo con datos vivos y karaoke.</p></figcaption></figure><figure><span class="tg on">En producción</span><button type="button"><img src="media/galeria/microdrama-1.jpg" alt="Microdrama: personaje con máscara" loading="lazy" decoding="async"></button><figcaption><h4>Microdrama</h4><p>Serie vertical con personajes animados y voz fija.</p></figcaption></figure><figure><span class="tg on">En producción</span><button type="button"><img src="media/galeria/lupa-3.jpg" alt="Lupa: imán atrayendo un clip" loading="lazy" decoding="async"></button><figcaption><h4>Lupa · otro tema</h4><p>Misma plantilla, otro tema: la identidad se mantiene.</p></figcaption></figure><figure><span class="tg on">En producción</span><button type="button"><img src="media/galeria/microdrama-2.jpg" alt="Microdrama: escena" loading="lazy" decoding="async"></button><figcaption><h4>Microdrama · escena</h4><p>La ficha del personaje se copia textual en cada prompt.</p></figcaption></figure></div>
+<div class="gal-h"><h3>Pilotos y prototipos</h3><span>Construidos y probados · listos para adaptar</span></div>
+<div class="gal rv"><figure><span class="tg">Piloto</span><button type="button"><img src="media/galeria/radiografia-1.jpg" alt="Radiografía" loading="lazy" decoding="async"></button><figcaption><h4>Radiografía</h4><p>Un objeto cotidiano que se abre por piezas en 3D.</p></figcaption></figure><figure><span class="tg">Piloto</span><button type="button"><img src="media/galeria/pizarra-1.jpg" alt="Pizarra" loading="lazy" decoding="async"></button><figcaption><h4>Pizarra</h4><p>Un profesor de tiza dibuja todo a la vista.</p></figcaption></figure><figure><span class="tg">Piloto</span><button type="button"><img src="media/galeria/pizarra-2.jpg" alt="Pizarra: Islandia" loading="lazy" decoding="async"></button><figcaption><h4>Pizarra · otro tema</h4><p>Pizarra verde, trazo crema y dos acentos.</p></figcaption></figure><figure><span class="tg">Piloto</span><button type="button"><img src="media/galeria/stickman-ysi-1.jpg" alt="¿Y si tú?" loading="lazy" decoding="async"></button><figcaption><h4>¿Y si tú? · Stickman</h4><p>«Qué pasaría si…», en inglés y español.</p></figcaption></figure><figure><span class="tg">Piloto</span><button type="button"><img src="media/galeria/atlas-survival-1.jpg" alt="Piso 14" loading="lazy" decoding="async"></button><figcaption><h4>Piso 14 · supervivencia</h4><p>Personaje sobre escenas ilustradas. Código y Flow.</p></figcaption></figure><figure><span class="tg">Prototipo</span><button type="button"><img src="media/galeria/stickman-mundo-1.jpg" alt="Stickman 8 direcciones" loading="lazy" decoding="async"></button><figcaption><h4>Stickman · 8 direcciones</h4><p>Se elige una dirección y se adapta.</p></figcaption></figure><figure><span class="tg">Prototipo</span><button type="button"><img src="media/galeria/diorama-2.jpg" alt="Diorama" loading="lazy" decoding="async"></button><figcaption><h4>Diorama</h4><p>Lámina 2,5D con capas de profundidad.</p></figcaption></figure><figure><span class="tg">Prototipo</span><button type="button"><img src="media/galeria/grabado-1.jpg" alt="Grabado" loading="lazy" decoding="async"></button><figcaption><h4>Grabado</h4><p>Ilustración de época con narrador cronista.</p></figcaption></figure><figure><span class="tg">Prototipo</span><button type="button"><img src="media/galeria/tinta-papel-1.jpg" alt="Tinta y papel" loading="lazy" decoding="async"></button><figcaption><h4>Tinta y papel</h4><p>Pergamino y tinta para filosofía.</p></figcaption></figure></div>
+<div class="gal-h"><h3>Modelos visuales nuevos</h3><span>Láminas de propuesta · se aprueban antes de producir</span></div>
+<div class="gal four rv"><figure><button type="button"><img src="media/galeria/orden-viva-1.jpg" alt="Bioluz" loading="lazy" decoding="async"></button><figcaption><h4>Bioluz</h4><p>Partículas que brillan sobre negro.</p></figcaption></figure><figure><button type="button"><img src="media/galeria/orden-viva-2.jpg" alt="Cristal" loading="lazy" decoding="async"></button><figcaption><h4>Cristal de museo</h4><p>Vidrio científico, tipografía editorial.</p></figcaption></figure><figure><button type="button"><img src="media/galeria/orden-energica-1.jpg" alt="Campos" loading="lazy" decoding="async"></button><figcaption><h4>Campos</h4><p>Líneas de energía en movimiento.</p></figcaption></figure><figure><button type="button"><img src="media/galeria/orden-energica-2.jpg" alt="Fósforo" loading="lazy" decoding="async"></button><figcaption><h4>Fósforo</h4><p>Osciloscopio retro.</p></figcaption></figure><figure><button type="button"><img src="media/galeria/orden-loconstruimos-1.jpg" alt="Arcilla" loading="lazy" decoding="async"></button><figcaption><h4>Arcilla</h4><p>Maqueta en corte.</p></figcaption></figure><figure><button type="button"><img src="media/galeria/orden-loconstruimos-2.jpg" alt="Ladrillo" loading="lazy" decoding="async"></button><figcaption><h4>Ladrillo</h4><p>Obra isométrica paso a paso.</p></figcaption></figure><figure><button type="button"><img src="media/galeria/orden-curiosamente-1.jpg" alt="Plastilina" loading="lazy" decoding="async"></button><figcaption><h4>Plastilina</h4><p>Objetos 3D blandos y alegres.</p></figcaption></figure><figure><button type="button"><img src="media/galeria/orden-curiosamente-2.jpg" alt="Sticker" loading="lazy" decoding="async"></button><figcaption><h4>Sticker pop</h4><p>Fondo plano de alto contraste.</p></figcaption></figure></div>
+</div>
+</section>
+
+<section id="herramientas" style="padding-top:30px">
+<div class="wrap">
+<div class="center rv"><div class="eyebrow" style="justify-content:center"><i></i>Herramientas</div>
+<h2 class="h2" style="margin-top:14px">Solo necesitas <em>Claude y una voz.</em></h2>
+<p class="sub" style="margin-top:12px">Lo demás lo instala y lo opera Claude por ti. Los extras son para quien quiera ir más allá.</p></div>
+<div class="tiers rv">
+<div class="tier must"><div class="k">01 · Lo único que pagas</div>
+<div class="trow"><b>Claude Code</b><span>Suscripción mensual. Es el equipo completo: guionista, diseñador, animador, editor y QA.</span><em class="">PAGO</em></div>
+<div class="trow"><b>Una voz</b><span>Gemini TTS por Vertex AI, o una voz gratuita local. Sirve cualquier TTS que te guste.</span><em class="">POR USO</em></div>
+<div class="trow"><b>Imágenes con Flow</b><span>Modo Imagen: 0 créditos por imagen con el plan de Google. Prácticamente gratis.</span><em class="free">~GRATIS</em></div>
+</div>
+<div class="tier"><div class="k">02 · Lo que Claude opera gratis</div>
+<div class="trow"><b>HyperFrames, Three.js, Blender</b><span>Animación y 3D por código. Claude escribe las escenas y renderiza.</span><em class="free">GRATIS</em></div>
+<div class="trow"><b>ffmpeg + whisper</b><span>Montaje, mezcla de audio y subtítulos alineados al guion.</span><em class="free">GRATIS</em></div>
+<div class="trow"><b>Música y efectos</b><span>Generados en tu PC. Sin mensualidades.</span><em class="free">GRATIS</em></div>
+</div>
+<div class="tier"><div class="k">03 · Extras opcionales</div>
+<div class="trow"><b>Flow video (Omni / Veo)</b><span>Solo para series con personajes. Gasta créditos del plan.</span><em class="">OPCIONAL</em></div>
+<div class="trow"><b>Google Drive</b><span>Archivo del original en la nube. Cualquier nube sirve.</span><em class="">OPCIONAL</em></div>
+<div class="trow"><b>GPU dedicada</b><span>Acelera el 3D. Sin GPU también funciona, más lento.</span><em class="">OPCIONAL</em></div>
+</div>
+</div>
+<p class="lic">Costos aproximados; confirma los precios vigentes antes de contratar. El uso de Claude se paga aparte con tu propia cuenta.</p>
+</div>
+</section>
+
+<div class="lb" id="lb"><img alt=""></div>
+
+<section style="padding-top:20px">
+<div class="wrap ba">
+<div class="rv">
+<div class="eyebrow"><i></i>Fácil de usar</div>
+<h2 class="h2" style="margin-top:14px">Edición,<br><em>hecha por Claude.</em></h2>
+<p class="sub" style="margin-top:16px">Abres Claude en la carpeta del pack y escribes el tema. Él investiga, escribe el guion, genera la voz, arma cada escena y renderiza. Sin programa de edición.</p>
+<p class="serif">Arrastra el control. Mismo tema, mismo segundo.</p>
+<a class="btn line" style="margin-top:22px" href="#packs">Ver packs ↗</a>
+</div>
+<div class="cmp rv" id="cmp">
+<span class="lbl l">Antes</span><span class="lbl r">Después</span>
+<div class="pane before"><div class="term"><div class="tbar"><i></i><i></i><i></i><span>~/pack-lupa — claude</span></div><div class="body">
+<div class="wel"><b>✻</b> Claude Code<br><span class="mu">cwd: ~/pack-lupa</span></div>
+<div class="inp"><span class="pr">&gt;</span> Video Lupa: por qué se arrugan los dedos</div>
+<div><span class="ac">●</span> Leo las instrucciones</div>
+<div class="mu">&nbsp;&nbsp;⎿ plantilla y guion-modelo</div>
+<div><span class="ac">●</span> Escribo el guion</div>
+<div><span class="ac">●</span> Genero la voz</div>
+<div><span class="ac">●</span> Armo las escenas</div>
+<div class="mu">&nbsp;&nbsp;⎿ HyperFrames</div>
+<div><span class="ac">●</span> Control de calidad</div>
+<div><span class="ac">●</span> Renderizo<span class="bar2"><i></i></span></div>
+<div style="margin-top:10px" class="mu">…y tú escribiste una frase.</div>
+</div></div></div>
+<div class="pane after" id="cmpafter"></div>
+<div class="hnd"><i>⇔</i></div>
+</div>
+</div>
+</section>
+
+<section style="padding-top:30px">
+<div class="wrap center">
+<h2 class="h2 rv">Haz uno. Luego haz el <em>siguiente.</em></h2>
+<div class="steps" style="text-align:left">
+<div class="st rv"><i>01</i><h3>Trae tu material</h3><p>Un tema, una idea o un guion. No necesitas filmar nada.</p></div>
+<div class="st rv"><i>02</i><h3>Di lo que quieres</h3><p>Una instrucción en palabras simples. Claude planifica, construye y revisa el video.</p></div>
+<div class="st rv"><i>03</i><h3>Hazlo tuyo</h3><p>El video terminado y los archivos del proyecto quedan juntos. Repite el formato cuando quieras.</p></div>
+</div>
+</div>
+</section>
+
+<section id="guias" style="padding-top:30px">
+<div class="wrap">
+<div class="center rv">
+<div class="eyebrow" style="justify-content:center"><i></i>Sin pagar nada</div>
+<h2 class="h2" style="margin-top:14px">Guías <em>gratis.</em></h2>
+<p class="sub" style="margin-top:12px">Tres niveles, en orden. Empieza por el primero y avanza cuando lo tengas.</p>
+</div>
+<div class="guias">
+<a class="gcard rv" href="guias/basico/"><span class="num">1</span><span class="lv"><i class="on"></i><i></i><i></i></span><small>Básico</small><h3>Empieza aquí</h3><p>El primer paso para que Claude te arme un video.</p><span class="go">Abrir la guía →</span></a>
+<a class="gcard rv" href="guias/intermedio/"><span class="num">2</span><span class="lv"><i class="on"></i><i class="on"></i><i></i></span><small>Intermedio</small><h3>Haz videos que se vean bien</h3><p>Lo que separa un video armado de uno que se ve bien.</p><span class="go">Abrir la guía →</span></a>
+<a class="gcard rv" href="guias/avanzado/"><span class="num">3</span><span class="lv"><i class="on"></i><i class="on"></i><i class="on"></i></span><small>Avanzado</small><h3>Convierte esto en un sistema</h3><p>De un video suelto a una producción que se repite.</p><span class="go">Abrir la guía →</span></a>
+</div>
+<p class="gall rv"><a class="btn line" href="guias/">Ver todas las guías</a></p>
+</div>
+</section>
+
+<section id="como" style="padding-top:30px">
+<div class="wrap">
+<div class="center rv"><h2 class="h2">Qué <em>incluye</em> cada pack</h2></div>
+<div class="incg">
+<div class="incl rv">
+<div class="st"><i>PLANTILLA</i><h3>HyperFrames renderizable</h3><p>La composición base del formato, lista para renderizar con tu tema.</p></div>
+<div class="st"><i>GUION-MODELO</i><h3>Un ejemplo que seguir</h3><p>Un guion con la estructura del formato para que Claude escriba el tuyo.</p></div>
+<div class="st"><i>INSTRUCCIONES</i><h3>Para Claude</h3><p>Lo que Claude necesita para usar la plantilla, con voz Puck (Vertex) o la gratuita local, y control de calidad antes de renderizar.</p></div>
+</div>
+<div class="tree rv" aria-label="Contenido de un pack">
+<div class="tbar"><i></i><i></i><i></i><span>pack-lupa.zip</span></div>
+<pre><b>pack-lupa/</b>
+├─ <em>INSTRUCCIONES.md</em>    <u># para Claude</u>
+├─ guion-modelo.md
+├─ <b>plantilla/</b>
+│  └─ index.html        <u># HyperFrames</u>
+├─ <b>voz/</b>                 <u># Puck (Vertex) o local</u>
+└─ control-calidad.md</pre>
+</div>
+</div>
+</div>
+</section>
+
+<section id="comprar" style="padding-top:30px">
+<div class="wrap center">
+<h2 class="h2 rv">Cómo se <em>compra.</em></h2>
+<p class="sub rv" style="margin-top:12px">Todavía no hay pasarela de pago: todo se cierra por mensaje directo en Instagram.</p>
+<div class="steps" style="text-align:left">
+<div class="st rv"><i>01</i><h3>Escríbeme por DM</h3><p>«FÁBRICA» si quieres la asesoría, o el nombre del pack que te interesa.</p></div>
+<div class="st rv"><i>02</i><h3>Te confirmo precio y pago</h3><p>Te digo el precio y la forma de pago disponible.</p></div>
+<div class="st rv"><i>03</i><h3>Te entrego el acceso por DM</h3><p>Cuando confirmo el pago, te envío el pack o el acceso a la asesoría y a la comunidad.</p></div>
+</div>
+<a class="btn rv" style="margin-top:20px" data-dm href="https://www.instagram.com/fernandojvd/" target="_blank" rel="noopener">Escríbeme FÁBRICA por DM</a>
+</div>
+</section>
+
+<section id="faq" style="padding-top:30px">
+<div class="wrap">
+<h2 class="h2 center rv">Preguntas</h2>
+<div class="faq rv">
+<details><summary>¿Qué necesito?</summary><p>Claude y una voz: la gratuita local o Puck por Vertex. Más un tema o una idea. El uso de Claude se paga aparte con tu propia cuenta.</p></details>
+<details><summary>¿Qué diferencia hay entre un pack y la asesoría?</summary><p>Un pack (40 USD, o 60 USD los tres) es la entrega de un formato visual (Lupa, Lámina técnica o Satélite): plantilla de HyperFrames renderizable, guion-modelo e instrucciones para Claude, con pago único. La asesoría (90 USD / mes) incluye la llamada semanal de los lunes, la comunidad privada de WhatsApp, actualizaciones de nichos y videos virales, acompañamiento por mensaje para adaptar el sistema a tu nicho y, desde el primer mes, las 3 guías con sus videos y el kit de arranque. La llamada, la comunidad y las actualizaciones no vienen con los packs.</p></details>
+<details><summary>¿Es una suscripción?</summary><p>Sí, la asesoría cuesta 90 USD / mes. Mientras estés suscrito sigues con la llamada de los lunes, la comunidad y las actualizaciones. Los packs, en cambio, se pagan una sola vez.</p></details>
+<details><summary>¿Puedo cancelar?</summary><p>Puedes dejar de renovar cuando quieras; hablamos por DM.</p></details>
+<details><summary>¿Qué pasa en la llamada de los lunes?</summary><p>Es una llamada semanal en vivo, cada lunes, de 1 a 2 horas. Revisamos tu trabajo para mejorarlo y resolvemos las dudas que tengas. El link de la llamada se comparte en la comunidad.</p></details>
+<details><summary>¿Necesito saber editar video?</summary><p>No. No hay programa de edición. Tú das el tema y apruebas el resultado.</p></details>
+<details><summary>¿Qué es HyperFrames?</summary><p>El motor de código abierto que convierte la plantilla, hecha en HTML, en un video MP4.</p></details>
+<details><summary>¿Publica por mí?</summary><p>No. Los videos terminados quedan en una carpeta, con el guion. Los subes desde tu celular o tu computadora.</p></details>
+<details><summary>¿Qué trae cada formato?</summary><p>Lupa: explicativo 2,5D con objetos macro y microdetalle, un solo color de energía, karaoke con caja de selección y cámara continua. Lámina técnica: diagramas en línea sobre fondo oscuro, con contadores y datos con fuente (mecánica, física, comparaciones). Satélite: globo con cámara que viaja al lugar, franja de datos vivos y karaoke, para geografía.</p></details>
+<details><summary>¿Cuándo recibo el pack?</summary><p>Te entrego el acceso por DM cuando confirmo el pago.</p></details>
+<details><summary>¿Cómo se paga?</summary><p>Por DM en Instagram (@fernandojvd): te confirmo precio y forma de pago, y te entrego el acceso.</p></details>
+<details><summary>¿Las guías gratis son gratis de verdad?</summary><p>Sí. Las tres están abiertas en la sección Guías gratis, sin registro.</p></details>
+</div>
+</div>
+</section>
+
+<section style="padding-top:20px">
+<div class="wrap">
+<div class="center rv"><h2 class="h2">Los tres formatos, <em>en movimiento.</em></h2><p class="sub" style="margin-top:12px">El reel de Chimborazo y demos reales de Lupa, Lámina técnica y Satélite.</p></div>
+</div>
+<div class="car rv"><div class="track" id="car"></div></div>
+</section>
+
+<section class="fin">
+<div class="wrap fing">
+<div class="rv">
+<div class="eyebrow"><i></i>Tu siguiente video</div>
+<h2 class="h2" style="margin-top:14px">Empieza con <em>una frase.</em></h2>
+<p class="sub" style="margin-top:16px">Packs de formato a 40 USD (los tres por 60 USD), o la asesoría a 90 USD / mes con llamada en vivo cada lunes y comunidad privada. Escríbeme por DM, te confirmo precio y forma de pago, y te entrego el acceso.</p>
+<div class="finb"><a class="btn" data-dm href="https://www.instagram.com/fernandojvd/" target="_blank" rel="noopener">Escríbeme FÁBRICA por DM</a><a class="btn line" href="#packs">Ver cada pack</a></div>
+</div>
+<div class="finimg rv"><img src="media/box-bundle.webp" alt="Los tres packs: Lupa, Lámina técnica y Satélite" loading="lazy" decoding="async"></div>
+</div>
+</section>
+
+<footer>
+<div class="wrap fg">
+<div><a class="logo" href="#top"><b>▸</b> Fábrica de Video con IA</a><p>Formatos de video para Claude, renderizados con HyperFrames.</p></div>
+<div class="fcol"><b>Oferta</b><a href="#asesoria">Asesoría</a><a href="#packs">Packs</a><a href="#guias">Guías gratis</a></div>
+<div class="fcol"><b>Canales</b><a href="https://www.instagram.com/mecanicaterrestre/" target="_blank" rel="noopener">@mecanicaterrestre</a><a href="https://www.instagram.com/mecanicageografica/" target="_blank" rel="noopener">@mecanicageografica</a></div>
+<div class="fcol"><b>Contacto</b><a href="https://www.instagram.com/fernandojvd/" target="_blank" rel="noopener">DM en Instagram</a><a href="#faq">Preguntas</a></div>
+</div>
+<div class="wrap fl"><span>© 2026 Fábrica de Video con IA</span><span>Los resultados de cada canal dependen de su contenido. No prometemos ingresos.</span></div>
+</footer>
+
+<script>
+/* ============ CONFIG: solo se edita aquí ============ */
+const CFG={
+  dm:'https://www.instagram.com/fernandojvd/',
+  precios:{lupa:40,lamina:40,satelite:40,bundle:60,asesoria:90} // asesoría = por mes
+};
+const MODELOS=[
+  {id:'lupa',nombre:'Lupa',tag:'Formato 1',desc:'Explicativo 2,5D: objetos macro con microdetalle, karaoke y cámara continua.',prompt:'Video Lupa: cómo funciona una pantalla táctil',clip:'f-lupa'},
+  {id:'lamina',nombre:'Lámina técnica',tag:'Formato 2',desc:'Diagramas en línea sobre fondo oscuro, con contadores y datos con fuente.',prompt:'Video Lámina técnica: cuánta gasolina mueve de verdad el carro',clip:'f-lamina'},
+  {id:'satelite',nombre:'Satélite',tag:'Formato 3',desc:'Geografía: globo con cámara que viaja, datos vivos y karaoke.',prompt:'Video Satélite: dos países vecinos, dos destinos',clip:'f-satelite'}
+];
+/* Reel real (cifra verificada en curiosidades/_trabajo/metricas_2026-10-24.csv) + demos reales de cada formato */
+const R=(slug,titulo,modelo,prompt,views,url)=>({slug,titulo,modelo,prompt,views,url,src:`media/${slug}.mp4`,poster:`media/${slug}.jpg`});
+const REELS=[
+  R('mt-chimborazo','Chimborazo','lamina','Video Lámina técnica: el Chimborazo, el punto más cercano al espacio','3,68 M','https://www.instagram.com/reel/Dea9hikuwxb/'), // 3.684.528
+  R('f-lamina','Tres cuartas partes','lamina','Video Lámina técnica: cuánta gasolina mueve de verdad el carro',null),
+  R('f-satelite','Dos países, dos destinos','satelite','Video Satélite: dos países vecinos, dos destinos',null),
+  R('f-lupa','Dedos arrugados','lupa','Video Lupa: por qué se arrugan los dedos en el agua',null),
+  R('lupa-iman','Imán','lupa','Video Lupa: cómo funciona un imán',null)
+];
+/* ===================================================== */
+const $=s=>document.querySelector(s);
+const usd=n=>n+' USD';
+const M=id=>MODELOS.find(m=>m.id===id);
+const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* marquesina */
+const AG=['Claude Code','HyperFrames','Node.js','ffmpeg'];
+const ic='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M8 10l3 2-3 2M13 15h3"/></svg>';
+$('#mq').innerHTML=[...AG,...AG,...AG,...AG,...AG,...AG].map(n=>`<span>${ic}${n}</span>`).join('');
+
+/* reproductor: video si existe el archivo, si no, marcador */
+function media(host,r,fallback){
+  host.innerHTML='';
+  if(r&&r.src){const v=document.createElement('video');v.src=r.src;if(r.poster)v.poster=r.poster;v.muted=true;v.loop=true;v.playsInline=true;v.autoplay=!RM;v.setAttribute('playsinline','');
+    v.onerror=()=>{host.innerHTML='<div class="ph">'+fallback+'</div>'};host.appendChild(v);if(!RM&&v.play)v.play().catch(()=>{});}
+  else host.innerHTML='<div class="ph">'+fallback+'</div>';
+}
+const reelDe=id=>REELS.find(r=>r.modelo===id);
+const clipDe=id=>{const c=M(id).clip;return {src:`media/${c}.mp4`,poster:`media/${c}.jpg`}};
+
+/* hero con pestañas */
+let hi=0,ht,tt;
+const tabs=$('#tabs');
+const TIC={lupa:'<circle cx="10" cy="10" r="6"/><path d="M14.5 14.5L20 20"/>',lamina:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M6 16l4-6 3 4 2-3 3 5"/>',satelite:'<circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c3 3 3 13 0 16M12 4c-3 3-3 13 0 16"/>'};
+tabs.innerHTML=MODELOS.map((m,i)=>`<button class="tab" role="tab" data-i="${i}"><svg viewBox="0 0 24 24">${TIC[m.id]}</svg>${m.nombre}</button>`).join('');
+function typeIn(el,txt){clearTimeout(tt);if(RM){el.textContent=txt;return}let k=0;(function s(){el.textContent=txt.slice(0,++k);if(k<txt.length)tt=setTimeout(s,28)})()}
+function hero(i){hi=i;[...tabs.children].forEach((b,k)=>{b.classList.remove('on');b.setAttribute('aria-selected',k===i);void b.offsetWidth;if(k===i)b.classList.add('on')});
+  const m=MODELOS[i];media($('#hphone'),clipDe(m.id),m.nombre);
+  $('#hphone').insertAdjacentHTML('beforeend','<span class="snd" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9l4 6m0-6l-4 6"/></svg></span>');
+  $('#hphone').insertAdjacentHTML('beforeend','<span class="vbadge">Demo<i>'+m.nombre+'</i></span>');
+  $('#hmod').textContent=m.tag;typeIn($('#hcmd'),m.prompt);
+  const p=$('#pipe');p.classList.remove('run');void p.offsetWidth;p.classList.add('run');
+  clearTimeout(ht);if(!RM)ht=setTimeout(()=>hero((i+1)%MODELOS.length),7000)}
+tabs.addEventListener('click',e=>{const b=e.target.closest('.tab');if(b)hero(+b.dataset.i)});
+$('#next').onclick=()=>hero((hi+1)%MODELOS.length);
+hero(0);
+
+/* tarjetas: asesoría (recomendada) + 3 packs; render 3D real en media/box-*.webp */
+const dmA=(txt,cls='btn block')=>`<a class="${cls}" data-dm href="${CFG.dm}" target="_blank" rel="noopener">${txt}</a>`;
+const scene=(k,alt,extra='')=>`<div class="scene">${extra}<img src="media/box-${k}.webp" alt="${alt}" loading="lazy" decoding="async"></div>`;
+const suma=CFG.precios.lupa+CFG.precios.lamina+CFG.precios.satelite, ahorro=suma-CFG.precios.bundle;
+$('#cards').innerHTML=
+ `<div class="card rec"><span class="tagb star">★ Más conveniente</span>${scene('bundle-card','Caja del pack completo: Lupa, Lámina técnica y Satélite',`<span class="tagb">Ahorras ${usd(ahorro)}</span>`)}
+  <div class="info"><small>Los tres formatos juntos</small><h3>Pack completo</h3><p>Lupa, Lámina técnica y Satélite en una sola compra.</p><span class="price">${usd(CFG.precios.bundle)}<s>${usd(suma)}</s><span>pago único</span></span></div>${dmA('Quiero el pack completo por DM')}</div>`+
+ MODELOS.map(m=>`<div class="card">${scene(m.id,'Caja del pack '+m.nombre,`<span class="tagb">${m.tag}</span>`)}
+  <div class="info"><small>Pack · ${m.tag}</small><h3>${m.nombre}</h3><p>${m.desc}</p><span class="price">${usd(CFG.precios[m.id])}<span>pago único</span></span></div>${dmA('Quiero este pack por DM')}</div>`).join('');
+
+/* vitrina */
+let si=0;
+function vitrina(){
+  const L=$('#rlist');
+  L.innerHTML=REELS.map((r,i)=>`<button class="ritem ${i===si?'on':''}" data-i="${i}"><em>${String(i+1).padStart(2,'0')}</em>${r.titulo}<span>${r.views?r.views+' vistas':'demo'}</span></button>`).join('');
+  const r=REELS[si];media($('#sphone'),r,r.titulo);
+  $('#smod').innerHTML='<i></i>Formato '+M(r.modelo).nombre;
+  $('#ptxt').textContent=r.prompt;
+  const sv=$('#sviews');sv.className='big'+(r.views?'':' na');sv.textContent=r.views?r.views:M(r.modelo).nombre;
+  $('#sbigl').innerHTML=r.views?'vistas en <b>Instagram</b> al 24-oct-2026, en nuestra cuenta':'Demo real del formato';
+  $('#ssrc').innerHTML=r.url?`<a href="${r.url}" target="_blank" rel="noopener">Míralo en Instagram ↗</a>`:'';
+  $('#sprice').textContent='Pack '+M(r.modelo).nombre+' · '+usd(CFG.precios[r.modelo]);
+}
+$('#rlist').addEventListener('click',e=>{const b=e.target.closest('.ritem');if(b){si=+b.dataset.i;vitrina()}});
+vitrina();
+
+/* antes/después */
+media($('#cmpafter'),clipDe('lupa'),'Lupa');
+(function(){const c=$('#cmp');let d=false;
+ const set=x=>{const r=c.getBoundingClientRect();c.style.setProperty('--pos',Math.max(4,Math.min(96,(x-r.left)/r.width*100))+'%')};
+ c.addEventListener('pointerdown',e=>{d=true;c.setPointerCapture(e.pointerId);set(e.clientX)});
+ c.addEventListener('pointermove',e=>{if(d)set(e.clientX)});
+ c.addEventListener('pointerup',()=>d=false)})();
+
+/* carrusel: pósters; el video entra al pasar el cursor */
+const cs=REELS.map(r=>({...r,cap:(r.views?r.views+' vistas · ':'Demo · ')+M(r.modelo).nombre}));
+const loop=[...cs,...cs,...cs,...cs];
+$('#car').innerHTML=loop.map(r=>`<div class="cwrap"><div class="rc">${r.views?`<span class="badge">${r.views} vistas</span>`:''}<img src="${r.poster}" alt="${r.titulo}" loading="lazy" decoding="async"></div><div class="rcap">${r.titulo}<small>${r.cap}</small></div></div>`).join('');
+document.querySelectorAll('#car .rc').forEach((el,i)=>{const r=loop[i];
+ el.addEventListener('pointerenter',()=>{if(!el.querySelector('video')&&!RM){const v=document.createElement('video');Object.assign(v,{src:r.src,muted:true,loop:true,playsInline:true,autoplay:true});el.querySelector('img').after(v);v.play().catch(()=>{})}},{once:true})});
+
+/* aparición al hacer scroll: solo con IntersectionObserver y sin reduced-motion */
+(function(){
+ if(!('IntersectionObserver' in window)||RM)return;
+ document.documentElement.classList.add('js-rv');
+ document.querySelectorAll('.steps .st.rv').forEach((el,i)=>el.style.setProperty('--dl',(i%3)*.12+'s'));
+ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:0});
+ document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+})();
+
+/* videos terminados: sonido y pausa; galería: lightbox */
+document.querySelectorAll('.vid').forEach(d=>{const v=d.querySelector('video'),b=d.querySelector('.snd');
+ b.addEventListener('click',e=>{e.stopPropagation();v.muted=!v.muted;b.textContent=v.muted?'🔇':'🔊';if(!v.muted){document.querySelectorAll('.vid video').forEach(o=>{if(o!==v){o.muted=true;o.parentNode.querySelector('.snd').textContent='🔇'}})}});
+ v.addEventListener('click',()=>v.paused?v.play():v.pause())});
+(function(){const lb=document.getElementById('lb'),im=lb.querySelector('img');
+ document.querySelectorAll('.gal figure button').forEach(b=>b.addEventListener('click',()=>{const i=b.querySelector('img');im.src=i.src;im.alt=i.alt;lb.classList.add('on')}));
+ lb.addEventListener('click',()=>lb.classList.remove('on'));
+ addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('on')})})();
+</script>
 </body>
 </html>
