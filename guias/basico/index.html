@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nivel 1 · Empieza aquí</title>
+<meta name="description" content="Guía gratuita para producir tu primer video con IA: qué es, qué necesitas, las 8 etapas, los 5 errores de principiante y un glosario.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://teamtiposve-boop.github.io/fabrica-video-ia/guias/basico/">
+<meta property="og:title" content="Nivel 1 · Básico: Empieza aquí">
+<meta property="og:description" content="Cómo producir video con IA sin perderte: la idea central, las 8 etapas y los errores que más cuestan.">
+<meta property="og:image" content="https://teamtiposve-boop.github.io/fabrica-video-ia/galeria/lupa-2.jpg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Instrument+Serif:ital@1&family=Public+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0a0b0e; --bg2:#101218; --panel:#151821; --panel2:#1b1f2a; --line:#262b38; --line2:#343a4a;
+  --fg:#f1efe8; --muted:#9aa1b2; --dim:#6b7283;
+  --gold:#ffb02e; --gold2:#ff7a1a; --gold-ink:#2a1c08; --gold-glow:rgba(255,176,46,.28);
+  --ok:#5fd39a; --bad:#ff7a6b; --cyan:#67d4ff; --violet:#b48cff;
+  --f-display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
+  --f-serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+  --f-body:'Public Sans',system-ui,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.6;overflow-x:hidden}
+.in{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);text-transform:uppercase;line-height:.92;margin:0;text-wrap:balance;letter-spacing:.01em}
+h2{font-size:clamp(2.3rem,7vw,3.8rem);font-weight:900}
+h3{font-size:1.45rem;font-weight:700}
+p{margin:14px 0 0;max-width:66ch}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--gold);flex:0 0 auto}
+.sub{color:var(--muted);font-size:1.05rem}
+em{font-family:var(--f-serif);font-style:italic;text-transform:none;letter-spacing:0;color:var(--gold);font-weight:400}
+h1 em,h2 em{font-size:1.02em}
+section{padding-block:64px}
+section+section{border-top:1px solid var(--line)}
+a{color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+.bar{position:fixed;top:0;left:0;right:0;height:3px;z-index:20}
+.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transform:scaleX(0);transform-origin:left}
+.nav{position:sticky;top:0;z-index:9;background:rgba(10,11,14,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .in{display:flex;align-items:center;gap:14px;height:52px}
+.nav .brand{font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:1.1rem;letter-spacing:.04em;white-space:nowrap}
+.nav .brand b{color:var(--gold)}
+.nav a.back{margin-left:auto;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-ink);background:var(--gold);font-weight:700;text-decoration:none;padding:6px 10px;white-space:nowrap;border-radius:3px}
+
+.hero{padding-block:56px 48px;background:radial-gradient(1000px 420px at 15% -10%,rgba(255,176,46,.14),transparent 60%),var(--bg)}
+.hero h1{font-size:clamp(3.4rem,13vw,8rem);font-weight:900;margin-top:16px}
+.hero h1 .l2{display:block}
+.lead{font-size:clamp(1.1rem,2.2vw,1.3rem);color:var(--muted);max-width:52ch;margin-top:22px;line-height:1.5}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.chips span{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line2);background:var(--panel);padding:5px 10px;color:var(--muted)}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin-top:22px}
+.toc a{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-decoration:none;border:1px solid var(--line);padding:8px 10px;background:var(--panel)}
+.toc a:hover{border-color:var(--gold);color:var(--gold)}
+
+.box{background:var(--panel);border:1px solid var(--line);padding:20px;min-width:0}
+.box h3{margin-bottom:12px}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.list li{padding-left:22px;position:relative;color:var(--muted);font-size:.95rem}
+.list li b{color:var(--fg)}
+.list li::before{content:"";position:absolute;left:0;top:.7em;width:10px;height:2px;background:var(--ok)}
+.list.bad li::before{background:var(--bad)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:30px}
+.callout{margin-top:28px;border:1px solid var(--gold);background:linear-gradient(135deg,rgba(255,176,46,.1),rgba(255,122,26,.03));padding:20px 22px}
+.callout p{margin:0;max-width:none}
+.lic{margin-top:14px;font-family:var(--f-mono);font-size:.76rem;color:var(--dim);max-width:none;line-height:1.6}
+
+.pipe{list-style:none;margin:34px 0 0;padding:0;display:grid;counter-reset:p;position:relative}
+.pipe::before{content:"";position:absolute;left:19px;top:20px;bottom:20px;width:2px;background:var(--line2)}
+.pipe li{counter-increment:p;position:relative;padding:0 0 22px 58px;min-width:0}
+.pipe li:last-child{padding-bottom:0}
+.pipe li::before{content:counter(p);position:absolute;left:0;top:0;width:40px;height:40px;display:grid;place-items:center;font-family:var(--f-display);font-weight:900;font-size:1.4rem;color:var(--gold);background:var(--bg);border:2px solid var(--gold);transition:background-color .4s ease,color .4s ease}
+.pipe li.on::before{background:var(--gold);color:var(--gold-ink)}
+.pipe h3{font-size:1.5rem;padding-top:8px}
+.pipe .row{display:grid;gap:8px;margin-top:8px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.pipe .row div{border:1px solid var(--line);background:var(--panel);padding:10px 12px;font-size:.9rem;color:var(--muted);line-height:1.45}
+.pipe .row b{display:block;font-family:var(--f-mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;font-weight:700}
+.pipe .row div.cl b{color:var(--cyan)}
+
+.lv{margin-top:32px;display:grid;gap:10px}
+.lv .tier{border:1px solid var(--line);background:var(--panel);padding:18px 18px 16px;border-left:4px solid var(--c);min-width:0}
+.lv .tier.t1{--c:var(--gold);border-color:var(--gold);box-shadow:0 0 0 1px var(--gold-glow)}
+.lv .tier.t2{--c:var(--ok);margin-left:clamp(0px,3vw,28px)}
+.lv .tier.t3{--c:var(--dim);margin-left:clamp(0px,6vw,56px);opacity:.9}
+.lv .k{font-family:var(--f-mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--c)}
+.lv h3{margin-top:6px}
+.lv p{margin:8px 0 0;font-size:.93rem;color:var(--muted)}
+.lv .tag{display:inline-block;margin-top:10px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--c);color:var(--c);padding:3px 8px}
+
+.chk{margin-top:30px;border:1px solid var(--line2);background:var(--panel);padding:20px}
+.chk-top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.chk-top .pct{font-family:var(--f-display);font-weight:900;font-size:2.4rem;color:var(--gold);line-height:1;margin-top:6px}
+.meter{height:8px;background:var(--bg);border:1px solid var(--line2);margin:12px 0 4px}
+.meter i{display:block;height:100%;width:100%;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+.chk ol{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:8px}
+.chk label{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start;padding:12px;border:1px solid var(--line);background:var(--bg2);cursor:pointer;min-height:48px}
+.chk label:hover{border-color:var(--line2)}
+.chk input{appearance:none;-webkit-appearance:none;width:24px;height:24px;margin:0;border:2px solid var(--line2);background:var(--bg);cursor:pointer;display:grid;place-items:center}
+.chk input:checked{background:var(--gold);border-color:var(--gold)}
+.chk input:checked::after{content:"";width:6px;height:11px;border:solid var(--gold-ink);border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.chk span{color:var(--fg);font-size:.95rem;line-height:1.45}
+.chk span small{display:block;color:var(--muted);font-size:.82rem;margin-top:2px}
+.chk label:has(input:checked) span{color:var(--dim)}
+.btn-ghost{all:unset;cursor:pointer;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line2);padding:10px 14px}
+.btn-ghost:hover{color:var(--gold);border-color:var(--gold)}
+.btn-ghost:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:28px}
+.shots figure{margin:0;border:1px solid var(--line);background:var(--panel);min-width:0}
+.shots img{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;background:#000}
+.shots figcaption{padding:8px 10px;font-family:var(--f-mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+
+.errs{list-style:none;margin:30px 0 0;padding:0;display:grid;gap:12px;counter-reset:e}
+.errs li{counter-increment:e;display:grid;grid-template-columns:54px 1fr;gap:14px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--bad);padding:16px;min-width:0}
+.errs li::before{content:"0" counter(e);font-family:var(--f-display);font-weight:900;font-size:2.4rem;line-height:1;color:var(--bad)}
+.errs h3{font-size:1.3rem}
+.errs p{margin:6px 0 0;font-size:.93rem;color:var(--muted)}
+.errs .fix{color:var(--ok);font-family:var(--f-mono);font-size:.78rem;display:block;margin-top:8px;line-height:1.5}
+
+.gl{margin:30px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.gl div{background:var(--panel);padding:16px 18px;min-width:0}
+.gl dt{font-family:var(--f-display);font-weight:900;font-size:1.35rem;text-transform:uppercase;color:var(--gold);line-height:1}
+.gl dd{margin:6px 0 0;color:var(--muted);font-size:.9rem;line-height:1.5}
+
+.res{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:24px}
+.rs{background:var(--panel);border:1px solid var(--line);padding:16px;border-top:3px solid var(--gold)}
+.rs b{display:block;font-family:var(--f-display);font-weight:900;font-size:2.6rem;line-height:.9;color:var(--gold)}
+.rs span{display:block;margin-top:8px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);line-height:1.5}
+.offer{margin-top:28px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;border:1px solid var(--line2);background:var(--panel);padding:28px 24px;position:relative;overflow:hidden}
+.offer::before{content:"";position:absolute;inset:auto -80px -120px auto;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,var(--gold-glow),transparent 65%);pointer-events:none}
+@media (max-width:700px){.offer{grid-template-columns:1fr;gap:16px}}
+.price{font-family:var(--f-display);font-weight:900;font-size:clamp(4.6rem,16vw,7.5rem);line-height:.9;color:var(--gold);text-shadow:0 0 40px var(--gold-glow)}
+.price small{display:block;font-family:var(--f-mono);font-size:.72rem;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;margin-top:10px;text-shadow:none}
+.offer .list{position:relative}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.cta{display:inline-block;background:var(--gold);color:var(--gold-ink);font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:1.4rem;letter-spacing:.03em;padding:14px 22px;text-decoration:none;max-width:100%}
+.cta:hover{background:var(--gold2)}
+.cta.alt{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+.cta.alt:hover{background:var(--panel2)}
+.note{font-size:.8rem;color:var(--dim);margin-top:26px;border-top:1px solid var(--line);padding-top:14px;max-width:none}
+footer{padding-block:26px 44px;font-family:var(--f-mono);font-size:.7rem;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--line)}
+@media (max-width:520px){.shots{gap:6px}.errs li{grid-template-columns:40px 1fr;gap:10px}.errs li::before{font-size:1.9rem}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.meter i,.pipe li::before{transition:none}}
+</style>
+</head>
+<body>
+<div class="bar" aria-hidden="true"><i id="bar"></i></div>
+<nav class="nav"><div class="in">
+  <div class="brand">Fábrica <b>de video</b></div>
+  <a class="back" href="#asesoria">Kit y asesoría</a>
+</div></nav>
+
+<header class="hero"><div class="in">
+  <div class="eyebrow">Nivel 1 · Básico · Gratis</div>
+  <h1>Empieza <span class="l2"><em>aquí</em></span></h1>
+  <p class="lead">Una guía para quien quiere producir videos con IA y no sabe por dónde empezar. Entenderás qué se hace, qué necesitas de verdad y qué errores evitar antes de tu primer video.</p>
+  <div class="chips"><span>Lectura: 8 min</span><span>Sin experiencia previa</span><span>Checklist incluida</span></div>
+  <nav class="toc" aria-label="Contenido">
+    <a href="#que-es">01 Qué es</a><a href="#idea">02 La idea</a><a href="#etapas">03 Las 8 etapas</a><a href="#tarde">04 Tu primer video</a><a href="#errores">05 Errores</a><a href="#glosario">06 Glosario</a><a href="#sigue">07 Qué sigue</a>
+  </nav>
+</div></header>
+
+<section id="que-es"><div class="in">
+  <div class="eyebrow">01 · Punto de partida</div>
+  <h2 style="margin-top:14px">Qué es producir video <em>con IA</em></h2>
+  <p class="sub">Es usar IA para hacer el trabajo que antes pedía un equipo: investigar el tema, escribir el guion, poner la voz, armar las imágenes, montar y revisar. Tú decides el qué y el para quién; la IA ejecuta.</p>
+  <div class="two">
+    <div class="box"><h3>Lo que sí es</h3>
+      <ul class="list">
+        <li><b>Un proceso repetible</b> con etapas fijas, que mejora cada video.</li>
+        <li><b>Trabajo de criterio:</b> elegir tema, revisar datos y rechazar lo que sale flojo.</li>
+        <li><b>Constancia.</b> Los resultados vienen de publicar muchas veces con un mismo estilo.</li>
+      </ul></div>
+    <div class="box"><h3>Lo que no es</h3>
+      <ul class="list bad">
+        <li><b>No es magia.</b> Un botón que lo haga todo solo produce videos genéricos.</li>
+        <li><b>No es dinero rápido.</b> Nadie te garantiza vistas ni ingresos, y esta guía tampoco.</li>
+        <li><b>No es copiar.</b> Aprendes la fórmula de lo que funciona y la aplicas a tu nicho.</li>
+      </ul></div>
+  </div>
+  <p class="lic">Como referencia de lo que un sistema ordenado puede lograr: en los últimos 28 días (corte al 24 de octubre de 2026), nuestras cuentas sumaron más de 7,7 M de vistas entre Instagram y YouTube, y +10,6 K suscriptores en YouTube. De esas vistas, 5,0 M fueron de una sola cuenta y 3,7 M de un solo reel: el mejor video concentra buena parte del total, y no todos llegan a esa cifra. No es una promesa de que tú lo logres.</p>
+</div></section>
+
+<section id="idea"><div class="in">
+  <div class="eyebrow">02 · La idea central</div>
+  <h2 style="margin-top:14px">Solo necesitas <em>Claude y una voz</em></h2>
+  <p class="sub">Aquí se pierde la gente: cree que hay que comprar diez herramientas. No. Pagas lo mínimo, Claude instala y opera el resto, y lo de pago es opcional.</p>
+  <div class="lv" role="group" aria-label="Diagrama de tres niveles: lo que pagas, lo que Claude opera gratis y lo opcional">
+    <div class="tier t1"><div class="k">Nivel A · Lo único que pagas</div><h3>Claude (suscripción) + una voz</h3>
+      <p>Claude es el equipo: guionista, diseñador, editor y revisor. La voz es lo único que no puede fabricar por ti, y puede ser cualquier síntesis de voz que te guste.</p><span class="tag">Imprescindible</span></div>
+    <div class="tier t2"><div class="k">Nivel B · Lo que Claude opera gratis</div><h3>Montaje, subtítulos, animación, 3D</h3>
+      <p>Herramientas de código abierto para montar, medir el audio, sincronizar subtítulos y animar por código. Claude las instala y las usa; tú no tocas código.</p><span class="tag">Gratis · lo hace Claude</span></div>
+    <div class="tier t3"><div class="k">Nivel C · Extras opcionales</div><h3>Video generativo, nube, GPU</h3>
+      <p>Sirven para series con personajes o para renderizar más rápido. Gastan créditos o piden hardware. No los necesitas para tu primer video.</p><span class="tag">Opcional · después</span></div>
+  </div>
+  <p class="lic">Los precios de terceros cambian: confirma el costo vigente antes de contratar cualquier servicio.</p>
+</div></section>
+
+<section id="etapas"><div class="in">
+  <div class="eyebrow">03 · El mapa</div>
+  <h2 style="margin-top:14px">Las 8 etapas <em>en una página</em></h2>
+  <p class="sub">Todo video pasa por las mismas ocho etapas, en este orden. En cada una hay algo que decides tú y algo que hace Claude.</p>
+  <ol class="pipe" id="pipe" aria-label="Pipeline de producción de ocho etapas">
+    <li><h3>Nicho e idea</h3><div class="row"><div><b>Tú decides</b>De qué trata tu canal y a quién le hablas.</div><div class="cl"><b>Claude hace</b>Analiza cuentas del nicho y lista temas que ya funcionaron.</div></div></li>
+    <li><h3>Guion</h3><div class="row"><div><b>Tú decides</b>El ángulo y qué se aprueba.</div><div class="cl"><b>Claude hace</b>Redacta con gancho en la primera frase y busca fuentes para cada dato.</div></div></li>
+    <li><h3>Voz</h3><div class="row"><div><b>Tú decides</b>Qué voz usa tu canal (una sola).</div><div class="cl"><b>Claude hace</b>La genera por bloques y revisa que el ritmo no decaiga.</div></div></li>
+    <li><h3>Visuales</h3><div class="row"><div><b>Tú decides</b>El estilo visual, que no cambia entre videos.</div><div class="cl"><b>Claude hace</b>Construye las escenas desde una plantilla maestra.</div></div></li>
+    <li><h3>Render</h3><div class="row"><div><b>Tú decides</b>Cuándo está listo para exportar.</div><div class="cl"><b>Claude hace</b>Monta, añade subtítulos por palabra y exporta una sola vez en 1080p.</div></div></li>
+    <li><h3>QA</h3><div class="row"><div><b>Tú decides</b>Si el resultado cumple tu estándar.</div><div class="cl"><b>Claude hace</b>Corre las revisiones: cuadros rotos, volumen, inicio y final.</div></div></li>
+    <li><h3>Publicación</h3><div class="row"><div><b>Tú decides</b>Cuándo y dónde sale.</div><div class="cl"><b>Claude hace</b>Prepara título, pie y calendario con horas explícitas.</div></div></li>
+    <li><h3>Métricas</h3><div class="row"><div><b>Tú decides</b>Qué repites y qué descartas.</div><div class="cl"><b>Claude hace</b>Lee las cifras a las 48 h y las compara con tus videos anteriores.</div></div></li>
+  </ol>
+  <div class="callout"><p>Idea para recordar: <em>tú pones el criterio, Claude pone las manos.</em> Saltarte una etapa es lo que más retrabajo genera.</p></div>
+</div></section>
+
+<section id="tarde"><div class="in">
+  <div class="eyebrow">04 · Manos a la obra</div>
+  <h2 style="margin-top:14px">Tu primer video <em>en una tarde</em></h2>
+  <p class="sub">Un recorrido conceptual con herramientas gratuitas. Sirve para entender el flujo completo, no para lograr un video perfecto. Marca cada paso; tu avance queda guardado en este navegador.</p>
+  <div class="chk" id="chk">
+    <div class="chk-top"><div><div class="eyebrow">Tu progreso</div><div class="pct" id="pct">0%</div></div><button type="button" class="btn-ghost" id="reset">Reiniciar</button></div>
+    <div class="meter" aria-hidden="true"><i id="meter"></i></div>
+    <ol>
+      <li><label><input type="checkbox" data-k="1"><span>Elige un tema pequeño y concreto<small>Una pregunta que alguien se haga de verdad. Mejor «por qué pasa X» que «todo sobre X».</small></span></label></li>
+      <li><label><input type="checkbox" data-k="2"><span>Mira 3 videos de tu nicho que funcionen<small>Anota duración, cómo abren y cuántas veces cambia la imagen por minuto.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="3"><span>Escribe el gancho primero (10 palabras o menos)<small>Debe negar algo que todos creen o dar una cifra verificable.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="4"><span>Pídele a Claude el guion y exígele fuente para cada dato<small>Verifica tú al menos dos fuentes. Lo que no tenga fuente, se elimina.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="5"><span>Genera la voz y escúchala completa<small>Si se apaga o se acelera a mitad del video, se regenera por partes.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="6"><span>Arma los visuales con un estilo simple y fijo<small>Un tipo de imagen, una paleta, una tipografía. Sin mezclar estilos.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="7"><span>Renderiza una sola vez en 1080p<small>Vertical 1080×1920 para móvil. Sin versión de prueba en 4K.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="8"><span>Revisa calidad antes de publicar<small>Primer cuadro con imagen, voz desde el inicio, sin negro al final, subtítulos legibles.</small></span></label></li>
+      <li><label><input type="checkbox" data-k="9"><span>Publica y mide a las 48 horas<small>Vistas, compartidos y guardados. Compáralo con tu siguiente video, no con otros canales.</small></span></label></li>
+    </ol>
+  </div>
+  <div class="shots" aria-label="Ejemplos de cuadros de videos terminados">
+    <figure><img src="../../galeria/lupa-2.jpg" alt="Cuadro de un explicativo con objeto en macro" loading="lazy"><figcaption>Explicativo macro</figcaption></figure>
+    <figure><img src="../../galeria/pizarra-1.jpg" alt="Cuadro de un explicativo estilo pizarra" loading="lazy"><figcaption>Estilo pizarra</figcaption></figure>
+    <figure><img src="../../galeria/satelite-geografica-1.jpg" alt="Cuadro de un explicativo con globo terráqueo" loading="lazy"><figcaption>Estilo satélite</figcaption></figure>
+  </div>
+  <p class="lic">Cada ejemplo parte de un estilo fijo. Eso es lo que hace reconocible un canal.</p>
+</div></section>
+
+<section id="errores"><div class="in">
+  <div class="eyebrow">05 · Lo que más cuesta</div>
+  <h2 style="margin-top:14px">Los 5 errores <em>del principiante</em></h2>
+  <ol class="errs">
+    <li><div><h3>Copiar el último video en lugar de una plantilla</h3><p>Cada copia arrastra los pequeños defectos de la anterior y el estilo deriva sin que lo notes.</p><span class="fix">CORRECCIÓN: parte siempre de una plantilla maestra congelada.</span></div></li>
+    <li><div><h3>Renderizar en 4K</h3><p>Horas de espera por una calidad que la plataforma va a comprimir. Para móvil basta 1080p.</p><span class="fix">CORRECCIÓN: un solo render final en 1080×1920, 30 fps.</span></div></li>
+    <li><div><h3>Publicar sin revisar calidad</h3><p>Un primer cuadro vacío o una voz que se apaga cuestan el gancho y no se arreglan después.</p><span class="fix">CORRECCIÓN: revisión previa fija, con la misma lista cada vez.</span></div></li>
+    <li><div><h3>Usar datos sin fuente</h3><p>La IA puede escribir cifras que suenan bien y están mal. Un dato falso arruina la credibilidad del canal.</p><span class="fix">CORRECCIÓN: dos fuentes por dato; sin fuente, no entra.</span></div></li>
+    <li><div><h3>Cambiar de estilo en cada video</h3><p>Sin identidad, la audiencia no sabe qué esperar de ti y no tiene motivo para volver.</p><span class="fix">CORRECCIÓN: un estilo, una voz y una paleta por canal. Cambia el tema, no el formato.</span></div></li>
+  </ol>
+</div></section>
+
+<section id="glosario"><div class="in">
+  <div class="eyebrow">06 · Vocabulario</div>
+  <h2 style="margin-top:14px">Glosario <em>de 10 términos</em></h2>
+  <dl class="gl">
+    <div><dt>Gancho</dt><dd>La primera frase o cuadro. Tiene que convencer de que vale la pena seguir viendo.</dd></div>
+    <div><dt>Retención</dt><dd>Qué parte del video se ve antes de que la persona se vaya. Pesa mucho en el alcance.</dd></div>
+    <div><dt>Nicho</dt><dd>El tema concreto y la audiencia a la que le hablas.</dd></div>
+    <div><dt>Plantilla maestra</dt><dd>Un formato visual congelado, que se reutiliza en cada video para mantener el estilo.</dd></div>
+    <div><dt>Render</dt><dd>El proceso de convertir las escenas en el archivo de video final.</dd></div>
+    <div><dt>Karaoke de subtítulos</dt><dd>Subtítulos que resaltan cada palabra a medida que se dice.</dd></div>
+    <div><dt>QA</dt><dd>Control de calidad: revisar el video con una lista fija antes de publicarlo.</dd></div>
+    <div><dt>TTS</dt><dd>Voz sintética: texto convertido en audio hablado.</dd></div>
+    <div><dt>1080p / vertical</dt><dd>Resolución de 1080×1920 y formato 9:16, el estándar para Reels, Shorts y TikTok.</dd></div>
+    <div><dt>LUFS</dt><dd>Unidad de volumen percibido. Mantenerlo estable evita que tu video suene bajo o fuerte.</dd></div>
+  </dl>
+</div></section>
+
+<section id="sigue"><div class="in">
+  <div class="eyebrow">07 · Siguiente paso</div>
+  <h2 style="margin-top:14px">Qué <em>sigue</em></h2>
+  <p class="sub">Con esta guía ya entiendes el mapa. Lo siguiente es ver cómo se arma cada etapa con más detalle.</p>
+  <div class="cta-row"><a class="cta alt" href="../intermedio/">Ir al Nivel 2 · Intermedio</a></div>
+</div></section>
+
+<section id="asesoria"><div class="in">
+  <div class="eyebrow">El kit completo</div>
+  <h2 style="margin-top:14px">Lo que aquí <em>no se entrega</em></h2>
+  <p class="sub">Esta guía enseña el qué y el porqué. Lo que te ahorra semanas de prueba y error es el kit: plantillas, scripts y prompts listos, más acompañamiento para adaptarlo a tu nicho. Eso está en la asesoría.</p>
+  <div class="res">
+    <div class="rs"><b>7,7 M</b><span>vistas en 28 días<br>Instagram + YouTube</span></div>
+    <div class="rs"><b>+10,6 K</b><span>suscriptores nuevos en YouTube</span></div>
+  </div>
+  <div class="offer">
+    <div class="price">$70<small>Pago único · Asesoría</small></div>
+    <ul class="list">
+      <li><b>Plantillas maestras</b> listas para producir.</li>
+      <li><b>Scripts</b> que automatizan montaje, subtítulos y revisión.</li>
+      <li><b>Prompts</b> de guion, voz y visuales probados.</li>
+      <li><b>Acompañamiento</b> para adaptar el sistema a tu nicho.</li>
+    </ul>
+  </div>
+  <div class="cta-row"><a class="cta" href="https://www.instagram.com/fernandojvd/" target="_blank" rel="noopener">Escríbeme FÁBRICA por DM</a></div>
+  <p class="note">Las cifras corresponden a nuestras propias cuentas en los últimos 28 días, con corte al 24 de octubre de 2026; el mejor reel concentra buena parte de las vistas y no todos los videos llegan a esa cifra. No prometemos resultados ni ingresos.</p>
+</div></section>
+
+<footer><div class="in">Fábrica de video con IA · Nivel 1 · Básico · Octubre 2026</div></footer>
+
+<script>
+(function(){
+  var bar=document.getElementById('bar');
+  function prog(){var h=document.documentElement,m=h.scrollHeight-h.clientHeight;bar.style.transform='scaleX('+(m>0?Math.min(1,h.scrollTop/m):0)+')';}
+  window.addEventListener('scroll',prog,{passive:true});window.addEventListener('resize',prog);prog();
+
+  var KEY='fabrica-basico-checklist-v1',boxes=[].slice.call(document.querySelectorAll('#chk input')),state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){state={};}
+  function paint(){
+    var n=0;boxes.forEach(function(b){if(b.checked)n++;});
+    var p=Math.round(n/boxes.length*100);
+    document.getElementById('pct').textContent=p+'%';
+    document.getElementById('meter').style.transform='scaleX('+(p/100)+')';
+  }
+  function save(){
+    var s={};boxes.forEach(function(b){if(b.checked)s[b.dataset.k]=1;});
+    try{localStorage.setItem(KEY,JSON.stringify(s));}catch(e){}
+  }
+  boxes.forEach(function(b){
+    b.checked=!!state[b.dataset.k];
+    b.addEventListener('change',function(){paint();save();});
+  });
+  document.getElementById('reset').addEventListener('click',function(){
+    boxes.forEach(function(b){b.checked=false;});paint();
+    try{localStorage.removeItem(KEY);}catch(e){}
+  });
+  paint();
+
+  var items=document.querySelectorAll('#pipe li');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});},{threshold:.5});
+    items.forEach(function(i){io.observe(i);});
+  }else{items.forEach(function(i){i.classList.add('on');});}
+})();
+</script>
+</body>
+</html>

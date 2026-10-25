@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Nivel 3 · Convierte esto en un sistema</title>
+<meta name="description" content="Guía gratuita, nivel avanzado: ruteo de modelos, cola de renders, registro de temas, métricas honestas y embudo de venta para producir más videos sin que baje la calidad ni suba el gasto.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://teamtiposve-boop.github.io/fabrica-video-ia/guias/avanzado/">
+<meta property="og:title" content="Nivel 3 · Avanzado: convierte esto en un sistema">
+<meta property="og:description" content="Cómo pasar de hacer videos a operar un sistema: plantilla congelada, ruteo de modelos, cola de renders y métricas a 48 h.">
+<meta property="og:image" content="https://teamtiposve-boop.github.io/fabrica-video-ia/galeria/youtube-studio-28d.jpg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Instrument+Serif:ital@1&family=Public+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+/* Misma familia visual que el informe principal y los niveles 1 y 2: tema oscuro, dorado, placas numeradas. */
+:root{
+  color-scheme:dark;
+  --bg:#0a0b0e; --bg2:#101218; --panel:#151821; --panel2:#1b1f2a; --line:#262b38; --line2:#343a4a;
+  --fg:#f1efe8; --muted:#9aa1b2; --dim:#6b7283;
+  --gold:#ffb02e; --gold2:#ff7a1a; --gold-ink:#2a1c08; --gold-glow:rgba(255,176,46,.28);
+  --ok:#5fd39a; --bad:#ff7a6b; --cyan:#67d4ff; --violet:#b48cff;
+  --f-display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;
+  --f-serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+  --f-body:'Public Sans',system-ui,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.6;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.in{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.txt{max-width:70ch}
+h1,h2,h3{font-family:var(--f-display);text-transform:uppercase;line-height:.95;margin:0;text-wrap:balance;letter-spacing:.01em}
+h2{font-size:clamp(2.1rem,6vw,3.6rem);font-weight:900}
+h3{font-size:1.45rem;font-weight:700}
+p{margin:14px 0 0;color:var(--muted)}
+p b,li b{color:var(--fg);font-weight:700}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--gold);flex:0 0 auto}
+.sub{color:var(--muted);max-width:62ch;margin:14px 0 0;font-size:1.05rem}
+.sub em,.lead em,h1 em,h2 em{font-family:var(--f-serif);font-style:italic;text-transform:none;letter-spacing:0;color:var(--gold);font-weight:400}
+h1 em,h2 em{font-size:1.02em}
+section{padding-block:64px}
+section+section{border-top:1px solid var(--line)}
+a{color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* progreso de lectura */
+.prog{position:fixed;top:0;left:0;right:0;height:3px;z-index:30;background:transparent}
+.prog i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));transform:scaleX(0);transform-origin:left}
+
+/* ===== NAV ===== */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:rgba(10,11,14,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .in{display:flex;align-items:center;gap:14px;height:52px}
+.nav .brand{font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:1.1rem;letter-spacing:.04em;white-space:nowrap}
+.nav .brand b{color:var(--gold)}
+.nav ul{list-style:none;margin:0 0 0 auto;padding:0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;min-width:0}
+.nav ul::-webkit-scrollbar{display:none}
+.nav a{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:6px 10px;white-space:nowrap;border-radius:3px;display:inline-block}
+.nav a:hover{color:var(--fg);background:var(--panel)}
+.nav a.cta{color:var(--gold-ink);background:var(--gold);font-weight:700}
+.nav .brand a{padding:0;color:inherit;font-size:inherit}
+
+/* ===== HERO ===== */
+.hero{position:relative;padding-block:56px 48px;overflow:hidden;background:radial-gradient(1200px 500px at 20% -10%,rgba(255,176,46,.14),transparent 60%),var(--bg)}
+.hero h1{font-size:clamp(3rem,12vw,8rem);font-weight:900;margin-top:16px}
+.hero h1 .l2{display:block;padding-left:.08em}
+.lead{font-size:clamp(1.05rem,2.2vw,1.3rem);color:var(--muted);max-width:56ch;margin:22px 0 0;line-height:1.5}
+.hero-row{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;justify-content:space-between;margin-top:32px}
+.stats{display:flex;flex-wrap:wrap;border:1px solid var(--line);background:rgba(21,24,33,.7)}
+.stat{padding:12px 16px;border-right:1px solid var(--line);min-width:96px;flex:1 1 96px}
+.stat:last-child{border-right:0}
+.stat b{display:block;font-family:var(--f-display);font-size:2rem;font-weight:900;color:var(--gold);line-height:1}
+.stat span{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.specs{font-family:var(--f-mono);font-size:.74rem;color:var(--dim);letter-spacing:.06em}
+.specs b{color:var(--muted);font-weight:400}
+.levels{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.levels a,.levels span{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border:1px solid var(--line2);text-decoration:none;color:var(--muted);background:var(--panel)}
+.levels span{border-color:var(--gold);color:var(--gold)}
+.levels a:hover{color:var(--fg);border-color:var(--gold)}
+
+/* ===== PLACAS numeradas ===== */
+.plate{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:start}
+.plate .num{font-family:var(--f-display);font-size:clamp(3.4rem,10vw,5.6rem);font-weight:900;line-height:.85;color:var(--gold);grid-row:span 2}
+.plate .tc{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;padding-top:4px}
+.plate h2{align-self:end}
+.body{margin-top:22px}
+.body p{max-width:68ch}
+
+/* ===== CAJAS Y LISTAS ===== */
+.box{background:var(--panel);border:1px solid var(--line);padding:20px;min-width:0}
+.box h3{margin-bottom:12px}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.list li{padding-left:22px;position:relative;color:var(--muted);font-size:.95rem}
+.list li::before{content:"";position:absolute;left:0;top:.7em;width:10px;height:2px;background:var(--ok)}
+.list.bad li::before{background:var(--bad)}
+.list.gold li::before{background:var(--gold)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:26px}
+.rule{margin:24px 0 0;border:1px solid var(--gold);background:linear-gradient(135deg,rgba(255,176,46,.12),rgba(255,122,26,.04));padding:18px 20px;color:var(--fg);max-width:68ch}
+.rule b{color:var(--gold)}
+.rule .k{display:block;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.warn{margin:22px 0 0;border:1px solid var(--bad);background:rgba(255,122,107,.06);padding:16px 20px;color:var(--fg);max-width:68ch}
+.warn .k{display:block;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--bad);margin-bottom:6px}
+
+/* ===== DIAGRAMAS ===== */
+.fig{margin:28px 0 0;background:var(--panel);border:1px solid var(--line);padding:18px 14px 12px}
+.fig svg{display:block;width:100%;max-width:560px;height:auto;margin:0 auto}
+.fig figcaption{margin-top:12px;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);text-align:center}
+.s-t{font-family:var(--f-display);font-weight:900;text-transform:uppercase;letter-spacing:.03em;fill:var(--fg);font-size:17px}
+.s-m{font-family:var(--f-mono);font-size:11.5px;fill:var(--muted)}
+.s-k{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;fill:var(--dim)}
+.s-c{font-family:var(--f-body);font-size:12.5px;fill:var(--fg);font-weight:500}
+.s-box{fill:var(--panel2);stroke:var(--line2);stroke-width:1}
+.s-band{fill:var(--bg2);stroke-width:1.5}
+.s-arrow{stroke:var(--gold);stroke-width:2;fill:none}
+.pulse{animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+.fill{transform-box:fill-box;transform-origin:left center;animation:fillbar 5s linear infinite}
+@keyframes fillbar{0%{transform:scaleX(.05)}100%{transform:scaleX(1)}}
+
+/* ===== TABLAS ===== */
+.scroll{overflow-x:auto;border:1px solid var(--line);background:var(--panel);margin-top:24px}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:12px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--muted)}
+th{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);background:var(--bg2)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-family:var(--f-display);font-size:1.25rem;text-transform:uppercase;color:var(--gold);letter-spacing:.02em;font-weight:900}
+td b{color:var(--fg)}
+@media (max-width:560px){th,td{padding:10px 9px;font-size:.84rem}th{font-size:.6rem}}
+
+/* ===== CHECKLIST ===== */
+.ck-wrap{margin-top:26px;border:1px solid var(--line2);background:var(--panel)}
+.ck-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.ck-count{font-family:var(--f-display);font-weight:900;font-size:2rem;color:var(--gold);line-height:1}
+.ck-count small{font-family:var(--f-mono);font-size:.68rem;letter-spacing:.1em;color:var(--dim);text-transform:uppercase;font-weight:400;margin-left:8px}
+.ck-bar{height:6px;background:var(--bg2);border-bottom:1px solid var(--line)}
+.ck-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2))}
+.ck-reset{all:unset;cursor:pointer;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line2);padding:7px 11px}
+.ck-reset:hover{color:var(--gold);border-color:var(--gold)}
+.ck-reset:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.ck-g{padding:6px 0}
+.ck-g h4{margin:14px 18px 4px;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.ck-item{display:grid;grid-template-columns:26px 1fr;gap:12px;padding:11px 18px;cursor:pointer;align-items:start;border-top:1px solid var(--line)}
+.ck-item:hover{background:var(--panel2)}
+.ck-item input{appearance:none;-webkit-appearance:none;margin:2px 0 0;width:22px;height:22px;border:2px solid var(--line2);background:var(--bg);cursor:pointer;display:grid;place-items:center;border-radius:3px}
+.ck-item input:checked{background:var(--gold);border-color:var(--gold)}
+.ck-item input:checked::after{content:"";width:10px;height:5px;border-left:2px solid var(--gold-ink);border-bottom:2px solid var(--gold-ink);transform:rotate(-45deg) translate(1px,-1px)}
+.ck-item input:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.ck-item span{color:var(--muted);font-size:.93rem;line-height:1.5}
+.ck-item input:checked+span{color:var(--dim);text-decoration:line-through;text-decoration-color:var(--line2)}
+
+/* ===== OFERTA ===== */
+.offer{margin-top:30px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;border:1px solid var(--line2);background:var(--panel);padding:30px 26px;position:relative;overflow:hidden}
+.offer::before{content:"";position:absolute;inset:auto -80px -120px auto;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,var(--gold-glow),transparent 65%);pointer-events:none}
+@media (max-width:700px){.offer{grid-template-columns:1fr;padding:24px 18px}}
+.price{font-family:var(--f-display);font-weight:900;font-size:clamp(5rem,16vw,8rem);line-height:.9;color:var(--gold);text-shadow:0 0 40px var(--gold-glow)}
+.price small{display:block;font-family:var(--f-mono);font-size:.72rem;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;margin-top:10px;text-shadow:none}
+.offer ul{position:relative}
+.btn{display:inline-block;background:var(--gold);color:var(--gold-ink);font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:1.4rem;letter-spacing:.03em;padding:14px 24px;text-decoration:none;max-width:100%;transition:background-color .2s ease,box-shadow .2s ease}
+.btn:hover{background:#ffc25c;box-shadow:0 0 0 1px var(--gold-glow),0 14px 36px rgba(0,0,0,.5)}
+.note{font-size:.8rem;color:var(--dim);margin-top:26px;border-top:1px solid var(--line);padding-top:14px}
+.nextlv{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.nextlv a{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1px solid var(--line2);padding:10px 14px;color:var(--fg);background:var(--panel);transition:border-color .2s ease,color .2s ease}
+.nextlv a:hover{border-color:var(--gold);color:var(--gold)}
+footer{padding-block:28px 48px;font-family:var(--f-mono);font-size:.7rem;color:var(--dim);letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--line)}
+img{max-width:100%}
+.proof{margin:24px 0 0;border:1px solid var(--gold);background:var(--panel);max-width:760px}
+.proof img{display:block;width:100%;height:auto}
+.proof figcaption{padding:10px 14px;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .pulse,.fill{animation:none}
+  .fill{transform:scaleX(.6)}
+  .btn,.nextlv a{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="prog" aria-hidden="true"><i id="prog"></i></div>
+
+<nav class="nav" aria-label="Secciones"><div class="in">
+  <div class="brand"><a href="../../" style="text-decoration:none">Fábrica <b>de video</b></a></div>
+  <ul>
+    <li><a href="#s1">Sistema</a></li>
+    <li><a href="#s2">Modelos</a></li>
+    <li><a href="#s3">Renders</a></li>
+    <li><a href="#s6">Métricas</a></li>
+    <li><a href="#s8">Embudo</a></li>
+    <li><a href="#s10" class="cta">Asesoría $70</a></li>
+  </ul>
+</div></nav>
+
+<header class="hero">
+  <div class="in">
+    <div class="eyebrow">Guía gratuita · Nivel 3 de 3 · Avanzado</div>
+    <h1>Convierte esto <span class="l2">en un <em>sistema</em></span></h1>
+    <p class="lead">Ya produces. Ahora quieres varios videos por semana, o por día, sin que la calidad baje ni el gasto suba. Esta guía te enseña el pensamiento de sistema: qué se congela, qué se delega, qué se mide y qué no se automatiza.</p>
+    <div class="levels" aria-label="Niveles de la guía">
+      <a href="../basico/">Nivel 1 · Básico</a>
+      <a href="../intermedio/">Nivel 2 · Intermedio</a>
+      <span aria-current="page">Nivel 3 · Avanzado</span>
+    </div>
+    <div class="hero-row">
+      <div class="stats">
+        <div class="stat"><b>7,7 M</b><span>vistas IG + YT</span></div>
+        <div class="stat"><b>5,0 M</b><span>en una cuenta</span></div>
+        <div class="stat"><b>3,7 M</b><span>en un reel</span></div>
+        <div class="stat"><b>+10,6 K</b><span>subs YouTube</span></div>
+      </div>
+      <div class="specs">28 DÍAS · CORTE <b>24 OCT 2026</b> · cifras de nuestras cuentas, sin promesa de ingresos</div>
+    </div>
+  </div>
+</header>
+
+<section id="s1"><div class="in">
+  <div class="plate"><div class="num">01</div><div class="tc">Fundamento</div><h2>Del video <em>al sistema</em></h2></div>
+  <div class="body">
+    <p>Un video bueno lo hace cualquiera con suerte. Un sistema es lo que sigue funcionando el día que estás cansado, tienes prisa o delegas. La diferencia es que las decisiones ya están tomadas y escritas antes de empezar cada pieza.</p>
+    <p>El primer paso es una <b>plantilla maestra congelada</b>: paleta, tipografías, estructura de escenas, voz, ritmo y márgenes. Cada video nuevo cambia solo tres cosas: el tema, los datos y el objeto protagonista. Todo lo demás sale de la plantilla.</p>
+    <div class="rule"><span class="k">Regla</span>Nunca copies el último video para hacer el siguiente. Siempre parte de la plantilla.</div>
+    <p>La razón es la <b>deriva de estilo</b>. Cada copia hereda un cambio pequeño: un margen que se movió, un tono de color, un ritmo más lento. Ninguno se nota solo. Diez copias después, el canal parece otro y tu audiencia no sabe qué esperar.</p>
+    <p>Cómo detectarla en cinco minutos: pon en una fila el primer cuadro de tus últimos diez videos, con el de la plantilla al inicio. Si el décimo no se reconoce al lado de la plantilla, derivaste. Mira paleta, posición del texto, tamaño de los títulos y densidad de cambios visuales. Si quieres mejorar algo, el cambio entra a la plantilla (con fecha) y desde ahí a los videos futuros, nunca por contagio.</p>
+    <div class="two">
+      <div class="box"><h3>Se congela</h3>
+        <ul class="list"><li>Paleta y tipografías.</li><li>Estructura: gancho, desarrollo, cierre.</li><li>Voz y ritmo de lectura.</li><li>Márgenes y zona segura de subtítulos.</li></ul></div>
+      <div class="box"><h3>Se varía</h3>
+        <ul class="list gold"><li>El tema y el ángulo.</li><li>Los datos y sus fuentes.</li><li>El objeto o escena protagonista.</li><li>La pregunta final del pie.</li></ul></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="s2"><div class="in">
+  <div class="plate"><div class="num">02</div><div class="tc">Costo y calidad</div><h2>Ruteo de modelos <em>y presupuesto</em></h2></div>
+  <div class="body">
+    <p>Si todo pasa por el modelo más potente, pagas de más y trabajas más lento. La idea es una pirámide invertida: el modelo barato hace el mayor volumen y el caro solo decide y verifica al final.</p>
+    <ul class="list" style="margin-top:16px;max-width:68ch">
+      <li><b>Haiku</b> para lo mecánico: buscar, leer muchos archivos, clasificar, QA con script, renombrar, subir, resumir.</li>
+      <li><b>Sonnet</b> para razonar: un borrador de guion con una fórmula dada, implementar algo con una especificación clara. Solo cuando Haiku falla o la tarea lo exige.</li>
+      <li><b>Opus</b> para decidir y verificar: veredictos finales, diseño visual, cualquier cosa que toque dinero o accesos.</li>
+    </ul>
+    <p>La sesión principal es <b>delgada</b>: decide, planifica y verifica. No lee volumen; lee resúmenes y diferencias. Lo voluminoso va a agentes baratos, <b>en paralelo</b>, cada uno con el modelo indicado de forma explícita. Si no lo indicas, el agente puede heredar el modelo caro sin que lo notes.</p>
+    <figure class="fig">
+      <svg viewBox="0 0 480 570" role="img" aria-labelledby="ta da">
+        <title id="ta">Ruteo de modelos</title>
+        <desc id="da">La sesión principal delgada delega volumen en paralelo a Haiku para lo mecánico, a Sonnet para razonar y a Opus para decidir y verificar al final.</desc>
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ffb02e"/></marker></defs>
+        <rect class="s-box" x="20" y="8" width="440" height="62" stroke="#ffb02e" stroke-width="1.5"/>
+        <text class="s-t" x="36" y="33">Sesión principal · delgada</text>
+        <text class="s-m" x="36" y="54">decide, planifica, verifica. Lee resúmenes, no volumen.</text>
+        <line class="s-arrow" x1="240" y1="70" x2="240" y2="116" marker-end="url(#ah)"/>
+        <text class="s-k" x="252" y="98">delega en paralelo</text>
+
+        <rect class="s-band" x="20" y="120" width="440" height="152" stroke="#5fd39a"/>
+        <text class="s-t" x="36" y="145" style="fill:#5fd39a">Haiku · lo mecánico</text>
+        <text class="s-k" x="444" y="145" text-anchor="end">mucho volumen</text>
+        <rect class="s-box" x="36" y="160" width="196" height="40"/><text class="s-c" x="48" y="185">Buscar referencias</text>
+        <rect class="s-box" x="248" y="160" width="196" height="40"/><text class="s-c" x="260" y="185">QA por script</text>
+        <rect class="s-box" x="36" y="212" width="196" height="40"/><text class="s-c" x="48" y="237">Renombrar y subir</text>
+        <rect class="s-box" x="248" y="212" width="196" height="40"/><text class="s-c" x="260" y="237">Leer métricas</text>
+
+        <rect class="s-band" x="20" y="286" width="440" height="104" stroke="#67d4ff"/>
+        <text class="s-t" x="36" y="311" style="fill:#67d4ff">Sonnet · razonar</text>
+        <text class="s-k" x="444" y="311" text-anchor="end">si Haiku falla</text>
+        <rect class="s-box" x="36" y="326" width="196" height="40"/><text class="s-c" x="48" y="351">Borrador de guion</text>
+        <rect class="s-box" x="248" y="326" width="196" height="40"/><text class="s-c" x="260" y="351">Escena con spec clara</text>
+
+        <rect class="s-band" x="20" y="404" width="440" height="104" stroke="#ffb02e"/>
+        <text class="s-t" x="36" y="429" style="fill:#ffb02e">Opus · decidir y verificar</text>
+        <text class="s-k" x="444" y="429" text-anchor="end">al final, lo mínimo</text>
+        <rect class="s-box" x="36" y="444" width="196" height="40"/><text class="s-c" x="48" y="469">Veredicto de calidad</text>
+        <rect class="s-box" x="248" y="444" width="196" height="40"/><text class="s-c" x="260" y="469">Dinero y accesos</text>
+
+        <text class="s-m" x="20" y="532">Cada agente: brief autosuficiente, trabaja, escribe lo grande</text>
+        <text class="s-m" x="20" y="548">a un archivo y devuelve pocas líneas.</text>
+        <text class="s-m pulse" x="20" y="565" style="fill:#ffb02e">Retrabajo mayor a 15-20 %: esa tarea sube de nivel.</text>
+      </svg>
+      <figcaption>Ejemplo de reparto de tareas en un video</figcaption>
+    </figure>
+    <p>Tres hábitos que sostienen el ruteo:</p>
+    <ul class="list" style="margin-top:12px;max-width:68ch">
+      <li><b>Brief autosuficiente.</b> El agente no ve tu conversación. Dale objetivo, archivos a leer, qué ya está descartado y el formato de salida.</li>
+      <li><b>Resultado a archivo.</b> Lo grande se escribe a disco; al chat vuelve un resumen corto. Así la sesión principal no se llena.</li>
+      <li><b>Medir.</b> Mira el costo por modelo en tu panel de uso (o con una herramienta como ccusage) y lleva la cuenta del retrabajo: de cada diez entregas de un nivel, cuántas hubo que rehacer. Si una tarea pasa de 15 a 20 % de retrabajo, súbela de nivel. Si el panel muestra el modelo barato casi en cero, estás delegando mal.</li>
+    </ul>
+    <p>Hay cosas que no bajan de nivel nunca: borrar algo sin verificar que existe en otra parte, publicar en tu perfil personal, copy de venta y cualquier código de pagos o accesos sin una revisión final tuya.</p>
+  </div>
+</div></section>
+
+<section id="s3"><div class="in">
+  <div class="plate"><div class="num">03</div><div class="tc">Hardware</div><h2>Cola de renders <em>y cuidado de la PC</em></h2></div>
+  <div class="body">
+    <p>El error clásico al escalar es lanzar varios renders a la vez para «ganar tiempo». Lo que ganas es una PC saturada, renders que fallan a medias y un equipo que se traba justo cuando necesitas trabajar.</p>
+    <div class="rule"><span class="k">Regla</span><b>Un solo proceso pesado a la vez</b> en toda la PC: render de video, 3D, ffmpeg, transcripción. Los demás esperan en cola.</div>
+    <figure class="fig">
+      <svg viewBox="0 0 480 330" role="img" aria-labelledby="tb db">
+        <title id="tb">Cola de renders</title>
+        <desc id="db">Mientras un solo render está activo, los demás videos esperan en fila. La preparación sí corre en paralelo. El render usa prioridad baja y la mitad de los núcleos.</desc>
+        <defs><marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#ffb02e"/></marker></defs>
+        <text class="s-k" x="20" y="18">Preparar, en paralelo</text>
+        <rect class="s-box" x="20" y="28" width="136" height="36" stroke="#5fd39a"/><text class="s-c" x="32" y="51">Guion</text>
+        <rect class="s-box" x="172" y="28" width="136" height="36" stroke="#5fd39a"/><text class="s-c" x="184" y="51">Escenas</text>
+        <rect class="s-box" x="324" y="28" width="136" height="36" stroke="#5fd39a"/><text class="s-c" x="336" y="51">QA de snapshots</text>
+        <line class="s-arrow" x1="240" y1="64" x2="240" y2="104" marker-end="url(#ah2)"/>
+
+        <text class="s-k" x="20" y="124">En espera</text>
+        <rect class="s-box" x="20" y="134" width="84" height="56"/><text class="s-c" x="32" y="167">Video 3</text>
+        <rect class="s-box" x="116" y="134" width="84" height="56"/><text class="s-c" x="128" y="167">Video 2</text>
+        <line class="s-arrow" x1="204" y1="162" x2="232" y2="162" marker-end="url(#ah2)"/>
+
+        <text class="s-k" x="244" y="124" style="fill:#ffb02e">Un solo render activo</text>
+        <rect x="244" y="134" width="216" height="56" fill="#1b1f2a" stroke="#ffb02e" stroke-width="2.5"/>
+        <text class="s-c" x="258" y="158">Video 1</text>
+        <rect x="258" y="170" width="188" height="8" fill="#101218" stroke="#343a4a"/>
+        <rect class="fill" x="258" y="170" width="188" height="8" fill="#ffb02e"/>
+
+        <rect class="s-box" x="20" y="214" width="140" height="36"/><text class="s-c" x="32" y="237">Prioridad baja</text>
+        <rect class="s-box" x="170" y="214" width="140" height="36"/><text class="s-c" x="182" y="237">Mitad de núcleos</text>
+        <rect class="s-box" x="320" y="214" width="140" height="36"/><text class="s-c" x="332" y="237">Sin suspender</text>
+
+        <text class="s-m" x="20" y="282">Termina uno, arranca el siguiente.</text>
+        <text class="s-m" x="20" y="300">Antes de lanzar: ¿hay otro render corriendo?</text>
+        <text class="s-m" x="20" y="318">Si lo hay, espera.</text>
+      </svg>
+      <figcaption>Preparar en paralelo, renderizar en fila</figcaption>
+    </figure>
+    <ul class="list" style="margin-top:20px;max-width:68ch">
+      <li><b>Prioridad baja y mitad de núcleos.</b> El render tarda un poco más, pero la PC sigue siendo usable para ti y para tus agentes.</li>
+      <li><b>Comprueba antes de lanzar.</b> Revisa si ya hay un render corriendo, incluso si lo arrancó otra sesión u otro agente.</li>
+      <li><b>Corrige sobre snapshots, renderiza una vez.</b> Las pruebas completas y el 4K gastan horas sin ganancia: la plataforma comprime a 1080 de todos modos.</li>
+      <li><b>No suspendas la PC</b> mientras haya cola, y si necesitas detener algo, cierra solo el proceso exacto que lanzaste. Matar procesos por nombre puede tumbar otros que no eran tuyos.</li>
+    </ul>
+  </div>
+</div></section>
+
+<section id="s4"><div class="in">
+  <div class="plate"><div class="num">04</div><div class="tc">Memoria del canal</div><h2>Anti-repetición <em>y referencias</em></h2></div>
+  <div class="body">
+    <p>A dos videos por día, repetirte es cuestión de tiempo: mismo tema con otro título, mismo dato con otra cara. La audiencia lo nota y la plataforma también. La solución es aburrida y funciona: un <b>registro de lo publicado</b> que se consulta antes de aprobar cualquier tema.</p>
+    <div class="two">
+      <div class="box"><h3>Registro de publicados</h3>
+        <ul class="list"><li>Fecha, cuenta y formato.</li><li>Tema y ángulo en una línea.</li><li>Dato central y su fuente.</li><li>Resultado a 48 h contra la mediana.</li><li>Estado: vigente, quemado o para retomar con otro ángulo.</li></ul></div>
+      <div class="box"><h3>Biblioteca de referencias</h3>
+        <ul class="list"><li>Pocas cuentas por formato, las mejores, no todas.</li><li>Una captura del primer cuadro y qué lo hace funcionar.</li><li>Ritmo, duración y tipo de gancho que usan.</li><li>Se cita en el brief de cada guion nuevo.</li></ul></div>
+    </div>
+    <p>El flujo es simple: antes de escribir, Claude lee el registro y descarta lo repetido; al escribir, lee la biblioteca y copia la fórmula, no el contenido. Al publicar, se añade una línea al registro. Un archivo de texto basta; lo importante es que alguien lo consulte siempre.</p>
+  </div>
+</div></section>
+
+<section id="s5"><div class="in">
+  <div class="plate"><div class="num">05</div><div class="tc">Decisiones</div><h2>Memoria <em>del proyecto</em></h2></div>
+  <div class="body">
+    <p>Cuando trabajas con varios agentes y sesiones, lo que no está escrito se olvida o se discute de nuevo. Lleva un archivo corto de decisiones. Cada entrada responde cuatro preguntas: <b>qué se adoptó, qué se descartó, por qué y desde cuándo</b>.</p>
+    <ul class="list" style="margin-top:16px;max-width:68ch">
+      <li><b>Lo descartado también se escribe.</b> Es lo que evita proponer otra vez el mismo tema, estilo o herramienta que ya probaste y no sirvió.</li>
+      <li><b>Reemplaza, no acumules.</b> Si una regla nueva contradice una vieja, borra o marca como reemplazada la vieja. Con dos reglas opuestas, el agente obedece la que lea primero, no la mejor.</li>
+      <li><b>Retro de tres líneas</b> al cerrar cada tarea relevante: qué salió bien, qué costó de más, qué cambias. Si la lección se repite o es cara, pasa a regla.</li>
+      <li><b>Estado vivo.</b> Antes de cerrar una sesión larga, deja por escrito qué se hizo, qué falta y dónde están los archivos.</li>
+    </ul>
+  </div>
+</div></section>
+
+<section id="s6"><div class="in">
+  <div class="plate"><div class="num">06</div><div class="tc">Datos</div><h2>Métricas <em>honestas</em></h2></div>
+  <div class="body">
+    <p>El promedio miente. Si un video explota y nueve se quedan en su sitio, el promedio sube y tú crees que el sistema mejoró. Lo que de verdad puedes planear es la <b>mediana por formato</b>: el valor del medio de tus últimos diez videos del mismo formato.</p>
+    <div class="warn"><span class="k">Advertencia</span>En nuestras cuentas, el mejor reel concentra cerca de <b>tres cuartas partes</b> de las vistas de Instagram del periodo. Un solo video puede cargar con casi todo. Por eso no decimos «todos hacen millones»: no es lo normal, y tu plan no debe depender de que te pase.</div>
+    <figure class="proof"><img src="../../galeria/youtube-studio-28d.jpg" alt="Captura real de YouTube Studio de los últimos 28 días" loading="lazy"><figcaption>Captura real de YouTube Studio · 28 días</figcaption></figure>
+    <p>A las 48 horas decides con una regla escrita, no con el ánimo. La regla de oro: <b>una sola cosa cambia por video</b>. Si cambias gancho, formato y tema a la vez, no sabrás qué movió el resultado.</p>
+    <div class="scroll"><table>
+      <thead><tr><th>Señal</th><th>Qué mirar a 48 h</th><th>Qué cambiar (solo una cosa)</th></tr></thead>
+      <tbody>
+        <tr><td>Gancho</td><td>Vistas y porcentaje que sigue viendo tras los primeros segundos, contra tu mediana.</td><td>Solo la primera frase y el primer cuadro. El resto del video queda igual.</td></tr>
+        <tr><td>Retención</td><td>Dónde cae la curva y el tiempo medio visto.</td><td>El tramo donde cae: acortarlo o meter un cambio visual. No toques el gancho.</td></tr>
+        <tr><td>Formato</td><td>Compartidos y guardados contra la mediana del formato.</td><td>El formato siguiente, con el mismo tema. Si baja en dos videos seguidos, cámbialo; con uno, no concluyas.</td></tr>
+        <tr><td>Tema</td><td>Buen gancho y buena retención, pero pocas vistas.</td><td>El tema o el ángulo. Mantén el mismo formato y el mismo gancho.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="rule"><span class="k">Regla</span><b>Una sola cosa cambia por video.</b> Un resultado malo con tres cambios no te enseña nada; con uno, sí.</div>
+  </div>
+</div></section>
+
+<section id="s7"><div class="in">
+  <div class="plate"><div class="num">07</div><div class="tc">Cadencia</div><h2>Calendario: <em>dos al día</em></h2></div>
+  <div class="body">
+    <p>Dos videos al día es posible si el resto del sistema aguanta. Publicar más no compensa publicar peor: con la calidad en juego, vale más uno bueno.</p>
+    <ul class="list" style="margin-top:16px;max-width:68ch">
+      <li><b>Una sola tabla de calendario</b> con fecha, hora en formato AM/PM, cuenta, título y estado. Si la hora no está escrita, no existe.</li>
+      <li><b>Horas explícitas.</b> Por ejemplo 12:30 PM y 7:30 PM, en la zona horaria de tu audiencia. No hay hora mágica universal: pruébalas y mide.</li>
+      <li><b>Nunca de madrugada.</b> Nada entre las 11 PM y las 6 AM de la hora de tu audiencia. Si lo haces para «ganar tiempo», lo normal es que nadie lo vea.</li>
+      <li><b>Sin saturar.</b> Separa las publicaciones al menos unas seis horas y no repitas el mismo formato ni el mismo tema seguidos el mismo día.</li>
+      <li><b>Se entrega el original</b> a la plataforma, nunca una versión ya comprimida, y la portada es el primer cuadro.</li>
+    </ul>
+  </div>
+</div></section>
+
+<section id="s8"><div class="in">
+  <div class="plate"><div class="num">08</div><div class="tc">Venta</div><h2>El embudo <em>de venta</em></h2></div>
+  <div class="body">
+    <p>El contenido atrae; el embudo convierte. El patrón más usado con videos cortos es: <b>video, comentario con una palabra clave, mensaje directo, link y cierre</b>. En cada paso se mide una cifra distinta, y la que más cae es la que corriges.</p>
+    <figure class="fig">
+      <svg viewBox="0 0 480 490" role="img" aria-labelledby="tc dc">
+        <title id="tc">Embudo de venta</title>
+        <desc id="dc">Cinco pasos: video, comentario con palabra clave, mensaje directo, link y cierre. Cada paso tiene su métrica: vistas y retención, comentarios sobre vistas, apertura de DM, clics y conversaciones que cierran.</desc>
+        <rect x="20" y="8" width="440" height="62" fill="#1b1f2a" stroke="#ffb02e" stroke-width="1.5"/>
+        <text class="s-t" x="36" y="34">1 · Video</text><text class="s-m" x="36" y="56">Mide: vistas y retención a 48 h</text>
+        <path d="M240 70v22" class="s-arrow"/>
+        <rect x="50" y="96" width="380" height="62" fill="#1b1f2a" stroke="#ffb02e" stroke-width="1.5"/>
+        <text class="s-t" x="66" y="122">2 · Comentario + palabra clave</text><text class="s-m" x="66" y="144">Mide: comentarios con la palabra ÷ vistas</text>
+        <path d="M240 158v22" class="s-arrow"/>
+        <rect x="80" y="184" width="320" height="62" fill="#1b1f2a" stroke="#ffb02e" stroke-width="1.5"/>
+        <text class="s-t" x="96" y="210">3 · DM</text><text class="s-m" x="96" y="232">Mide: apertura de DM (leídos ÷ enviados)</text>
+        <path d="M240 246v22" class="s-arrow"/>
+        <rect x="110" y="272" width="260" height="62" fill="#1b1f2a" stroke="#ffb02e" stroke-width="1.5"/>
+        <text class="s-t" x="126" y="298">4 · Link</text><text class="s-m" x="126" y="320">Mide: clics ÷ DM abiertos</text>
+        <path d="M240 334v22" class="s-arrow"/>
+        <rect x="140" y="360" width="200" height="62" fill="#ffb02e" stroke="#ffb02e" stroke-width="1.5"/>
+        <text class="s-t" x="154" y="386" style="fill:#2a1c08">5 · Cierre</text><text class="s-m" x="154" y="408" style="fill:#2a1c08">Mide: cierres ÷ clics</text>
+        <text class="s-m" x="20" y="452">El paso con la mayor caída es el único que tocas.</text>
+        <text class="s-m" x="20" y="470">Una sola cosa por vez, igual que con los videos.</text>
+      </svg>
+      <figcaption>Embudo: video, comentario, DM, link, cierre</figcaption>
+    </figure>
+    <p>El CTA típico es «comenta + palabra clave» y recibes el recurso por mensaje. Funciona, pero tiene riesgos reales que debes conocer antes de montarlo:</p>
+    <div class="two">
+      <div class="box"><h3>Riesgos reales</h3>
+        <ul class="list bad">
+          <li><b>Instagram avisó en 2024</b> que pedir una palabra, un número o un emoji a cambio de algo puede reducir cuánto se recomienda tu contenido. Después aclaró que interactuar de verdad para captar leads no cuenta como engagement bait. La línea es fina y las políticas cambian: revisa las vigentes.</li>
+          <li><b>Mensajes idénticos en ráfaga</b> pueden marcar tu cuenta como spam. Varía el texto, limita el ritmo de envío y responde con sentido.</li>
+          <li><b>Facebook ya prohíbe</b> pedir «comenta SÍ» o similares para inflar interacción.</li>
+        </ul></div>
+      <div class="box"><h3>Lo que no se hace</h3>
+        <ul class="list bad">
+          <li><b>Promesas de ingresos.</b> Ni «vas a ganar X» ni testimonios inventados.</li>
+          <li><b>Capturas falsas</b> de pagos, métricas o mensajes. Si muestras resultados, que sean reales y de tu cuenta.</li>
+          <li><b>Contenido hecho con IA sin etiquetar</b> donde la ley o la plataforma lo exigen. Revisa qué aplica en tu país y en cada red.</li>
+        </ul></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="s9"><div class="in">
+  <div class="plate"><div class="num">09</div><div class="tc">Límites</div><h2>Qué <em>no automatizar</em></h2></div>
+  <div class="body">
+    <p>Automatizar es el objetivo, pero hay puntos donde una persona tiene que mirar. Todo lo irreversible o público pasa por ti.</p>
+    <div class="two">
+      <div class="box"><h3>Siempre con supervisión</h3>
+        <ul class="list bad">
+          <li>Pagos, compras y cualquier gasto nuevo. Costo exacto y tu aprobación antes.</li>
+          <li>Publicar en tu perfil personal.</li>
+          <li>Responder DMs de venta y cerrar. Una plantilla ayuda; la conversación es tuya.</li>
+          <li>Borrar archivos sin comprobar que existen en otra parte.</li>
+          <li>Datos y cifras sin fuente: verifica cada una tú.</li>
+        </ul></div>
+      <div class="box"><h3>Sí se puede automatizar</h3>
+        <ul class="list">
+          <li>QA de archivos: cuadros rotos, volumen, duración, formato.</li>
+          <li>Lectura de métricas y armado del reporte a 48 h.</li>
+          <li>Renombrar, ordenar y subir copias.</li>
+          <li>Consulta del registro de temas antes de aprobar uno.</li>
+          <li>La cola de renders, con una persona que mira el resultado.</li>
+        </ul></div>
+    </div>
+    <p>Una regla práctica: si el error se puede deshacer en un minuto, automatízalo. Si se ve en público, cuesta dinero o toca a un cliente, tú lo revisas.</p>
+  </div>
+</div></section>
+
+<section id="s10"><div class="in">
+  <div class="plate"><div class="num">10</div><div class="tc">Siguiente paso</div><h2>Tu <em>checklist</em> de sistema</h2></div>
+  <div class="body">
+    <p>Marca lo que ya tienes. Tu avance se guarda en este navegador.</p>
+    <div class="ck-wrap" id="ck">
+      <div class="ck-head"><div class="ck-count"><span id="ck-n">0</span> de <span id="ck-t">12</span><small>listo</small></div><button type="button" class="ck-reset" id="ck-reset">Reiniciar</button></div>
+      <div class="ck-bar" aria-hidden="true"><i id="ck-bar"></i></div>
+      <div class="ck-g"><h4>Base</h4>
+        <label class="ck-item"><input type="checkbox" data-k="a1"><span>Tengo una plantilla maestra congelada y no parto del último video.</span></label>
+        <label class="ck-item"><input type="checkbox" data-k="a2"><span>Comparé el primer cuadro de mis últimos diez videos para detectar deriva.</span></label>
+        <label class="ck-item"><input type="checkbox" data-k="a3"><span>Tengo un archivo de decisiones con lo adoptado y lo descartado.</span></label>
+      </div>
+      <div class="ck-g"><h4>Costo y máquina</h4>
+        <label class="ck-item"><input type="checkbox" data-k="b1"><span>Mis agentes llevan el modelo indicado de forma explícita.</span></label>
+        <label class="ck-item"><input type="checkbox" data-k="b2"><span>Mido el costo por modelo y el porcentaje de retrabajo.</span></label>
+        <label class="ck-item"><input type="checkbox" data-k="b3"><span>Hay una sola cola de renders: prioridad baja y mitad de núcleos.</span></label>
+      </div>
+      <div class="ck-g"><h4>Contenido y datos</h4>
+        <label class="ck-item"><input type="checkbox" data-k="c1"><span>Registro de publicados y biblioteca de referencias al día.</span></label>
+        <label class="ck-item"><input type="checkbox" data-k="c2"><span>Calculo la mediana por formato de mis últimos diez videos.</span></label>
+        <label class="ck-item"><input type="checkbox" data-k="c3"><span>A las 48 h cambio solo una cosa por video, con la tabla de decisión.</span></label>
+        <label class="ck-item"><input type="checkbox" data-k="c4"><span>Calendario en una tabla, con horas AM/PM y nada de madrugada.</span></label>
+      </div>
+      <div class="ck-g"><h4>Venta y límites</h4>
+        <label class="ck-item"><input type="checkbox" data-k="d1"><span>Mi embudo mide apertura de DM y clics, y variaré los mensajes.</span></label>
+        <label class="ck-item"><input type="checkbox" data-k="d2"><span>Sé qué no automatizo: pagos, perfil personal, cierres y borrados.</span></label>
+      </div>
+    </div>
+
+    <h3 style="margin-top:44px">Lo que esta guía no te da</h3>
+    <p>Aquí tienes el pensamiento y las reglas. Montarlo desde cero lleva semanas de prueba y error: plantillas que no derivan, un script de calidad que de verdad bloquea, prompts que dan el resultado una y otra vez. Eso es lo que trae el kit de la asesoría.</p>
+    <div class="offer">
+      <div class="price">$70<small>Pago único · Asesoría</small></div>
+      <ul class="list">
+        <li><b>Plantilla de video</b> lista para renderizar y adaptar a tu nicho.</li>
+        <li><b>Scripts</b> de voz y de revisión de calidad antes de publicar.</li>
+        <li><b>Prompts listos</b> para pegar: nicho, guion, escenas, lote y métricas.</li>
+        <li><b>Plan de 7 días</b> con un entregable por día, hasta tu primer video publicado.</li>
+        <li><b>Acompañamiento</b> para adaptarlo a tu caso.</li>
+      </ul>
+    </div>
+    <p style="margin:24px 0 0"><a class="btn" href="https://www.instagram.com/fernandojvd/" target="_blank" rel="noopener">Escríbeme FÁBRICA por DM</a></p>
+    <div class="nextlv"><a href="../intermedio/">Nivel 2 · Intermedio</a><a href="../basico/">Nivel 1 · Básico</a></div>
+    <p class="note">Es un modelo que puedes replicar, no una copia de nuestros canales. Los resultados son de nuestras cuentas y no garantizan los tuyos. Las políticas de las plataformas cambian: verifícalas antes de aplicar lo del embudo.</p>
+  </div>
+</div></section>
+
+<footer><div class="in">Fábrica de video con IA · Guía gratuita · Nivel 3 · Octubre 2026</div></footer>
+
+<script>
+(function(){
+  var bar=document.getElementById('prog');
+  function onScroll(){
+    var h=document.documentElement,max=h.scrollHeight-h.clientHeight;
+    bar.style.transform='scaleX('+(max>0?Math.min(1,h.scrollTop/max):0)+')';
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});window.addEventListener('resize',onScroll);onScroll();
+
+  var KEY='fabrica-n3-checklist',boxes=document.querySelectorAll('#ck input[type=checkbox]'),state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){state={};}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+  function paint(){
+    var n=0;boxes.forEach(function(b){if(b.checked)n++;});
+    document.getElementById('ck-n').textContent=n;
+    document.getElementById('ck-t').textContent=boxes.length;
+    document.getElementById('ck-bar').style.width=(boxes.length?Math.round(n/boxes.length*100):0)+'%';
+  }
+  boxes.forEach(function(b){
+    b.checked=!!state[b.getAttribute('data-k')];
+    b.addEventListener('change',function(){state[b.getAttribute('data-k')]=b.checked;save();paint();});
+  });
+  document.getElementById('ck-reset').addEventListener('click',function(){
+    state={};boxes.forEach(function(b){b.checked=false;});save();paint();
+  });
+  paint();
+})();
+</script>
+</body>
+</html>
