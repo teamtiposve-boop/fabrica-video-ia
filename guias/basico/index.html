@@ -147,6 +147,13 @@ a{color:var(--gold)}
 footer{padding-block:26px 44px;font-family:var(--f-mono);font-size:0.8rem;color:var(--dim);letter-spacing:0.06em;text-transform:uppercase;border-top:1px solid var(--line)}
 @media (max-width:520px){.shots{gap:6px}.errs li{grid-template-columns:40px 1fr;gap:10px}.errs li::before{font-size:1.9rem}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.meter i,.pipe li::before{transition:none}}
+
+/* ===== VIDEO DE LA GUÍA ===== */
+.vguia{display:grid;grid-template-columns:minmax(0,340px) 1fr;gap:28px;align-items:center;margin-top:26px}
+.vguia video{display:block;width:100%;max-width:100%;aspect-ratio:9/16;background:#000;border:1px solid var(--gold);box-shadow:0 0 0 1px var(--gold-glow),0 24px 60px rgba(0,0,0,.55)}
+.vguia p{margin:0 0 12px;color:var(--muted)}
+.vguia a{color:var(--gold)}
+@media (max-width:700px){.vguia{grid-template-columns:1fr;justify-items:center}.vguia video{max-width:340px}}
 </style>
 </head>
 <body>
@@ -165,6 +172,19 @@ footer{padding-block:26px 44px;font-family:var(--f-mono);font-size:0.8rem;color:
     <a href="#que-es">01 Qué es</a><a href="#idea">02 La idea</a><a href="#etapas">03 Las 8 etapas</a><a href="#tarde">04 Tu primer video</a><a href="#errores">05 Errores</a><a href="#glosario">06 Glosario</a><a href="#sigue">07 Qué sigue</a>
   </nav>
 </div></header>
+
+<section id="video"><div class="in">
+  <div class="eyebrow">El resumen en video</div>
+  <h2 style="margin-top:14px">Míralo en 70 segundos</h2>
+  <div class="vguia">
+    <video controls playsinline preload="metadata" poster="../video/nivel-1-poster.jpg" src="../video/nivel-1.mp4"></video>
+    <div>
+      <p>El mismo contenido de esta guía, explicado con diagramas animados y voz. Velo primero para entender el mapa y baja después al detalle.</p>
+      <p>¿Prefieres leer? Sigue de largo: todo está debajo, con la checklist.</p>
+      <p><a href="https://teamtiposve-boop.github.io/fabrica-video-ia/guias/basico/#video">Ver el video en la web</a></p>
+    </div>
+  </div>
+</div></section>
 
 <section id="que-es"><div class="in">
   <div class="eyebrow">01 · Punto de partida</div>

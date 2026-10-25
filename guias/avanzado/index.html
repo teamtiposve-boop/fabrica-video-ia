@@ -174,6 +174,13 @@ img{max-width:100%}
   .fill{transform:scaleX(.6)}
   .btn,.nextlv a{transition:none}
 }
+
+/* ===== VIDEO DE LA GUÍA ===== */
+.vguia{display:grid;grid-template-columns:minmax(0,340px) 1fr;gap:28px;align-items:center;margin-top:26px}
+.vguia video{display:block;width:100%;max-width:100%;aspect-ratio:9/16;background:#000;border:1px solid var(--gold);box-shadow:0 0 0 1px var(--gold-glow),0 24px 60px rgba(0,0,0,.55)}
+.vguia p{margin:0 0 12px;color:var(--muted)}
+.vguia a{color:var(--gold)}
+@media (max-width:700px){.vguia{grid-template-columns:1fr;justify-items:center}.vguia video{max-width:340px}}
 </style>
 </head>
 <body>
@@ -212,6 +219,19 @@ img{max-width:100%}
     </div>
   </div>
 </header>
+
+<section id="video"><div class="in">
+  <div class="eyebrow">El resumen en video</div>
+  <h2 style="margin-top:14px">Míralo en 90 segundos</h2>
+  <div class="vguia">
+    <video controls playsinline preload="metadata" poster="../video/nivel-3-poster.jpg" src="../video/nivel-3.mp4"></video>
+    <div>
+      <p>El mismo contenido de esta guía, explicado con diagramas animados y voz. Velo primero para entender el mapa y baja después al detalle.</p>
+      <p>¿Prefieres leer? Sigue de largo: todo está debajo, con la checklist.</p>
+      <p><a href="https://teamtiposve-boop.github.io/fabrica-video-ia/guias/avanzado/#video">Ver el video en la web</a></p>
+    </div>
+  </div>
+</div></section>
 
 <section id="s1"><div class="in">
   <div class="plate"><div class="num">01</div><div class="tc">Fundamento</div><h2>Del video <em>al sistema</em></h2></div>
