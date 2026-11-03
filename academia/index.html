@@ -14,7 +14,7 @@
 body{margin:0;min-height:100vh;background:radial-gradient(900px 420px at 10% -10%,rgba(234,88,12,.16),transparent 60%),var(--bg);color:var(--fg);font-family:var(--f-b);font-size:17px;line-height:1.55;overflow-x:hidden}
 a{color:var(--ac2)}
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:960px;margin:0 auto;padding:18px 16px;border-bottom:1px solid var(--line)}
-.logo{font-family:var(--f-d);font-weight:800;font-size:1.15rem;color:var(--fg);text-decoration:none;letter-spacing:-.01em}
+.logo{white-space:nowrap;font-family:var(--f-d);font-weight:800;font-size:1.15rem;color:var(--fg);text-decoration:none;letter-spacing:-.01em}
 .logo b{color:var(--ac)}
 .nav{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .nav a,.nav button{font:600 .85rem var(--f-b);color:var(--muted);background:none;border:1px solid transparent;border-radius:999px;padding:6px 12px;text-decoration:none;cursor:pointer}
@@ -89,7 +89,7 @@ td.pronto{color:var(--warn);font-weight:700}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .row>*{flex:1 1 180px}
 .loading{color:var(--dim);font-family:var(--f-m);font-size:.85rem}
-@media (max-width:560px){.mod{grid-template-columns:44px 1fr}.mod .tag{grid-column:2}.num{font-size:1.5rem}}
+@media (max-width:560px){.top{flex-wrap:wrap;row-gap:6px}.nav{gap:0;margin-left:-8px}.nav a,.nav button{padding:6px 8px;font-size:.8rem}.mod{grid-template-columns:44px 1fr}.mod .tag{grid-column:2}.num{font-size:1.5rem}}
 </style>
 </head>
 <body>
