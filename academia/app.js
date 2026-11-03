@@ -27,8 +27,12 @@ async function arrancar() {
   if (error) return ver(`<p class="err">Error: ${esc(error.message)}</p>`);
   yo = data;
   pintarNav();
-  if (!yo) return ver(`<p class="eyebrow">Acceso</p><h1>Tu correo aún no tiene acceso</h1>
-    <p class="lead">Entraste como <b>${esc(correo)}</b>. Cuando confirmemos tu pago te damos de alta y vuelves a entrar con este mismo correo.</p>`);
+  if (!yo) {
+    const nombre = (session.user.user_metadata?.full_name || session.user.user_metadata?.name || '').slice(0, 120) || null;
+    await sb.from('aca_solicitudes').upsert({ email: correo, nombre }, { onConflict: 'email', ignoreDuplicates: true });
+    return ver(`<p class="eyebrow">Solicitud recibida</p><h1>Ya casi estás dentro</h1>
+    <p class="lead">Entraste como <b>${esc(correo)}</b>. Fernando activa tu acceso apenas confirme tu pago; luego entras igual que hoy.</p>`);
+  }
   router();
 }
 
@@ -41,9 +45,15 @@ function pintarNav() {
 function pintarLogin() {
   pintarNav();
   ver(`<p class="eyebrow">Academia Fábrica</p><h1>Entra a tu academia</h1>
-    <p class="lead">Escribe el correo con el que te inscribiste. Te mandamos un enlace para entrar, sin contraseña.</p>
-    <form class="stack" id="fl"><input type="email" id="em" required placeholder="tucorreo@ejemplo.com" autocomplete="email">
-    <button class="btn" id="bl">Mandarme el enlace</button><p class="msg" id="ml"></p></form>`);
+    <p class="lead">Entra con tu cuenta de Google. Sin contraseñas.</p>
+    <div class="stack" style="margin-top:28px"><button class="btn" id="bg">Entrar con Google</button></div>
+    <p class="lead" style="font-size:.95rem;margin-top:28px">¿Sin Google? Te mandamos un enlace al correo.</p>
+    <form class="stack" id="fl" style="margin-top:12px"><input type="email" id="em" required placeholder="tucorreo@ejemplo.com" autocomplete="email">
+    <button class="btn ghost" id="bl">Mandarme el enlace</button><p class="msg" id="ml"></p></form>`);
+  fetch(SB_URL + '/auth/v1/settings', { headers: { apikey: SB_KEY } }).then(r => r.json())
+    .then(s => { if (!s.external?.google) document.getElementById('bg').parentElement.remove(); }).catch(() => {});
+  document.getElementById('bg').addEventListener('click', () =>
+    sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: REDIRECT } }));
   document.getElementById('fl').addEventListener('submit', async e => {
     e.preventDefault();
     const b = document.getElementById('bl'), m = document.getElementById('ml');
@@ -244,11 +254,14 @@ async function vistaDiagnostico() {
 // ---------- admin ----------
 async function vistaAdmin() {
   if (!yo.admin) return ver('<h1>Solo admin</h1>');
-  const [{ data: al, error }, { data: pr }, mods] = await Promise.all([
+  const [{ data: al, error }, { data: pr }, mods, { data: sol }] = await Promise.all([
     sb.from('aca_alumnos').select(COLS).order('vence', { ascending: true, nullsFirst: false }),
     sb.from('aca_progreso').select('email,completada_at').not('completada_at', 'is', null),
-    cargarCatalogo()]);
+    cargarCatalogo(),
+    sb.from('aca_solicitudes').select('email,nombre,creado').order('creado', { ascending: false })]);
   if (error) return ver(`<p class="err">${esc(error.message)}</p>`);
+  const ya = new Set(al.map(a => a.email));
+  const pend = (sol || []).filter(s => !ya.has(s.email));
   const total = mods.reduce((s, m) => s + m.lecs.length, 0);
   const hechas = {};
   (pr || []).forEach(p => { hechas[p.email] = (hechas[p.email] || 0) + 1; });
@@ -260,6 +273,9 @@ async function vistaAdmin() {
       <td>${hechas[a.email] || 0}/${total}</td><td><button class="btn sm" data-ren="${esc(a.email)}">+30 días</button></td></tr>`;
   }).join('');
   ver(`<p class="eyebrow">Panel admin</p><h1>Alumnos</h1>
+    ${pend.length ? `<section class="card"><h2>Pidieron entrar (${pend.length})</h2><p class="lead" style="font-size:.95rem;margin-top:6px">Activa cuando confirmes el pago.</p>
+      <div class="tbl"><table><tbody>${pend.map(s => `<tr><td>${esc(s.email)}</td><td>${esc(s.nombre || '')}</td><td>${new Date(s.creado).toLocaleDateString('es-VE')}</td>
+      <td><button class="btn sm" data-act="${esc(s.email)}" data-nom="${esc(s.nombre || '')}">Activar 30 días</button> <button class="btn sm ghost" data-fun="${esc(s.email)}" data-nom="${esc(s.nombre || '')}">Activar fundador</button></td></tr>`).join('')}</tbody></table></div></section>` : ''}
     <section class="card"><h2>Dar de alta</h2><form id="fa" class="row" style="margin-top:14px">
       <input type="email" name="email" required placeholder="correo del alumno"><input type="text" name="nombre" placeholder="nombre">
       <label style="flex:0 0 auto;display:flex;gap:8px;align-items:center"><input type="checkbox" name="fundador"> Fundador</label>
@@ -272,6 +288,14 @@ async function vistaAdmin() {
     const m = document.getElementById('ma');
     if (error) { m.className = 'msg err'; m.textContent = error.message; } else vistaAdmin();
   });
+  $app.querySelectorAll('[data-act],[data-fun]').forEach(b => b.addEventListener('click', async () => {
+    b.disabled = true;
+    const email = b.dataset.act || b.dataset.fun;
+    const { error } = await sb.rpc('aca_dar_alta', { p_email: email, p_nombre: b.dataset.nom || null, p_fundador: !!b.dataset.fun });
+    if (error) { b.textContent = 'Error'; b.title = error.message; return; }
+    await sb.from('aca_solicitudes').delete().eq('email', email);
+    vistaAdmin();
+  }));
   $app.querySelectorAll('[data-ren]').forEach(b => b.addEventListener('click', async () => {
     b.disabled = true;
     const { error } = await sb.rpc('aca_renovar', { p_email: b.dataset.ren });
