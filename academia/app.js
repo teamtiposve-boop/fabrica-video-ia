@@ -38,7 +38,7 @@ async function arrancar() {
 
 function pintarNav() {
   $nav.innerHTML = !correo ? '' :
-    `${yo ? '<a href="#/">Inicio</a><a href="#/diagnostico">Diagnóstico</a>' : ''}${yo?.admin ? '<a href="#/admin">Admin</a>' : ''}<button id="salir">Salir</button>`;
+    `${yo ? '<a href="#/">Inicio</a><a href="#/diagnostico">Diagnóstico</a><a href="#/lives">Grabaciones</a>' : ''}${yo?.admin ? '<a href="#/admin">Admin</a>' : ''}<button id="salir">Salir</button>`;
   document.getElementById('salir')?.addEventListener('click', async () => { await sb.auth.signOut(); location.hash = '#/'; location.reload(); });
 }
 
@@ -251,6 +251,36 @@ async function vistaDiagnostico() {
   });
 }
 
+// ---------- grabaciones de los lives ----------
+async function vistaLives() {
+  const { data, error } = await sb.from('aca_lives').select('id,titulo,url,fecha').order('fecha', { ascending: false });
+  if (error) return ver(`<p class="err">${esc(error.message)}</p>`);
+  const activo = yo.admin || (yo.vence && dias(yo.vence) >= 0);
+  ver(`${banner()}<p class="eyebrow">Lives</p><h1>Grabaciones</h1>
+    <p class="lead">Cada live queda aquí. Si no pudiste entrar, míralo cuando quieras.</p>
+    ${yo.admin ? `<section class="card"><h2>Subir grabación</h2><form id="fv" class="row" style="margin-top:14px">
+      <input type="text" name="titulo" required maxlength="160" placeholder="título del live"><input type="url" name="url" required pattern="https://.*" placeholder="enlace YouTube o Drive">
+      <input type="date" name="fecha" style="flex:0 0 auto"><button class="btn" style="flex:0 0 auto">Publicar</button></form><p class="msg" id="mv"></p></section>` : ''}
+    ${!activo ? '<p class="lead">Las grabaciones son para miembros activos. Renueva con Fernando para verlas.</p>'
+      : !data.length ? '<p class="lead">Todavía no hay grabaciones. La primera aparece después del próximo live.</p>'
+      : data.map(v => `<section class="card"><p class="eyebrow">${fecha(v.fecha)}</p><h2>${esc(v.titulo)}</h2>${embed(v.url)}
+        ${yo.admin ? `<p style="margin-top:12px"><button class="btn sm ghost" data-del="${v.id}">Quitar</button></p>` : ''}</section>`).join('')}`);
+  document.getElementById('fv')?.addEventListener('submit', async e => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const fila = { titulo: f.get('titulo'), url: f.get('url') };
+    if (f.get('fecha')) fila.fecha = f.get('fecha');
+    const { error } = await sb.from('aca_lives').insert(fila);
+    if (error) { const m = document.getElementById('mv'); m.className = 'msg err'; m.textContent = error.message; } else vistaLives();
+  });
+  $app.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
+    if (!confirm('¿Quitar esta grabación?')) return;
+    b.disabled = true;
+    await sb.from('aca_lives').delete().eq('id', b.dataset.del);
+    vistaLives();
+  }));
+}
+
 // ---------- admin ----------
 async function vistaAdmin() {
   if (!yo.admin) return ver('<h1>Solo admin</h1>');
@@ -311,6 +341,7 @@ async function router() {
     if (ruta === 'm' && arg) await vistaModulo(decodeURIComponent(arg));
     else if (ruta === 'l' && arg) await vistaLeccion(decodeURIComponent(arg));
     else if (ruta === 'diagnostico') await vistaDiagnostico();
+    else if (ruta === 'lives') await vistaLives();
     else if (ruta === 'admin') await vistaAdmin();
     else await vistaHub();
   } catch (e) { ver(`<p class="err">Error: ${esc(e.message)}</p>`); }
