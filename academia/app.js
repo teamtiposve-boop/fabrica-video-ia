@@ -71,8 +71,8 @@ function pintarLogin() {
 function banner() {
   if (!yo || yo.admin || !yo.vence) return '';
   const d = dias(yo.vence);
-  if (d < 0) return `<div class="banner off">Tu membresía venció el ${fecha(yo.vence)}. Conservas el curso base; para volver a ver lo nuevo, renueva con Fernando.</div>`;
-  if (d <= 3) return `<div class="banner">Tu membresía vence ${d === 0 ? 'hoy' : `en ${d} día${d > 1 ? 's' : ''}`} (${fecha(yo.vence)}). Renueva para no perder los módulos nuevos.</div>`;
+  if (d < 0) return `<div class="banner off">Tu membresía venció el ${fecha(yo.vence)}. Conservas el curso base. Para volver a la llamada de los lunes, la asesoría y las actualizaciones, el mes son 40 USD: escríbele a Fernando.</div>`;
+  if (d <= 3) return `<div class="banner">Tu membresía vence ${d === 0 ? 'hoy' : `en ${d} día${d > 1 ? 's' : ''}`} (${fecha(yo.vence)}). Para seguir con la llamada de los lunes, la asesoría y las actualizaciones, el próximo mes son 40 USD: escríbele a Fernando.</div>`;
   return '';
 }
 
