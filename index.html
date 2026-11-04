@@ -299,6 +299,15 @@ nav .btn{padding:9px 16px;font-size:14px;white-space:nowrap}
 
 /* comparativa */
 .cmpx{margin-top:44px;display:grid;gap:14px}
+.rut{margin-top:52px}
+.rut h3{font:700 clamp(26px,3.4vw,38px)/1.08 var(--f-disp);letter-spacing:-.02em;margin-top:12px}
+.rut ol{list-style:none;margin:26px 0 0;padding:0;display:grid;gap:0;border-top:1px solid var(--line)}
+.rut li{display:grid;grid-template-columns:64px 1fr;grid-template-rows:auto 1fr;align-content:start;gap:6px 18px;padding:20px 0;border-bottom:1px solid var(--line)}
+.rut .n{font:800 34px/1 var(--f-disp);color:var(--ac);grid-row:span 2}
+.rut b{font:700 19px/1.25 var(--f-disp);color:var(--fg)}
+.rut li span{color:var(--muted);font-size:16px;line-height:1.5}
+.rut .note{margin-top:16px;color:var(--dim);font-size:14.5px}
+@media(min-width:820px){.rut ol{grid-template-columns:1fr 1fr;column-gap:40px}.rut li:nth-child(-n+2){border-top:0}}
 @media(min-width:820px){.cmpx{grid-template-columns:1fr 1fr;gap:18px}}
 .col{border:1px solid var(--line);border-radius:18px;padding:24px;background:var(--bg2)}
 .col.hot{border-color:rgba(234,88,12,.55);background:radial-gradient(ellipse 70% 60% at 100% 0,rgba(234,88,12,.12),transparent 70%),var(--bg2)}
@@ -500,6 +509,18 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;color:var(--dim);fon
 <a class="btn block" data-dm href="https://www.instagram.com/fernandojvd/" target="_blank" rel="noopener">Escríbeme FÁBRICA por DM</a>
 <p class="note">Escríbeme por DM, te confirmo precio y forma de pago, y te entrego el acceso.</p>
 </div>
+</div>
+
+<div class="rut rv">
+<div class="eyebrow"><i></i>Dentro de la academia</div>
+<h3>Lo que te llevas con la asesoría</h3>
+<ol>
+<li><span class="n">01</span><b>Claude desde cero</b><span>Planes, instalación, la pantalla, modelos y memoria. Después proyectos, conectores, skills y Claude Code, sin saber programar.</span></li>
+<li><span class="n">02</span><b>Tu contenido con Claude</b><span>Investigación, ganchos, guion, voz, escenas, render y publicación. Todos los packs y herramientas vienen incluidos.</span></li>
+<li><span class="n">03</span><b>Tu Fábrica</b><span>Un panel con un piso por proyecto o cuenta: qué hace cada agente, qué está en cola y qué salió.</span></li>
+<li><span class="n">04</span><b>Tu clon</b><span>Tu cara y tu voz en video con HeyGen y ElevenLabs, para publicar sin grabarte todos los días.</span></li>
+</ol>
+<p class="note">Cada lección trae video, guía con capturas, un prompt para copiar y una lista de chequeo. Los módulos se abren por etapas.</p>
 </div>
 
 <div class="cmpx">
