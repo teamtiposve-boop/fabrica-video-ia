@@ -29,7 +29,8 @@ async function arrancar() {
   pintarNav();
   if (!yo) {
     const nombre = (session.user.user_metadata?.full_name || session.user.user_metadata?.name || '').slice(0, 120) || null;
-    await sb.from('aca_solicitudes').upsert({ email: correo, nombre }, { onConflict: 'email', ignoreDuplicates: true });
+    const { error: es } = await sb.from('aca_solicitudes').upsert({ email: correo, nombre }, { onConflict: 'email', ignoreDuplicates: true });
+    if (es) return ver(`<p class="err">No pudimos registrar tu solicitud: ${esc(es.message)}. Escríbele a Fernando.</p>`);
     return ver(`<p class="eyebrow">Solicitud recibida</p><h1>Ya casi estás dentro</h1>
     <p class="lead">Entraste como <b>${esc(correo)}</b>. Fernando activa tu acceso apenas confirme tu pago; luego entras igual que hoy.</p>`);
   }
@@ -90,12 +91,14 @@ async function cargarCatalogo() {
   return catalogo = mods;
 }
 async function cargarProgreso() {
-  const { data } = await sb.from('aca_progreso').select('leccion_id,checks,completada_at').eq('email', correo);
+  const { data, error } = await sb.from('aca_progreso').select('leccion_id,checks,completada_at').eq('email', correo);
+  if (error) throw error;
   return Object.fromEntries((data || []).map(p => [p.leccion_id, p]));
 }
 
 // ---------- vistas ----------
 async function vistaHub() {
+  catalogo = null;
   const [mods, prog] = await Promise.all([cargarCatalogo(), cargarProgreso()]);
   const filas = mods.map(m => {
     const hechas = m.lecs.filter(l => prog[l.id]?.completada_at).length;
@@ -133,7 +136,8 @@ function embed(url) {
   if (yt) src = `https://www.youtube-nocookie.com/embed/${yt[1]}?rel=0`;
   else if (dr) src = `https://drive.google.com/file/d/${dr[1]}/preview`;
   else if (!/^https:\/\//.test(url)) return '';
-  return `<div class="video"><iframe src="${esc(src)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>`;
+  if (!yt && !dr) return `<p><a href="${esc(src)}" target="_blank" rel="noopener noreferrer">Abrir video</a></p>`;
+  return `<div class="video"><iframe src="${esc(src)}" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>`;
 }
 
 async function vistaLeccion(slug) {
@@ -160,7 +164,8 @@ async function vistaLeccion(slug) {
     navigator.clipboard.writeText(l.recurso_md).then(() => { e.target.textContent = 'Copiado ✓'; });
   });
   const cajas = [...$app.querySelectorAll('.checks input')];
-  cajas.forEach(c => c.addEventListener('change', async () => {
+  let cola = Promise.resolve();
+  cajas.forEach(c => c.addEventListener('change', () => { cola = cola.then(async () => {
     const sel = cajas.filter(x => x.checked).map(x => +x.dataset.k);
     const completa = sel.length === checks.length;
     const { error } = await sb.from('aca_progreso').upsert({
@@ -169,9 +174,9 @@ async function vistaLeccion(slug) {
     });
     const mc = document.getElementById('mc');
     if (error) { mc.className = 'msg err'; mc.textContent = 'No se guardó: ' + error.message; return; }
-    prog[l.id] = { checks: sel, completada_at: completa };
+    prog[l.id] = { checks: sel, completada_at: completa ? (prog[l.id]?.completada_at || new Date().toISOString()) : null };
     mc.className = 'msg'; mc.textContent = completa ? '¡Lección completada! ✓' : `${sel.length}/${checks.length} listos`;
-  }));
+  }); }));
 }
 
 // ---------- diagnóstico ----------
@@ -255,7 +260,7 @@ async function vistaDiagnostico() {
 async function vistaLives() {
   const { data, error } = await sb.from('aca_lives').select('id,titulo,url,fecha').order('fecha', { ascending: false });
   if (error) return ver(`<p class="err">${esc(error.message)}</p>`);
-  const activo = yo.admin || (yo.vence && dias(yo.vence) >= 0);
+  const { data: activo } = await sb.rpc('aca_es_miembro');
   ver(`${banner()}<p class="eyebrow">Lives</p><h1>Grabaciones</h1>
     <p class="lead">Cada live queda aquí. Si no pudiste entrar, míralo cuando quieras.</p>
     ${yo.admin ? `<section class="card"><h2>Subir grabación</h2><form id="fv" class="row" style="margin-top:14px">
@@ -276,7 +281,8 @@ async function vistaLives() {
   $app.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => {
     if (!confirm('¿Quitar esta grabación?')) return;
     b.disabled = true;
-    await sb.from('aca_lives').delete().eq('id', b.dataset.del);
+    const { error } = await sb.from('aca_lives').delete().eq('id', b.dataset.del);
+    if (error) { b.disabled = false; return alert(error.message); }
     vistaLives();
   }));
 }
@@ -314,16 +320,21 @@ async function vistaAdmin() {
   document.getElementById('fa').addEventListener('submit', async e => {
     e.preventDefault();
     const f = new FormData(e.target);
-    const { error } = await sb.rpc('aca_dar_alta', { p_email: f.get('email'), p_nombre: f.get('nombre') || null, p_fundador: !!f.get('fundador') });
+    const { data: alta, error } = await sb.rpc('aca_dar_alta', { p_email: f.get('email'), p_nombre: f.get('nombre') || null, p_fundador: !!f.get('fundador') });
     const m = document.getElementById('ma');
-    if (error) { m.className = 'msg err'; m.textContent = error.message; } else vistaAdmin();
+    if (error) { m.className = 'msg err'; m.textContent = error.message; return; }
+    const existia = ya.has(String(f.get('email')).trim().toLowerCase());
+    await vistaAdmin();
+    const m2 = document.getElementById('ma');
+    m2.className = 'msg'; m2.textContent = (existia ? 'Ya existía: renovado. ' : 'Alta lista. ') + `Vence ${fecha(alta?.vence)}.`;
   });
   $app.querySelectorAll('[data-act],[data-fun]').forEach(b => b.addEventListener('click', async () => {
     b.disabled = true;
     const email = b.dataset.act || b.dataset.fun;
     const { error } = await sb.rpc('aca_dar_alta', { p_email: email, p_nombre: b.dataset.nom || null, p_fundador: !!b.dataset.fun });
     if (error) { b.textContent = 'Error'; b.title = error.message; return; }
-    await sb.from('aca_solicitudes').delete().eq('email', email);
+    const { error: ed } = await sb.from('aca_solicitudes').delete().eq('email', email);
+    if (ed) return alert(ed.message);
     vistaAdmin();
   }));
   $app.querySelectorAll('[data-ren]').forEach(b => b.addEventListener('click', async () => {
@@ -348,5 +359,7 @@ async function router() {
 }
 
 window.addEventListener('hashchange', router);
-sb.auth.onAuthStateChange((ev) => { if (ev === 'SIGNED_IN' && !correo) arrancar(); });
-arrancar();
+let arrancando = null;
+const iniciar = () => arrancando ??= arrancar().finally(() => { arrancando = null; });
+sb.auth.onAuthStateChange((ev) => { if (ev === 'SIGNED_IN' && !correo) iniciar(); if (ev === 'SIGNED_OUT') location.reload(); });
+iniciar();

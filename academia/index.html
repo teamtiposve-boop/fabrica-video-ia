@@ -66,13 +66,14 @@ a.lec:hover{border-color:var(--ac)}
 .checks input{accent-color:var(--ac);width:18px;height:18px;margin-top:3px;flex:none}
 .pager{display:flex;justify-content:space-between;gap:12px;margin-top:32px;flex-wrap:wrap}
 form.stack{display:grid;gap:14px;max-width:440px;margin-top:28px}
-input[type=email],input[type=text],select,textarea{width:100%;font:500 1rem var(--f-b);color:var(--fg);background:var(--panel);border:1px solid var(--line2);border-radius:12px;padding:12px 14px}
+input[type=email],input[type=text],input[type=url],input[type=date],select,textarea{width:100%;font:500 1rem var(--f-b);color:var(--fg);background:var(--panel);border:1px solid var(--line2);border-radius:12px;padding:12px 14px}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--ac);outline-offset:1px}
 .q{margin-top:22px}
 .q>b{display:block;font-family:var(--f-d);font-size:1.1rem;margin-bottom:10px}
 .opts{display:flex;flex-wrap:wrap;gap:8px}
 .opts label{border:1px solid var(--line2);border-radius:999px;padding:8px 14px;cursor:pointer;font-weight:600;font-size:.92rem}
 .opts input{position:absolute;opacity:0;pointer-events:none}
+.opts label:has(input:focus-visible){outline:2px solid var(--ac);outline-offset:2px}
 .opts label:has(input:checked){background:var(--ac);border-color:var(--ac);color:#140700}
 .plan{counter-reset:p;list-style:none;padding:0;display:grid;gap:10px;margin:14px 0 0}
 .plan li{counter-increment:p;display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:start}
