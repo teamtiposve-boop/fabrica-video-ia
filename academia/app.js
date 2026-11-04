@@ -119,7 +119,7 @@ async function vistaModulo(slug) {
   const lecs = m.lecs.map((l, i) => {
     const ok = prog[l.id]?.completada_at;
     return `<a class="lec" href="#/l/${esc(l.slug)}"><span class="dot ${ok ? 'done' : ''}">${ok ? '✓' : i + 1}</span>
-      <div><b>${esc(l.titulo)}</b>${l.resultado ? `<small>Al terminar: ${esc(l.resultado)}</small>` : ''}</div></a>`;
+      <div><b>${esc(l.titulo)}</b>${l.resultado ? `<small>${esc(l.resultado)}</small>` : ''}</div></a>`;
   }).join('');
   ver(`${banner()}<p class="eyebrow">Módulo ${m.orden}</p><h1>${esc(m.titulo)}</h1>${m.resumen ? `<p class="lead">${esc(m.resumen)}</p>` : ''}
     <div class="lecs">${lecs || '<p class="loading">Lecciones en camino.</p>'}</div>`);
@@ -148,7 +148,7 @@ async function vistaLeccion(slug) {
   const checks = Array.isArray(l.checklist) ? l.checklist : [];
   const marcados = new Set(prog[l.id]?.checks || []);
   ver(`${banner()}<p class="eyebrow">${m ? `<a href="#/m/${esc(m.slug)}" style="color:inherit">${esc(m.titulo)}</a> · ` : ''}Lección ${l.orden}</p>
-    <h1>${esc(l.titulo)}</h1>${l.resultado ? `<p class="lead">Al terminar tienes: <b>${esc(l.resultado)}</b></p>` : ''}
+    <h1>${esc(l.titulo)}</h1>${l.resultado ? `<p class="lead"><b>${esc(l.resultado)}</b></p>` : ''}
     ${embed(l.video_url)}
     ${l.guia_md ? `<section class="card md">${md(l.guia_md)}</section>` : ''}
     ${l.recurso_md ? `<section class="card copy"><div class="row" style="justify-content:space-between"><h2>Tu recurso</h2><button class="btn sm ghost" id="cp" style="flex:none">Copiar</button></div><pre id="rec">${esc(l.recurso_md)}</pre></section>` : ''}
