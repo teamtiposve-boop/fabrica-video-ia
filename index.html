@@ -18,8 +18,8 @@
 <style>
 :root{
   --bg:#0a0a0a;--bg2:#101011;--panel:#131315;--line:#222226;--line2:#2e2e33;
-  --fg:#f4f2ee;--muted:#a3a19b;--dim:#7d7b76;
-  --ac:#ea580c;--ac2:#ff7a33;--acbg:rgba(234,88,12,.12);
+  --fg:#f4f2ee;--muted:#a3a19b;--dim:#8a8882;
+  --ac:#ea580c;--acd:#c2410c;--ac2:#ff7a33;--acbg:rgba(234,88,12,.12);
   --f-ui:Figtree,system-ui,sans-serif;--f-disp:"Bricolage Grotesque",Figtree,system-ui,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -40,15 +40,15 @@ section{padding:96px 0}
 @media(max-width:700px){section{padding:68px 0}}
 
 /* botones */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--ac);color:#fff;font:700 16px var(--f-ui);padding:14px 24px;border-radius:10px;text-align:center;transition:background-color .2s,transform .15s}
-.btn:hover{background:var(--ac2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--acd);color:#fff;font:700 16px var(--f-ui);padding:14px 24px;border-radius:10px;text-align:center;transition:background-color .2s,transform .15s}
+.btn:hover{background:#9a3412}
 .btn:active{transform:scale(.97)}
 .btn.line{background:transparent;border:1px solid var(--line2);color:var(--fg)}
 .btn.line:hover{border-color:var(--ac);background:var(--acbg)}
 .btn.block{display:flex;width:100%}
 
 /* barra superior + nav */
-.bar{background:var(--ac);color:#fff;text-align:center;font:600 14px/1.3 var(--f-ui);padding:9px 12px}
+.bar{background:var(--acd);color:#fff;text-align:center;font:600 14px/1.3 var(--f-ui);padding:9px 12px}
 nav{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.8);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;height:62px}
 .logo{font:800 18px var(--f-disp);letter-spacing:-.02em;white-space:nowrap}
@@ -84,7 +84,7 @@ nav .btn{padding:9px 16px;font-size:14px;white-space:nowrap}
 .proof:hover .prv{transform:none}
 .prv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .prv b{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);font:700 13px var(--f-ui);color:#fff;padding:3px 7px;border-radius:6px}
-.prv.main b{background:var(--ac)}
+.prv.main b{background:var(--acd)}
 @media(min-width:820px){.prv{width:106px}.prv.main{width:132px}}
 .proof small{font-size:14px;color:var(--dim);max-width:340px}.proof small b{color:var(--muted);font-weight:600}
 .vbadge{position:absolute;left:10px;top:34px;z-index:3;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:5px 9px;font:700 13px var(--f-ui)}
@@ -175,7 +175,7 @@ nav .btn{padding:9px 16px;font-size:14px;white-space:nowrap}
 @media(max-width:559px){.cards{grid-template-columns:1fr;gap:30px}.cards>.card .scene{aspect-ratio:1.35/1}.cards>.card .scene img{object-position:50% 42%}}
 .card{position:relative;display:flex;flex-direction:column}
 .card.rec .scene{border-color:rgba(234,88,12,.55);box-shadow:0 0 50px rgba(234,88,12,.15)}
-.tagb{position:absolute;top:12px;left:12px;z-index:6;background:var(--ac);color:#fff;font:700 13px var(--f-ui);padding:5px 9px;border-radius:6px;box-shadow:0 4px 14px rgba(234,88,12,.35)}
+.tagb{position:absolute;top:12px;left:12px;z-index:6;background:var(--acd);color:#fff;font:700 13px var(--f-ui);padding:5px 9px;border-radius:6px;box-shadow:0 4px 14px rgba(234,88,12,.35)}
 .tagb.star{left:50%;transform:translateX(-50%);background:#f2b33d;color:#1a1204;top:-13px;padding:6px 12px;border-radius:99px;box-shadow:0 6px 18px rgba(242,179,61,.3);white-space:nowrap}
 .info{padding:16px 2px 0;flex:1}
 .info small{display:block;font-size:14px;color:var(--dim)}
@@ -238,7 +238,7 @@ nav .btn{padding:9px 16px;font-size:14px;white-space:nowrap}
 .cmp .lbl{position:absolute;bottom:14px;background:rgba(0,0,0,.72);font:700 13px var(--f-ui);padding:6px 11px;border-radius:7px;z-index:3}
 .cmp .lbl.l{left:14px}.cmp .lbl.r{right:14px}
 .cmp .hnd{position:absolute;top:0;bottom:0;left:var(--pos);width:2px;background:#fff;z-index:4;transform:translateX(-1px)}
-.cmp .hnd i{position:absolute;top:50%;left:50%;width:40px;height:40px;margin:-20px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font:700 16px var(--f-ui);font-style:normal;box-shadow:0 0 0 6px rgba(234,88,12,.25),0 6px 24px rgba(0,0,0,.6)}
+.cmp .hnd i{position:absolute;top:50%;left:50%;width:40px;height:40px;margin:-20px;border-radius:50%;background:var(--acd);color:#fff;display:grid;place-items:center;font:700 16px var(--f-ui);font-style:normal;box-shadow:0 0 0 6px rgba(234,88,12,.25),0 6px 24px rgba(0,0,0,.6)}
 .term{background:#0d0d0e;height:100%;font:500 13px/1.6 ui-monospace,"Cascadia Mono",Consolas,monospace;color:#d6d4cf;display:flex;flex-direction:column}
 .term .tbar{display:flex;align-items:center;gap:6px;padding:12px 14px;border-bottom:1px solid #1f1f22;background:#141416;color:#7d7d82;font-size:13px}
 .term .tbar i{width:10px;height:10px;border-radius:50%;background:#2c2c30}
@@ -345,7 +345,7 @@ nav .btn{padding:9px 16px;font-size:14px;white-space:nowrap}
 .tbar i{width:10px;height:10px;border-radius:50%;background:#2c2c31}.tbar i:first-child{background:#ff5f57}.tbar i:nth-child(2){background:#febc2e}.tbar i:nth-child(3){background:#28c840}
 .tbar span{margin-left:auto;font:500 13px ui-monospace,Consolas,monospace;color:var(--dim)}
 .tree pre{margin:0;padding:22px 20px 26px;font:500 14px/1.85 ui-monospace,Consolas,monospace;color:#bdbab3;overflow-x:auto}
-.tree pre b{color:var(--fg);font-weight:600}.tree pre em{font-style:normal;color:var(--ac2)}.tree pre u{text-decoration:none;color:#6f6d68}
+.tree pre b{color:var(--fg);font-weight:600}.tree pre em{font-style:normal;color:var(--ac2)}.tree pre u{text-decoration:none;color:#8a8882}
 @media(max-width:520px){.tree pre{font-size:13px;padding:18px 14px}.tree pre u{display:none}}
 
 /* faq */
@@ -408,7 +408,7 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;color:var(--dim);fon
 .gal figcaption h4{font:700 16px/1.2 var(--f-disp)}
 .gal figcaption p{font-size:13.5px;color:var(--muted);margin-top:5px;line-height:1.4}
 .gal .tg{position:absolute;left:10px;top:10px;z-index:1;font:700 11px var(--f-ui);letter-spacing:.06em;text-transform:uppercase;background:rgba(0,0,0,.75);border:1px solid var(--line2);border-radius:99px;padding:4px 9px;color:var(--muted)}
-.gal .tg.on{color:#fff;background:var(--ac);border-color:var(--ac)}
+.gal .tg.on{color:#fff;background:var(--acd);border-color:var(--acd)}
 .lb{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;padding:20px}
 .lb.on{display:flex}.lb img{max-width:100%;max-height:100%;border-radius:10px}
 .tiers{display:grid;gap:14px;margin-top:40px}
@@ -475,7 +475,7 @@ footer{border-top:1px solid var(--line);padding:56px 0 40px;color:var(--dim);fon
 <div class="wrap who">
 <div class="rv">
 <div class="eyebrow"><i></i>Cifras reales · 28 días al 24-oct-2026</div>
-<div class="kbig">7,7 M<small>de vistas combinadas en Instagram y YouTube (7.716.850).</small></div>
+<div class="kbig">7,3 M<small>de vistas combinadas en Instagram y YouTube (7.296.617).</small></div>
 <div class="ppl">
 <div class="p"><span class="av">MT</span><div><b>Una sola cuenta de Instagram</b><small>@mecanicaterrestre</small></div><div class="n"><strong>5,0 M</strong><span>vistas</span></div></div>
 <div class="p"><span class="av">#1</span><div><b>Mejor reel: «Chimborazo»</b><small>3.684.528 vistas. Ese reel concentra buena parte de las vistas de Instagram.</small></div><div class="n"><strong>3,68 M</strong><span>vistas</span></div></div>
